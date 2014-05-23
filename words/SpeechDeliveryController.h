@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Speech.h"
 
 @interface SpeechDeliveryController : NSObject
+
+@property (nonatomic, copy) Speech *speech;
+@property (nonatomic) NSTimeInterval totalTime, elapsedTime, remaningTime;
+
++(instancetype)newDeliveryControllerForSpeech:(Speech *)speech;
 
 @end

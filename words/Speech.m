@@ -7,7 +7,45 @@
 //
 
 #import "Speech.h"
+#import "Card.h"
+
+@interface Speech () <NSCopying>
+
+@end
 
 @implementation Speech
+
++(id)newSpeech {
+    Speech *speech = [Speech new];
+    if (speech) {
+        [speech.cards addObject:[Card newTitleCardForSpeech:speech]];
+        [speech.cards addObject:[Card newPrefaceCardForSpeech:speech]];
+        [speech.cards addObject:[Card newBodyCardForSpeech:speech]];
+        [speech.cards addObject:[Card newConclusionCardForSpeech:speech]];
+    }
+    return speech;
+}
+
+-(void)calculateTime {
+    [self calculateTotalTime:self];
+}
+
+-(void)calculateTotalTime:(Speech *)speech {
+    speech.runTime = 0;
+    for (Card *card in speech.cards) {
+        speech.runTime += card.runTime;
+    }
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    Speech *copy = [[[self class] allocWithZone:zone] init];
+    [copy setCards:self.cards];
+    [copy setKeyWords:self.keyWords];
+    [copy setRunTime:self.runTime];
+    [copy setTimeRemaning:self.timeRemaning];
+    
+    return copy;
+}
 
 @end

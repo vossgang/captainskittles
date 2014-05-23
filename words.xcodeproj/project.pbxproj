@@ -21,6 +21,10 @@
 		1B451665192FDDDA00B79C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451647192FDDDA00B79C33 /* UIKit.framework */; };
 		1B45166D192FDDDA00B79C33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B45166B192FDDDA00B79C33 /* InfoPlist.strings */; };
 		1B45166F192FDDDA00B79C33 /* wordsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B45166E192FDDDA00B79C33 /* wordsTests.m */; };
+		1B45167A192FDDF400B79C33 /* Speech.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B451679192FDDF400B79C33 /* Speech.m */; };
+		1B45167E192FDE6700B79C33 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B45167D192FDE6700B79C33 /* Card.m */; };
+		1B451681192FDE7D00B79C33 /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B451680192FDE7D00B79C33 /* CardView.m */; };
+		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,14 @@
 		1B45166A192FDDDA00B79C33 /* wordsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "wordsTests-Info.plist"; sourceTree = "<group>"; };
 		1B45166C192FDDDA00B79C33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B45166E192FDDDA00B79C33 /* wordsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = wordsTests.m; sourceTree = "<group>"; };
+		1B451678192FDDF400B79C33 /* Speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Speech.h; sourceTree = "<group>"; };
+		1B451679192FDDF400B79C33 /* Speech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Speech.m; sourceTree = "<group>"; };
+		1B45167C192FDE6700B79C33 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		1B45167D192FDE6700B79C33 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		1B45167F192FDE7D00B79C33 /* CardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardView.h; sourceTree = "<group>"; };
+		1B451680192FDE7D00B79C33 /* CardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardView.m; sourceTree = "<group>"; };
+		1B4516831930003C00B79C33 /* SpeechDeliveryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechDeliveryController.h; sourceTree = "<group>"; };
+		1B4516841930003C00B79C33 /* SpeechDeliveryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechDeliveryController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,12 +124,12 @@
 		1B451649192FDDDA00B79C33 /* words */ = {
 			isa = PBXGroup;
 			children = (
+				1B45165B192FDDDA00B79C33 /* Images.xcassets */,
 				1B451652192FDDDA00B79C33 /* AppDelegate.h */,
 				1B451653192FDDDA00B79C33 /* AppDelegate.m */,
-				1B451655192FDDDA00B79C33 /* Main.storyboard */,
-				1B451658192FDDDA00B79C33 /* ViewController.h */,
-				1B451659192FDDDA00B79C33 /* ViewController.m */,
-				1B45165B192FDDDA00B79C33 /* Images.xcassets */,
+				1B451682192FDE8500B79C33 /* View */,
+				1B4516861930004200B79C33 /* Controllers */,
+				1B45167B192FDE0700B79C33 /* Models */,
 				1B45164A192FDDDA00B79C33 /* Supporting Files */,
 			);
 			path = words;
@@ -150,6 +162,38 @@
 				1B45166B192FDDDA00B79C33 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1B45167B192FDE0700B79C33 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1B451678192FDDF400B79C33 /* Speech.h */,
+				1B451679192FDDF400B79C33 /* Speech.m */,
+				1B45167C192FDE6700B79C33 /* Card.h */,
+				1B45167D192FDE6700B79C33 /* Card.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		1B451682192FDE8500B79C33 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1B45167F192FDE7D00B79C33 /* CardView.h */,
+				1B451680192FDE7D00B79C33 /* CardView.m */,
+				1B451658192FDDDA00B79C33 /* ViewController.h */,
+				1B451659192FDDDA00B79C33 /* ViewController.m */,
+				1B451655192FDDDA00B79C33 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1B4516861930004200B79C33 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1B4516831930003C00B79C33 /* SpeechDeliveryController.h */,
+				1B4516841930003C00B79C33 /* SpeechDeliveryController.m */,
+			);
+			name = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,9 +293,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B451681192FDE7D00B79C33 /* CardView.m in Sources */,
+				1B45167E192FDE6700B79C33 /* Card.m in Sources */,
 				1B45165A192FDDDA00B79C33 /* ViewController.m in Sources */,
 				1B451654192FDDDA00B79C33 /* AppDelegate.m in Sources */,
 				1B451650192FDDDA00B79C33 /* main.m in Sources */,
+				1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */,
+				1B45167A192FDDF400B79C33 /* Speech.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

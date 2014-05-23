@@ -10,4 +10,15 @@
 
 @implementation SpeechDeliveryController
 
++(instancetype)newDeliveryControllerForSpeech:(Speech *)speech {
+    SpeechDeliveryController *controller = [SpeechDeliveryController new];
+    
+    if (controller) {
+        controller.speech = speech;
+    }
+    
+    return controller;
+}
+
+
 @end

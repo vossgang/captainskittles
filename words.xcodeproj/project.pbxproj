@@ -31,6 +31,7 @@
 		1B45167E192FDE6700B79C33 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B45167D192FDE6700B79C33 /* Card.m */; };
 		1B451681192FDE7D00B79C33 /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B451680192FDE7D00B79C33 /* CardView.m */; };
 		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
+		7A105F2A19350826001CA31C /* Colorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A105F2919350826001CA31C /* Colorizer.m */; };
 		C9174A541934FE74001E7249 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A511934FE74001E7249 /* TimeLine.m */; };
 		C9174A551934FE74001E7249 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A521934FE74001E7249 /* TimeBlock.m */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
@@ -86,6 +87,8 @@
 		1B451680192FDE7D00B79C33 /* CardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardView.m; sourceTree = "<group>"; };
 		1B4516831930003C00B79C33 /* SpeechDeliveryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechDeliveryController.h; sourceTree = "<group>"; };
 		1B4516841930003C00B79C33 /* SpeechDeliveryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechDeliveryController.m; sourceTree = "<group>"; };
+		7A105F2819350826001CA31C /* Colorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorizer.h; sourceTree = "<group>"; };
+		7A105F2919350826001CA31C /* Colorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorizer.m; sourceTree = "<group>"; };
 		C9174A501934FE74001E7249 /* TimeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeBlock.h; sourceTree = "<group>"; };
 		C9174A511934FE74001E7249 /* TimeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLine.m; sourceTree = "<group>"; };
 		C9174A521934FE74001E7249 /* TimeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeBlock.m; sourceTree = "<group>"; };
@@ -139,6 +142,8 @@
 				C9174A511934FE74001E7249 /* TimeLine.m */,
 				C9174A521934FE74001E7249 /* TimeBlock.m */,
 				C9174A531934FE74001E7249 /* TimeLine.h */,
+				7A105F2819350826001CA31C /* Colorizer.h */,
+				7A105F2919350826001CA31C /* Colorizer.m */,
 				C9174A561934FE97001E7249 /* Constants.h */,
 			);
 			name = "Data Models";
@@ -368,6 +373,7 @@
 				146A8BF31934F65100F4AD99 /* DSPoint.m in Sources */,
 				1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */,
 				1B45167A192FDDF400B79C33 /* Speech.m in Sources */,
+				7A105F2A19350826001CA31C /* Colorizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

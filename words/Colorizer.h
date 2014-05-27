@@ -10,4 +10,6 @@
 
 @interface Colorizer : NSObject
 
++ (UIColor *)colorFromTimeRemaining:(NSTimeInterval)remainingTime withTotalTime:(NSTimeInterval)totalTime usingColors:(NSArray *)colors;
+
 @end

@@ -44,24 +44,62 @@ typedef enum : NSUInteger {
         DSCard *card = [[DataController dataStore] createCardItem];
         [card setCardType:[NSNumber numberWithInt:i]];
         switch (i) {
-            case titleCard:
+            case titleCard: {
                 [card setCardTitle:@"Amazing speech title"];
-                break;
-            case prefaceCard:
+                break; }
+            case prefaceCard: {
                 [card setCardTitle:@"Amazing speech preface"];
                 [card setCardPreface:@"A speech about speaking"];
-                break;
-            case bodyCard:
+                break; }
+            case bodyCard: {
                 [card setCardTitle:@"My speech body"];
                 DSPoint *point = [[DataController dataStore] createPointItem];
                 [point setToCard:card];
                 [point setPointWords:@"This is an amazing point"];
-                break;
+                [point.managedObjectContext save:nil];
+                point = [[DataController dataStore] createPointItem];
+                [point setToCard:card];
+                [point setPointWords:@"Yet another point that is amazing"];
+                [point.managedObjectContext save:nil];
+                break; }
             default:
                 break;
         }
         [card setToSpeech:speech];
+        [card.managedObjectContext save:nil];
     }
+    [speech.managedObjectContext save:nil];
+    // Speech completely generated
+    
+    // Now query speech to build an array for performing the keyword search
+    NSMutableArray *arrayToProcess = [NSMutableArray new];
+    speech = [[[DataController dataStore] allSpeechItems] firstObject];
+    for (DSCard *card in speech.fromCard) {
+        NSString *stringToProcess;
+        switch ([card.cardType intValue]) {
+            case titleCard: {
+                stringToProcess = card.cardTitle;
+                [arrayToProcess addObject:stringToProcess];
+                break; }
+            case prefaceCard: {
+                stringToProcess = card.cardTitle;
+                stringToProcess = [stringToProcess stringByAppendingString:card.cardPreface];
+                [arrayToProcess addObject:stringToProcess];
+                break; }
+            case bodyCard: {
+                stringToProcess = card.cardTitle;
+                for (DSPoint *point in card.fromPoint) {
+                    stringToProcess = [stringToProcess stringByAppendingString:point.pointWords];
+                }
+                [arrayToProcess addObject:stringToProcess];
+                break; }
+            default:
+                break;
+        }
+    }
+    
+    NSLog(@"Test output: %@",arrayToProcess);
+    
     //NSString     *string     = @"This is a collection of stuff for this method to process to see if this is a winner of a method.";
     NSString *string = @"Five five fIvE five FIVE four FOUR foUR FOur two two one";
     // Create a counted set indicating how many times each word occurs in the speech

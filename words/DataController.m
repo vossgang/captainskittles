@@ -219,6 +219,11 @@
             NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSPoint"];
             [request setEntity:e];
             
+            NSSortDescriptor *sd = [NSSortDescriptor
+                                    sortDescriptorWithKey:@"pointSequence"
+                                    ascending:YES];
+            [request setSortDescriptors:[NSArray arrayWithObject:sd]];
+            
             NSError *error;
             NSArray *result = [context executeFetchRequest:request error:&error];
             if (!request) {

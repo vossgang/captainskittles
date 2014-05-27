@@ -38,8 +38,8 @@ typedef enum : NSUInteger {
     return searchStore;
 }
 
-- (void)calculateKeyWords:(DSSpeech *)withSpeech {
-    // Now query speech to build an array for performing the keyword search
+- (NSArray *)buildSpeechArray:(DSSpeech *)withSpeech {
+    // Construct a speech into a series of strings in the array
     NSMutableArray *arrayToProcess = [NSMutableArray new];
     for (DSCard *card in withSpeech.fromCard) {
         NSString *stringToProcess;
@@ -60,10 +60,21 @@ typedef enum : NSUInteger {
                 }
                 [arrayToProcess addObject:stringToProcess];
                 break; }
+            case conclusionCard: {
+                stringToProcess = card.cardTitle;
+                stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",card.cardConclusion]];
+                [arrayToProcess addObject:stringToProcess];
+            break; }
             default:
                 break;
         }
     }
+    
+    return arrayToProcess;
+}
+
+- (void)calculateKeyWords:(DSSpeech *)withSpeech {
+    NSArray *arrayToProcess = [self buildSpeechArray:withSpeech];
     // This string will store the contents of each speech in a single string for feeding into the counter
     NSString *stringToProcess = @"";
     // Create a counted set indicating how many times each word occurs in the speech

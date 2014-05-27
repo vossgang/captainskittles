@@ -26,6 +26,12 @@
     return speech;
 }
 
++ (id)loadSpeechWith:(DSSpeech *)withSpeech {
+    
+    
+    return [Speech new];
+}
+
 -(void)calculateTime {
     [self calculateTotalTime:self];
 }

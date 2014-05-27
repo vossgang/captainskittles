@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DSSpeech.h"
 
 @interface Speech : NSObject
 
@@ -19,6 +20,7 @@
 
 //class methods
 +(id)newSpeech;
++ (id)loadSpeechWith:(DSSpeech *)withSpeech;
 
 //instance methods
 -(void)calculateTime;

@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Speech.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic, strong) NSMutableArray *speeches;
 
 @end

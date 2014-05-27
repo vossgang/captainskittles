@@ -16,4 +16,7 @@
 
 +(instancetype)newDeliveryControllerForSpeech:(Speech *)speech;
 
+-(void)start;
+-(void)stop;
+
 @end

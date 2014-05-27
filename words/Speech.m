@@ -9,7 +9,7 @@
 #import "Speech.h"
 #import "Card.h"
 
-@interface Speech () <NSCopying>
+@interface Speech () <NSCopying, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end
 
@@ -18,6 +18,7 @@
 +(id)newSpeech {
     Speech *speech = [Speech new];
     if (speech) {
+        speech.cards = [NSMutableArray new];
         [speech.cards addObject:[Card newTitleCardForSpeech:speech]];
         [speech.cards addObject:[Card newPrefaceCardForSpeech:speech]];
         [speech.cards addObject:[Card newBodyCardForSpeech:speech]];
@@ -52,6 +53,20 @@
     [copy setTimeRemaning:self.timeRemaning];
     
     return copy;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    
+    return 1;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ExplosionCell" forIndexPath:indexPath];
+    
+    return cell;
 }
 
 @end

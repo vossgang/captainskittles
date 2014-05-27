@@ -13,6 +13,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    self.speeches = [NSMutableArray new];
+    
+    if (!self.speeches.count) {
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+        [self.speeches addObject:[Speech newSpeech]];
+    }
+        
     return YES;
 }
 							

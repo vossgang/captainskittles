@@ -35,7 +35,6 @@
 		C9174A541934FE74001E7249 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A511934FE74001E7249 /* TimeLine.m */; };
 		C9174A551934FE74001E7249 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A521934FE74001E7249 /* TimeBlock.m */; };
 		C9174A581935108D001E7249 /* card.png in Resources */ = {isa = PBXBuildFile; fileRef = C9174A571935108D001E7249 /* card.png */; };
-		C97AA3741935415900807A07 /* CardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C97AA3731935415900807A07 /* CardCell.m */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
 		C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6F41933CE7900F1BB8B /* SpeechCell.m */; };
 /* End PBXBuildFile section */
@@ -97,8 +96,6 @@
 		C9174A531934FE74001E7249 /* TimeLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeLine.h; sourceTree = "<group>"; };
 		C9174A561934FE97001E7249 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C9174A571935108D001E7249 /* card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = card.png; sourceTree = "<group>"; };
-		C97AA3721935415900807A07 /* CardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardCell.h; sourceTree = "<group>"; };
-		C97AA3731935415900807A07 /* CardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardCell.m; sourceTree = "<group>"; };
 		C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechViewController.h; sourceTree = "<group>"; };
 		C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
 		C99BE6F31933CE7900F1BB8B /* SpeechCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechCell.h; sourceTree = "<group>"; };
@@ -144,6 +141,7 @@
 				146A8BE21934675100F4AD99 /* SearchController.h */,
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
+<<<<<<< HEAD
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
 				C9174A511934FE74001E7249 /* TimeLine.m */,
 				C9174A521934FE74001E7249 /* TimeBlock.m */,
@@ -151,6 +149,8 @@
 				7A105F2819350826001CA31C /* Colorizer.h */,
 				7A105F2919350826001CA31C /* Colorizer.m */,
 				C9174A561934FE97001E7249 /* Constants.h */,
+=======
+>>>>>>> f54383e278815f630fbd2b07638bf00dfa7f3fb7
 			);
 			name = "Data Models";
 			sourceTree = "<group>";
@@ -251,8 +251,6 @@
 				C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */,
 				C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */,
 				1B451655192FDDDA00B79C33 /* Main.storyboard */,
-				C97AA3721935415900807A07 /* CardCell.h */,
-				C97AA3731935415900807A07 /* CardCell.m */,
 				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
 				C99BE6F41933CE7900F1BB8B /* SpeechCell.m */,
 			);
@@ -380,7 +378,6 @@
 				146A8BE11934654900F4AD99 /* DataController.m in Sources */,
 				1B451654192FDDDA00B79C33 /* AppDelegate.m in Sources */,
 				1B451650192FDDDA00B79C33 /* main.m in Sources */,
-				C97AA3741935415900807A07 /* CardCell.m in Sources */,
 				146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */,
 				146A8BE41934675100F4AD99 /* SearchController.m in Sources */,
 				146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */,

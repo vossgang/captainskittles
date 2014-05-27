@@ -14,7 +14,6 @@
 @implementation DSCard
 
 @dynamic cardConclusion;
-@dynamic cardPoint;
 @dynamic cardPreface;
 @dynamic cardRuntime;
 @dynamic cardSequence;

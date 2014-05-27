@@ -60,7 +60,16 @@ typedef enum : NSUInteger {
                                 [countedSet addObject:[substring lowercaseString]];
                             }];
     
-    NSLog(@"%@", countedSet);
+    NSMutableArray *dictArray = [NSMutableArray array];
+    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [dictArray addObject:@{@"object": obj,
+                               @"count": @([countedSet countForObject:obj])}];
+    }];
+    
+    dictArray = [[dictArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
+
+    
+    NSLog(@"%@", dictArray);
 }
 
 @end

@@ -15,6 +15,8 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
 
+@property (nonatomic, weak) Card *currentCard;
+
 @property (weak, nonatomic) IBOutlet UITextField *cardTitle;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointOne;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointTwo;
@@ -42,7 +44,6 @@
     _cardPointOne.delegate                  = self;
     _cardPointTwo.delegate                  = self;
     _cardPointThree.delegate                = self;
-    
     _cardTitle.delegate                     = self;
     
     _cardCollectionView.dataSource          = self;
@@ -60,21 +61,13 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    if (![textField isEqual:_cardPointOne]) {
-        [_cardPointOne setHidden:YES];
-    }
+    [_cardTitle setHidden:YES];
+    [_cardPointOne setHidden:YES];
+    [_cardPointTwo setHidden:YES];
+    [_cardPointThree setHidden:YES];
     
-    if (![textField isEqual:_cardPointTwo]) {
-        [_cardPointTwo setHidden:YES];
-    }
-    
-    if (![textField isEqual:_cardPointThree]) {
-        [_cardPointThree setHidden:YES];
-    }
-    
-    if (![textField isEqual:_cardTitle]) {
-        [_cardTitle setHidden:YES];
-    }
+    [textField setHidden:NO];
+
     _textFieldFrame = textField.frame;
     
     [UIView animateWithDuration:.33 animations:^{
@@ -88,16 +81,23 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [textField resignFirstResponder];
+
     [_cardTitle setHidden:NO];
     [_cardPointOne setHidden:NO];
     [_cardPointTwo setHidden:NO];
     [_cardPointThree setHidden:NO];
     
+    _currentCard.points[0] = _cardPointOne.text;
+    _currentCard.points[1] = _cardPointTwo.text;
+    _currentCard.points[2] = _cardPointThree.text;
+    _currentCard.title     = _cardTitle.text;
+    
     textField.frame = _textFieldFrame;
     
-    [textField resignFirstResponder];
     return YES;
 }
+
 
 - (void)didReceiveMemoryWarning
 {

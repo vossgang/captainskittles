@@ -77,7 +77,7 @@
 - (DSSpeech *)createSpeechItem {
     DSSpeech *speech;
     // Create new object and insert it into context
-    speech = [NSEntityDescription insertNewObjectForEntityForName:@"Speech"
+    speech = [NSEntityDescription insertNewObjectForEntityForName:@"DSSpeech"
                                            inManagedObjectContext:context];
     NSError *error;
     // Save the object to context
@@ -101,7 +101,7 @@
 - (DSCard *)createCardItem {
     DSCard *card;
     // Create new object and insert it into context
-    card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"
+    card = [NSEntityDescription insertNewObjectForEntityForName:@"DSCard"
                                          inManagedObjectContext:context];
     NSError *error;
     // Save the object to context
@@ -125,7 +125,7 @@
 - (DSPoint *)createPointItem {
     DSPoint *point;
     // Create new object and insert it into context
-    point = [NSEntityDescription insertNewObjectForEntityForName:@"Point"
+    point = [NSEntityDescription insertNewObjectForEntityForName:@"DSPoint"
                                           inManagedObjectContext:context];
     NSError *error;
     // Save the object to context
@@ -178,13 +178,8 @@
         // Speech items
         if (!allSpeechItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Speech"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSSpeech"];
             [request setEntity:e];
-            
-            NSSortDescriptor *sd = [NSSortDescriptor
-                                    sortDescriptorWithKey:@"speechTitle"
-                                    ascending:YES];
-            [request setSortDescriptors:[NSArray arrayWithObject:sd]];
             
             NSError *error;
             NSArray *result = [context executeFetchRequest:request error:&error];
@@ -200,7 +195,7 @@
         if (!allCardItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toSpeech = %@", ];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Card"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSCard"];
             [request setEntity:e];
             
             NSSortDescriptor *sd = [NSSortDescriptor
@@ -221,7 +216,7 @@
         if (!allPointItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toCard = %@", ];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Point"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSPoint"];
             [request setEntity:e];
             
             NSError *error;

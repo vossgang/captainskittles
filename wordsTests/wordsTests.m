@@ -26,7 +26,7 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testGenerateKeywords
 {
     NSString     *string     = @"This is a collection of stuff for this method to process to see if this is a winner of a method.";
     NSCountedSet *countedSet = [NSCountedSet new];
@@ -39,7 +39,16 @@
                                 [countedSet addObject:[substring lowercaseString]];
                             }];
     
-    NSLog(@"%@", countedSet);
+    NSMutableArray *dictArray = [NSMutableArray array];
+    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [dictArray addObject:@{@"object": obj,
+                               @"count": @([countedSet countForObject:obj])}];
+    }];
+    
+    dictArray = [[dictArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
+    
+    
+    NSLog(@"%@", dictArray);
 }
 
 @end

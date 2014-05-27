@@ -232,7 +232,7 @@ typedef enum : NSUInteger {
                 [point.managedObjectContext save:nil];
                 point = [[DataController dataStore] createPointItem];
                 [point setToCard:card];
-                [point setPointWords:@"NSA U.S.A."];
+                [point setPointWords:@"NSA U.S.A"];
                 [point.managedObjectContext save:nil];
                 break; }
             default:
@@ -255,15 +255,21 @@ typedef enum : NSUInteger {
         NSString *word = [key objectForKey:@"object"];
         switch (loop) {
             case 0:
-                XCTAssert(count == 1 && [word isEqualToString:@"NSA"], @"NSA is not matching up");
+                XCTAssert(count == 1 && [word isEqualToString:@"U.S.A"], @"U.S.A is not matching up");
                 break;
             case 1:
-                XCTAssert(count == 5 && [word isEqualToString:@"speech"], @"Speech is not matching up");
+                XCTAssert(count == 1 && [word isEqualToString:@"USA"], @"USA is not matching up");
                 break;
             case 2:
-                XCTAssert(count == 4 && [word isEqualToString:@"amazing"], @"Amazing is not matching up");
+                XCTAssert(count == 1 && [word isEqualToString:@"NSA"], @"NSA is not matching up");
                 break;
             case 3:
+                XCTAssert(count == 5 && [word isEqualToString:@"speech"], @"Speech is not matching up");
+                break;
+            case 4:
+                XCTAssert(count == 4 && [word isEqualToString:@"amazing"], @"Amazing is not matching up");
+                break;
+            case 5:
                 XCTAssert(count == 3 && [word isEqualToString:@"point"], @"Point is not matching up");
                 break;
             default:

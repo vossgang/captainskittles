@@ -38,6 +38,19 @@ typedef enum : NSUInteger {
     return searchStore;
 }
 
+- (NSString *)getSpeechTitle:(DSSpeech *)withSpeech {
+    for (DSCard *card in withSpeech.fromCard) {
+        switch ([card.cardType intValue]) {
+            case titleCard:
+                return card.cardTitle;
+            default:
+                return nil;
+        }
+    }
+    
+    return nil;
+}
+
 - (NSArray *)buildSpeechArray:(DSSpeech *)withSpeech {
     // Construct a speech into a series of strings in the array
     NSMutableArray *arrayToProcess = [NSMutableArray new];
@@ -73,6 +86,14 @@ typedef enum : NSUInteger {
     return arrayToProcess;
 }
 
+- (NSArray *)searchSpeechTitle:(NSString *)searchTerm {
+    NSMutableArray *resultsOfSearch = [NSMutableArray new];
+    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
+        
+    }
+    
+}
+
 - (void)calculateKeyWords:(DSSpeech *)withSpeech {
     NSArray *arrayToProcess = [self buildSpeechArray:withSpeech];
     // This string will store the contents of each speech in a single string for feeding into the counter
@@ -95,6 +116,14 @@ typedef enum : NSUInteger {
                                          // Check for words in all caps here since they are likely key points
                                          NSString *upperWord = [substring uppercaseString];
                                          if ([upperWord isEqualToString:substring] && substring.length > 1) {
+
+                                             NSString *wordStripped = [[substring componentsSeparatedByCharactersInSet:[[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""];
+                                             if (![wordStripped isEqualToString:upperWord]) {
+                                                 // The word contains punctuation, so add in both forms
+                                                 [countedSet addObject:wordStripped];
+                                             }
+                                             
+
                                              [countedSet addObject:substring];
                                          } else {
                                              [countedSet addObject:[substring lowercaseString]];
@@ -102,8 +131,7 @@ typedef enum : NSUInteger {
                                      }];
     // Capture the counted set objects and place them into an array for future processing
     [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [arrayFromCount addObject:@{@"object": obj,
-                               @"count": @([countedSet countForObject:obj])}];
+        [arrayFromCount addObject:@{@"object": obj, @"count": @([countedSet countForObject:obj])}];
     }];
     
     //TODO: Remove all common words in this step

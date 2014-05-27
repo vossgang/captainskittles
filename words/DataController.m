@@ -16,6 +16,8 @@
     self = [super init];
     //NSLog(@"Class: %@ Method: %s",self.class, sel_getName(_cmd));
     if (self) {
+        // Configure search controller
+        searchController = [SearchController new];
         // Read in from data store
         model = [NSManagedObjectModel mergedModelFromBundles:nil];
         
@@ -55,15 +57,15 @@
 }
 
 #pragma mark - Global methods
-+ (DataController *)sharedStore {
++ (DataController *)dataStore {
     // Create a singleton of this data controller
     static dispatch_once_t pred;
-    static DataController *shared = nil;
+    static DataController *dataStore = nil;
     dispatch_once(&pred, ^{
-        shared = [[DataController alloc] init];
+        dataStore = [DataController new];
     });
     
-    return shared;
+    return dataStore;
 }
 
 - (void)dealloc {
@@ -86,14 +88,10 @@
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [allSpeechItems addObject:speech];
+        [searchController setSpeechItems:speech];
     }
     
     return speech;
-}
-
-- (NSArray *)allSpeechItems {
-    return allSpeechItems;
 }
 
 #pragma mark - Card item
@@ -110,14 +108,10 @@
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [allCardItems addObject:card];
+        [searchController setCardItems:card];
     }
     
     return card;
-}
-
-- (NSArray *)allCardItems {
-    return allCardItems;
 }
 
 #pragma mark - Point item
@@ -134,7 +128,7 @@
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [allPointItems addObject:point];
+        [searchController setPointItems:point];
     }
     
     return point;
@@ -167,7 +161,7 @@
 - (void)reloadAllItems {
     [allSpeechItems removeAllObjects];
     [allCardItems   removeAllObjects];
-    [allPointItems   removeAllObjects];
+    [allPointItems  removeAllObjects];
     [self loadAllItems];
 }
 
@@ -177,7 +171,7 @@
     
     NSBlockOperation *operationSpeech = [NSBlockOperation blockOperationWithBlock:^{
         // Speech items
-        if (!allSpeechItems) {
+        if (![searchController getSpeechArray]) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toIncident = %@", [self getIncidentValue]];
             NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Speech"];

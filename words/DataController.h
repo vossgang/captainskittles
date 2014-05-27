@@ -8,21 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "SearchController.h"
 #import "DSSpeech.h"
 #import "DSCard.h"
 #import "DSPoint.h"
 
 @interface DataController : NSObject
 {
-    NSMutableArray          *allSpeechItems;
-    NSMutableArray          *allCardItems;
-    NSMutableArray          *allPointItems;
     // Used by application for managing Core Data
     NSManagedObjectContext  *context;
     NSManagedObjectModel    *model;
+    // For managing search controller which stores results from core data
+    SearchController        *searchController;
 }
 
-+ (DataController *)sharedStore;
++ (DataController *)dataStore;
 - (void)removeManagedObject:(NSManagedObject *)objectToRemove;
 - (void)reloadAllItems;
 

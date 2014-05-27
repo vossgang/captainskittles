@@ -137,10 +137,6 @@
 				146A8BF51934F65100F4AD99 /* DSSpeech.m */,
 				146A8BE21934675100F4AD99 /* SearchController.h */,
 				146A8BE31934675100F4AD99 /* SearchController.m */,
-				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
-				C9174A531934FE74001E7249 /* TimeLine.h */,
-				C9174A511934FE74001E7249 /* TimeLine.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
 			);
 			name = "Data Models";
@@ -251,6 +247,11 @@
 		1B4516861930004200B79C33 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C9174A501934FE74001E7249 /* TimeBlock.h */,
+				C9174A521934FE74001E7249 /* TimeBlock.m */,
+				C9174A531934FE74001E7249 /* TimeLine.h */,
+				C9174A511934FE74001E7249 /* TimeLine.m */,
+				C9174A561934FE97001E7249 /* Constants.h */,
 				1B4516831930003C00B79C33 /* SpeechDeliveryController.h */,
 				1B4516841930003C00B79C33 /* SpeechDeliveryController.m */,
 			);

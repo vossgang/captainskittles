@@ -28,16 +28,18 @@
 
 #pragma mark - Setup Methods
 
-+(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view {
++(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame {
 
     TimeLine *timeLine              = [TimeLine new];
     timeLine.timeBlockViews         = [NSMutableArray new];
     timeLine.speechTimeRemaining    = speech.runTime;
     timeLine.speechRunTime          = speech.runTime;
-    
+    timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
+
     //setup timeline view in proportion with reference view
-    timeLine.view = [[UIView alloc] initWithFrame:CGRectMake(0, 25, view.frame.size.height, TIMELINE_VIEW_HEIGHT)];
+    timeLine.view = [[UIView alloc] initWithFrame:frame];
     [view addSubview:timeLine.view];
+    
     timeLine.view.backgroundColor = [UIColor clearColor]; //temporary assignment
     
     [timeLine setupTimeBlocksForSpeech:speech];
@@ -49,32 +51,24 @@
 
 -(void)setupTimeBlocksForSpeech:(Speech *)speech {
     
-    CGFloat movingX = 0;
-    CGFloat width   = 0;
-    _pixelsPerSecond = (self.view.frame.size.width / speech.runTime);
-    
-    for (Card *card in speech.cards) {
-        
-        //calculate the new timeblock's width
-        width = (_pixelsPerSecond * card.runTime);
-        
-        //create new timeblock
-        TimeBlock *newBlock = [[TimeBlock alloc] initWithFrame:CGRectMake(movingX, 10, width, TIMELINE_VIEW_HEIGHT - 20)];
-        
-        //time tracking properties
-        newBlock.timeAllowance  = card.runTime;
-        newBlock.timeSpent      = 0;
-        
-        if ([[self.view.subviews lastObject] isKindOfClass:[TimeBlock class]]) {
-            TimeBlock *preceedingBlock  = [self.view.subviews lastObject];
-            preceedingBlock.nextBlock   = newBlock;
-        }
-        
-        [self.view addSubview:newBlock];
-        movingX += width;
-        
+    NSMutableArray *tempArrayOfBlocks = [NSMutableArray new];
 
+    for (Card *card in speech.cards) {
+        TimeBlock *newBlock = [TimeBlock new];
+        newBlock.percentageOfTimeLine = card.runTime / _speechRunTime;
+        [tempArrayOfBlocks addObject:newBlock];
     }
+    
+    
+    CGFloat positionInTimeline  = 0; //x coordinate in timeline
+    CGFloat width               = 0;
+    for (TimeBlock *block in tempArrayOfBlocks) {
+        width = (block.percentageOfTimeLine * self.view.frame.size.width);
+        block.frame = CGRectMake(positionInTimeline, 10, width, self.view.frame.size.height - 20);
+        [self.view addSubview:block];
+        positionInTimeline += width;
+    }
+    
     
 }
 
@@ -219,7 +213,7 @@
 }
 
 
-
+//
 
 
 

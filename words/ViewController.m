@@ -56,7 +56,7 @@
         }
         
         SpeechViewController *speechVC = segue.destinationViewController;
-        speechVC.detailSpeech = speech;
+        speechVC.currentSpeech = speech;
     }
 }
 

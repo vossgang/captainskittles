@@ -28,7 +28,18 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    NSString     *string     = @"This is a collection of stuff for this method to process to see if this is a winner of a method.";
+    NSCountedSet *countedSet = [NSCountedSet new];
+    
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
+                               options:NSStringEnumerationByWords | NSStringEnumerationLocalized
+                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop){
+                                // Method is called once per occurrence of a string. By using lowercase, you ignore
+                                // counting word and Word as separate entries.
+                                [countedSet addObject:[substring lowercaseString]];
+                            }];
+    
+    NSLog(@"%@", countedSet);
 }
 
 @end

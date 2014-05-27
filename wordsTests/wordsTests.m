@@ -66,7 +66,40 @@ typedef enum : NSUInteger {
                 break;
         }
         [card setToSpeech:speech];
+        [card.managedObjectContext save:nil];
     }
+    [speech.managedObjectContext save:nil];
+    // Speech completely generated
+    
+    // Now query speech to build an array for performing the keyword search
+    NSMutableArray *arrayToProcess = [NSMutableArray new];
+    speech = [[[DataController dataStore] allSpeechItems] firstObject];
+    for (DSCard *card in speech.fromCard) {
+        NSString *stringToProcess;
+        switch ([card.cardType intValue]) {
+            case titleCard: {
+                stringToProcess = card.cardTitle;
+                [arrayToProcess addObject:stringToProcess];
+                break; }
+            case prefaceCard: {
+                stringToProcess = card.cardTitle;
+                stringToProcess = [stringToProcess stringByAppendingString:card.cardPreface];
+                [arrayToProcess addObject:stringToProcess];
+                break; }
+            case bodyCard: {
+                stringToProcess = card.cardTitle;
+                for (DSPoint *point in card.fromPoint) {
+                    stringToProcess = [stringToProcess stringByAppendingString:point.pointWords];
+                }
+                [arrayToProcess addObject:stringToProcess];
+                break; }
+            default:
+                break;
+        }
+    }
+    
+    NSLog(@"Test output: %@",arrayToProcess);
+    
     //NSString     *string     = @"This is a collection of stuff for this method to process to see if this is a winner of a method.";
     NSString *string = @"Five five fIvE five FIVE four FOUR foUR FOur two two one";
     // Create a counted set indicating how many times each word occurs in the speech

@@ -7,30 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataController.h"
 #include "DSSpeech.h"
 #include "DSCard.h"
 #include "DSPoint.h"
 
 @interface SearchController : NSObject
 {
-    NSMutableArray          *allSpeechItems;
-    NSMutableArray          *allCardItems;
-    NSMutableArray          *allPointItems;
+    NSMutableArray          *arrayOfAllWords;
+    NSArray                 *arrayKeyWords;
 }
 
 - (id)init;
 + (SearchController *)searchStore;
 
-- (void)setSpeechItems:(DSSpeech *)withSpeech;
-- (void)setCardItems:(DSCard *)withCard;
-- (void)setPointItems:(DSPoint *)withPoint;
+- (void)calculateKeyWords:(DSSpeech *)withSpeech;
 
-- (void)setSpeechArray:(NSArray *)withArray;
-- (void)setCardArray:(NSArray *)withArray;
-- (void)setPointArray:(NSArray *)withArray;
-
-- (NSArray *)getSpeechArray;
-- (NSArray *)getCardArray;
-- (NSArray *)getPointArray;
 
 @end

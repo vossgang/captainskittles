@@ -16,8 +16,6 @@
     self = [super init];
     //NSLog(@"Class: %@ Method: %s",self.class, sel_getName(_cmd));
     if (self) {
-        // Configure search controller
-        searchController = [SearchController new];
         // Read in from data store
         model = [NSManagedObjectModel mergedModelFromBundles:nil];
         
@@ -88,10 +86,14 @@
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [searchController setSpeechItems:speech];
+        [allSpeechItems addObject:speech];
     }
     
     return speech;
+}
+
+- (NSArray *)allSpeechItems {
+    return allSpeechItems;
 }
 
 #pragma mark - Card item
@@ -108,10 +110,14 @@
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [searchController setCardItems:card];
+        [allCardItems addObject:card];;
     }
     
     return card;
+}
+
+- (NSArray *)allCardItems {
+    return allCardItems;
 }
 
 #pragma mark - Point item
@@ -128,7 +134,7 @@
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [searchController setPointItems:point];
+        [allPointItems addObject:point];
     }
     
     return point;
@@ -161,7 +167,7 @@
 - (void)reloadAllItems {
     [allSpeechItems removeAllObjects];
     [allCardItems   removeAllObjects];
-    [allPointItems  removeAllObjects];
+    [allPointItems   removeAllObjects];
     [self loadAllItems];
 }
 
@@ -171,7 +177,7 @@
     
     NSBlockOperation *operationSpeech = [NSBlockOperation blockOperationWithBlock:^{
         // Speech items
-        if (![searchController getSpeechArray]) {
+        if (!allSpeechItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toIncident = %@", [self getIncidentValue]];
             NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Speech"];
@@ -188,8 +194,7 @@
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
             
-            allSpeechItems = [[NSMutableArray alloc] initWithArray:result];
-        }
+            allSpeechItems = [[NSMutableArray alloc] initWithArray:result];        }
     }];
     
     NSBlockOperation *operationCard = [NSBlockOperation blockOperationWithBlock:^{
@@ -210,9 +215,7 @@
             if (!request) {
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
-            
-            allCardItems = [[NSMutableArray alloc] initWithArray:result];
-        }
+            allCardItems = [[NSMutableArray alloc] initWithArray:result];        }
     }];
     
     NSBlockOperation *operationPoint = [NSBlockOperation blockOperationWithBlock:^{
@@ -228,9 +231,7 @@
             if (!request) {
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
-            
-            allPointItems = [[NSMutableArray alloc] initWithArray:result];
-        }
+            allPointItems = [[NSMutableArray alloc] initWithArray:result];        }
     }];
     
     // Execute all blocks against the queue in parallel

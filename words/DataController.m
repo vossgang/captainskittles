@@ -161,7 +161,6 @@
     if ([objectToRemove isKindOfClass:[DSPoint class]]) {
         [allPointItems removeObject:objectToRemove];
     };
-    NSLog(@"Removed...");
 }
 
 - (void)reloadAllItems {
@@ -179,7 +178,6 @@
         // Speech items
         if (!allSpeechItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            //request.predicate = [NSPredicate predicateWithFormat:@"toIncident = %@", [self getIncidentValue]];
             NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Speech"];
             [request setEntity:e];
             
@@ -201,7 +199,7 @@
         // Card items
         if (!allCardItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            //request.predicate = [NSPredicate predicateWithFormat:@"toIncident = %@", [self getIncidentValue]];
+            //request.predicate = [NSPredicate predicateWithFormat:@"toSpeech = %@", ];
             NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Card"];
             [request setEntity:e];
             
@@ -222,7 +220,7 @@
         // Point items
         if (!allPointItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            //request.predicate = [NSPredicate predicateWithFormat:@"toIncident = %@", [self getIncidentValue]];
+            //request.predicate = [NSPredicate predicateWithFormat:@"toCard = %@", ];
             NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Point"];
             [request setEntity:e];
             

@@ -14,7 +14,6 @@
 @interface DSCard : NSManagedObject
 
 @property (nonatomic, retain) NSString * cardConclusion;
-@property (nonatomic, retain) NSNumber * cardPoint;
 @property (nonatomic, retain) NSString * cardPreface;
 @property (nonatomic, retain) NSNumber * cardRuntime;
 @property (nonatomic, retain) NSNumber * cardSequence;

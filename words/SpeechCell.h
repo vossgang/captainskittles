@@ -11,5 +11,6 @@
 @interface SpeechCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UITextView *speechCellTitle;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfCardsLabel;
 
 @end

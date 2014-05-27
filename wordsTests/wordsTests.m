@@ -83,13 +83,13 @@ typedef enum : NSUInteger {
                 break; }
             case prefaceCard: {
                 stringToProcess = card.cardTitle;
-                stringToProcess = [stringToProcess stringByAppendingString:card.cardPreface];
+                stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",card.cardPreface]];
                 [arrayToProcess addObject:stringToProcess];
                 break; }
             case bodyCard: {
                 stringToProcess = card.cardTitle;
                 for (DSPoint *point in card.fromPoint) {
-                    stringToProcess = [stringToProcess stringByAppendingString:point.pointWords];
+                    stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",point.pointWords]];
                 }
                 [arrayToProcess addObject:stringToProcess];
                 break; }
@@ -100,51 +100,54 @@ typedef enum : NSUInteger {
     
     NSLog(@"Test output: %@",arrayToProcess);
     
-    //NSString     *string     = @"This is a collection of stuff for this method to process to see if this is a winner of a method.";
-    NSString *string = @"Five five fIvE five FIVE four FOUR foUR FOur two two one";
-    // Create a counted set indicating how many times each word occurs in the speech
-    NSCountedSet *countedSet = [NSCountedSet new];
-    //TODO: Loop through speech object to get card objects
-    // A string (that comes from the individual card) comes in and is fed into an array
-    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
-                               options:NSStringEnumerationByWords | NSStringEnumerationLocalized
-                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop){
-                                // Method is called once per occurrence of a string. By using lowercase, you ignore
-                                // counting word and Word as separate entries.
-                                [countedSet addObject:[substring lowercaseString]];
-                            }];
-    // Capture the counted set objects and place them into an array for future processing
-    NSMutableArray *dictArray = [NSMutableArray array];
-    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [dictArray addObject:@{@"object": obj,
-                               @"count": @([countedSet countForObject:obj])}];
-    }];
-    //TODO: Remove all common words in this step
-    // Sort the array from most frequent to less frequent in occurrence
-    dictArray = [[dictArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
-    // Construct an array of keywords
-    int count = 0;
-    NSMutableArray *arrayKeyWords = [NSMutableArray new];
-
-    while (true) {
-
-        int previousTotal = 0;
-        for(id key in dictArray) {
-            //NSLog(@"key=%@", key);
-            int currentTotal = [[key objectForKey:@"count"] intValue];
-            //NSLog(@"Total: %i",currentTotal);
-            if (count < 3 || previousTotal == currentTotal) {
-                [arrayKeyWords addObject:key];
-                previousTotal = currentTotal;
-                count++;
-            } else {
-                break;
-            }
-        }
-        break;
-    }
-    NSLog(@"Array: %@",arrayKeyWords);
     
+    for (NSString *stringToProcess in arrayToProcess) {
+        // Create a counted set indicating how many times each word occurs in the speech
+        NSCountedSet *countedSet = [NSCountedSet new];
+        //TODO: Loop through speech object to get card objects
+        // A string (that comes from the individual card) comes in and is fed into an array
+        [stringToProcess enumerateSubstringsInRange:NSMakeRange(0, [stringToProcess length])
+                                   options:NSStringEnumerationByWords | NSStringEnumerationLocalized
+                                usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop){
+                                    // Method is called once per occurrence of a string. By using lowercase, you ignore
+                                    // counting word and Word as separate entries.
+                                    [countedSet addObject:[substring lowercaseString]];
+                                }];
+        // Capture the counted set objects and place them into an array for future processing
+        NSMutableArray *dictArray = [NSMutableArray array];
+        [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+            [dictArray addObject:@{@"object": obj,
+                                   @"count": @([countedSet countForObject:obj])}];
+        }];
+        //TODO: Remove all common words in this step
+        // Sort the array from most frequent to less frequent in occurrence
+        dictArray = [[dictArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
+        // Construct an array of keywords
+        int count = 0;
+        NSMutableArray *arrayKeyWords = [NSMutableArray new];
+        
+        while (true) {
+            
+            int previousTotal = 0;
+            for(id key in dictArray) {
+                //NSLog(@"key=%@", key);
+                int currentTotal = [[key objectForKey:@"count"] intValue];
+                //NSLog(@"Total: %i",currentTotal);
+                if (count < 3 || previousTotal == currentTotal) {
+                    [arrayKeyWords addObject:key];
+                    previousTotal = currentTotal;
+                    count++;
+                } else {
+                    break;
+                }
+            }
+            break;
+        }
+        NSLog(@"Array: %@",arrayKeyWords);
+    }
+    
+    // Tear down speech object
+    [[DataController dataStore] removeManagedObject:speech];
 }
 
 @end

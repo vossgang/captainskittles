@@ -55,6 +55,16 @@
     return copy;
 }
 
+-(NSTimeInterval)runTime
+{
+    NSTimeInterval time = 0;
+    for (Card *card in self.cards) {
+        time += card.runTime;
+    }
+    
+    return time;
+}
+
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     

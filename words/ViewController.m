@@ -47,7 +47,7 @@
         NSInteger row = [_searchCollectionView indexPathForCell:sender].row;
         Speech *speech = [_appDelegate.speeches objectAtIndex:row];
         SpeechViewController *speechVC = segue.destinationViewController;
-        speechVC.detailSpeech = speech;
+        speechVC.currentSpeech = speech;
     }
 }
 

@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "Speech.h"
+#import "Constants.h"
 
-//card subclasses
-typedef enum : NSUInteger {
-    titleCard,
-    prefaceCard,
-    bodyCard,
-    conclusionCard,
-} CardType;
+////card subclasses
+//typedef enum : NSUInteger {
+//    titleCard,
+//    prefaceCard,
+//    bodyCard,
+//    conclusionCard,
+//} CardType;
 
 @interface Card : NSObject
 

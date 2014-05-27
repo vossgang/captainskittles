@@ -46,9 +46,24 @@
     if ([segue.identifier isEqualToString:@"SpeechDetail"]) {
         NSInteger row = [_searchCollectionView indexPathForCell:sender].row;
         Speech *speech = [_appDelegate.speeches objectAtIndex:row];
+        
+        Card *firstCard = speech.cards[0];
+        if ([firstCard.title isEqual:@"New Speech"]) {
+            [_appDelegate.speeches insertObject:[Speech newSpeech] atIndex:0];
+            speech = _appDelegate.speeches[0];
+            firstCard = speech.cards[0];
+            firstCard.title =@"Speech Title";
+        }
+        
         SpeechViewController *speechVC = segue.destinationViewController;
-        speechVC.detailSpeech = speech;
+        speechVC.currentSpeech = speech;
     }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [_searchCollectionView reloadData];
 }
 
 
@@ -61,8 +76,7 @@
 {
     Speech *speech      = _appDelegate.speeches[indexPath.row];
     Card   *mainCard    = [speech.cards firstObject];
-    SpeechCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
-    
+    SpeechCell *cell    = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
     
     cell.speechCellTitle.text = mainCard.title;
     

@@ -13,6 +13,7 @@
 
 @property (nonatomic, weak) TimeBlock *nextBlock;
 @property (nonatomic, readwrite) CGFloat timeRemaining, timeSpent, timeAllowance;
+@property (nonatomic, readwrite) CGFloat percentageOfTimeLine;
 @property (nonatomic, readwrite) BOOL isComplete;
 
 @end

@@ -27,9 +27,8 @@
     return speech;
 }
 
-+ (id)loadSpeechWith:(DSSpeech *)withSpeech {
-    
-    
++ (id)loadSpeechWith:(DSSpeech *)withSpeech
+{
     return [Speech new];
 }
 
@@ -53,6 +52,16 @@
     [copy setTimeRemaning:self.timeRemaning];
     
     return copy;
+}
+
+-(NSTimeInterval)runTime
+{
+    NSTimeInterval time = 0;
+    for (Card *card in self.cards) {
+        time += card.runTime;
+    }
+    
+    return time;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

@@ -14,7 +14,7 @@
 @property (nonatomic, strong) UIView *view;
 
 
-+(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view;
++(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame;
 
 -(void)startTimer;
 -(void)advanceToBlockAtIndex:(NSInteger)index;

@@ -15,13 +15,13 @@
 @interface SearchController : NSObject
 {
     NSMutableArray          *arrayOfAllWords;
-    NSArray                 *arrayKeyWords;
+    NSMutableArray          *arrayOfKeyWords;
 }
 
 - (id)init;
 + (SearchController *)searchStore;
 
 - (void)calculateKeyWords:(DSSpeech *)withSpeech;
-
+- (NSArray *)returnKeywords;
 
 @end

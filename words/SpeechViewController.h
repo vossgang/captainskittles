@@ -11,6 +11,6 @@
 
 @interface SpeechViewController : UIViewController
 
-@property (nonatomic, weak) Speech *detailSpeech;
+@property (nonatomic, weak) Speech *currentSpeech;
 
 @end

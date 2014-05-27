@@ -141,6 +141,7 @@
 				146A8BE21934675100F4AD99 /* SearchController.h */,
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
+<<<<<<< HEAD
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
 				C9174A511934FE74001E7249 /* TimeLine.m */,
 				C9174A521934FE74001E7249 /* TimeBlock.m */,
@@ -148,6 +149,8 @@
 				7A105F2819350826001CA31C /* Colorizer.h */,
 				7A105F2919350826001CA31C /* Colorizer.m */,
 				C9174A561934FE97001E7249 /* Constants.h */,
+=======
+>>>>>>> f54383e278815f630fbd2b07638bf00dfa7f3fb7
 			);
 			name = "Data Models";
 			sourceTree = "<group>";

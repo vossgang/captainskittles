@@ -27,9 +27,8 @@
     return speech;
 }
 
-+ (id)loadSpeechWith:(DSSpeech *)withSpeech {
-    
-    
++ (id)loadSpeechWith:(DSSpeech *)withSpeech
+{
     return [Speech new];
 }
 

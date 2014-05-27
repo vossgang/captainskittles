@@ -32,6 +32,7 @@
 		1B451681192FDE7D00B79C33 /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B451680192FDE7D00B79C33 /* CardView.m */; };
 		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
 		7A105F2A19350826001CA31C /* Colorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A105F2919350826001CA31C /* Colorizer.m */; };
+		7A105F6D19354FD5001CA31C /* card.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A105F6C19354FD5001CA31C /* card.png */; };
 		C9174A541934FE74001E7249 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A511934FE74001E7249 /* TimeLine.m */; };
 		C9174A551934FE74001E7249 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A521934FE74001E7249 /* TimeBlock.m */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
@@ -89,6 +90,7 @@
 		1B4516841930003C00B79C33 /* SpeechDeliveryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechDeliveryController.m; sourceTree = "<group>"; };
 		7A105F2819350826001CA31C /* Colorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorizer.h; sourceTree = "<group>"; };
 		7A105F2919350826001CA31C /* Colorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorizer.m; sourceTree = "<group>"; };
+		7A105F6C19354FD5001CA31C /* card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = card.png; path = ../../../../../Downloads/card.png; sourceTree = "<group>"; };
 		C9174A501934FE74001E7249 /* TimeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeBlock.h; sourceTree = "<group>"; };
 		C9174A511934FE74001E7249 /* TimeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLine.m; sourceTree = "<group>"; };
 		C9174A521934FE74001E7249 /* TimeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeBlock.m; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			children = (
 				1B451678192FDDF400B79C33 /* Speech.h */,
 				1B451679192FDDF400B79C33 /* Speech.m */,
+				7A105F6C19354FD5001CA31C /* card.png */,
 				1B45167C192FDE6700B79C33 /* Card.h */,
 				1B45167D192FDE6700B79C33 /* Card.m */,
 			);
@@ -336,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B45165C192FDDDA00B79C33 /* Images.xcassets in Resources */,
+				7A105F6D19354FD5001CA31C /* card.png in Resources */,
 				1B45164E192FDDDA00B79C33 /* InfoPlist.strings in Resources */,
 				1B451657192FDDDA00B79C33 /* Main.storyboard in Resources */,
 			);

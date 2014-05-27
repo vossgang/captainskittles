@@ -17,18 +17,6 @@
     
     if (!self.speeches.count) {
         [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
-        [self.speeches addObject:[Speech newSpeech]];
     }
         
     return YES;

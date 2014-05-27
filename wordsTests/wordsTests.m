@@ -44,19 +44,24 @@ typedef enum : NSUInteger {
         DSCard *card = [[DataController dataStore] createCardItem];
         [card setCardType:[NSNumber numberWithInt:i]];
         switch (i) {
-            case titleCard:
+            case titleCard: {
                 [card setCardTitle:@"Amazing speech title"];
-                break;
-            case prefaceCard:
+                break; }
+            case prefaceCard: {
                 [card setCardTitle:@"Amazing speech preface"];
                 [card setCardPreface:@"A speech about speaking"];
-                break;
-            case bodyCard:
+                break; }
+            case bodyCard: {
                 [card setCardTitle:@"My speech body"];
                 DSPoint *point = [[DataController dataStore] createPointItem];
                 [point setToCard:card];
                 [point setPointWords:@"This is an amazing point"];
-                break;
+                [point.managedObjectContext save:nil];
+                point = [[DataController dataStore] createPointItem];
+                [point setToCard:card];
+                [point setPointWords:@"Yet another point that is amazing"];
+                [point.managedObjectContext save:nil];
+                break; }
             default:
                 break;
         }

@@ -164,4 +164,61 @@ typedef enum : NSUInteger {
     
 }
 
+- (void)testSearchBySpeechTitle {
+    // Generate a speech for testing
+    DSSpeech *speech1 = [[DataController dataStore] createSpeechItem];
+    DSCard *card1 = [[DataController dataStore] createCardItem];
+    [card1 setCardType:[NSNumber numberWithInt:0]];
+    [card1 setCardTitle:@"Amazing speech"];
+    [card1 setToSpeech:speech1];
+    [card1.managedObjectContext save:nil];
+    [speech1.managedObjectContext save:nil];
+    // Speech completely generated
+    
+    // Generate a speech for testing
+    DSSpeech *speech2 = [[DataController dataStore] createSpeechItem];
+    DSCard *card2 = [[DataController dataStore] createCardItem];
+    [card2 setCardType:[NSNumber numberWithInt:0]];
+    [card2 setCardTitle:@"Amazing speech title"];
+    [card2 setToSpeech:speech2];
+    [card2.managedObjectContext save:nil];
+    [speech2.managedObjectContext save:nil];
+    // Speech completely generated
+    
+    // Generate a speech for testing
+    DSSpeech *speech3 = [[DataController dataStore] createSpeechItem];
+    DSCard *card3 = [[DataController dataStore] createCardItem];
+    [card3 setCardType:[NSNumber numberWithInt:0]];
+    [card3 setCardTitle:@"Amazing"];
+    [card3 setToSpeech:speech3];
+    [card3.managedObjectContext save:nil];
+    [speech3.managedObjectContext save:nil];
+    // Speech completely generated
+    
+    // Generate a speech for testing
+    DSSpeech *speech4 = [[DataController dataStore] createSpeechItem];
+    DSCard *card4 = [[DataController dataStore] createCardItem];
+    [card4 setCardType:[NSNumber numberWithInt:0]];
+    [card4 setCardTitle:@"Amazing amazing speech title"];
+    [card4 setToSpeech:speech4];
+    [card4.managedObjectContext save:nil];
+    [speech4.managedObjectContext save:nil];
+    // Speech completely generated
+    
+    SearchController *search = [SearchController new];
+    NSArray *arrayResults = [search searchSpeechByTitle:@"Amazing speech title"];
+    
+    for (id key in arrayResults) {
+        DSSpeech *speech = [key objectForKey:@"object"];
+        NSLog(@"Speech: %@",[search getSpeechTitle:speech]);
+    }
+    
+    // Tear down speech objects
+    [[DataController dataStore] removeManagedObject:speech1];
+    [[DataController dataStore] removeManagedObject:speech2];
+    [[DataController dataStore] removeManagedObject:speech3];
+    [[DataController dataStore] removeManagedObject:speech4];
+
+}
+
 @end

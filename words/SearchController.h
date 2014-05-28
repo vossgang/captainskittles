@@ -24,4 +24,10 @@
 - (void)calculateKeyWords:(DSSpeech *)withSpeech;
 - (NSArray *)returnKeywords;
 
+- (NSArray *)searchSpeechByTitle:(NSString *)searchTerm;
+
+
+// Test only
+- (NSString *)getSpeechTitle:(DSSpeech *)withSpeech;
+
 @end

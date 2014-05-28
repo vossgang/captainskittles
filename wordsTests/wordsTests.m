@@ -74,11 +74,11 @@ typedef enum : NSUInteger {
     [speech.managedObjectContext save:nil];
     // Speech completely generated
     [[SearchController searchStore] calculateKeyWords:speech];
-    NSLog(@"%@",[[SearchController searchStore] returnKeywords]);
     // Testing component
     int loop = 0;
-    for (id key in [[SearchController searchStore] returnKeywords]) {
-        int count = [[key objectForKey:@"count"] intValue];
+    
+for (id key in [[SearchController searchStore] calculateKeyWords:speech]) {
+    int count = [[key objectForKey:@"count"] intValue];
         NSString *word = [key objectForKey:@"object"];
         switch (loop) {
             case 0:

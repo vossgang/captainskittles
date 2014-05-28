@@ -21,7 +21,6 @@ typedef enum : NSUInteger {
     self = [super init];
     if (self) {
         arrayOfAllWords = [NSMutableArray new];
-        arrayOfKeyWords = [NSMutableArray new];
     }
     
     return self;
@@ -140,12 +139,35 @@ typedef enum : NSUInteger {
 }
 
 - (NSArray *)searchSpeechByKeyword:(NSString *)searchTerm {
-
+    NSMutableArray *arrayOfSpeechKeywords = [NSMutableArray new];
+    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
+        [arrayOfSpeechKeywords addObject:[self calculateKeyWords:speech]];
+    }
+    
+    NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
+    NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
+    
+    for (NSString *search in arraySearchTerms) {
+        // Create the new array for storing results
+        NSMutableArray *resultArray = [NSMutableArray new];
+        [arraySearchObjects addObject:resultArray];
+        // Iterate through all objects (speeches) to search
+        for (DSSpeech *speech in arrayToSearch) {
+            // Check to see if there is an existing array on the search terms
+            NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
+            
+            if(rangeTitleSearch.location != NSNotFound)
+            {
+                [resultArray addObject:speech];
+            }
+        }
+    }
     
     return nil;
 }
 
-- (void)calculateKeyWords:(DSSpeech *)withSpeech {
+- (NSArray *)calculateKeyWords:(DSSpeech *)withSpeech {
+    NSMutableArray *arrayToReturn = [NSMutableArray new];
     NSArray *arrayToProcess = [self buildSpeechArray:withSpeech];
     // This string will store the contents of each speech in a single string for feeding into the counter
     NSString *stringToProcess = @"";
@@ -199,7 +221,7 @@ typedef enum : NSUInteger {
             NSString *upperCheck = [key objectForKey:@"object"];
             NSString *upperWord = [upperCheck uppercaseString];
             if ([upperCheck isEqualToString:upperWord]) {
-                [arrayOfKeyWords addObject:key];
+                [arrayToReturn addObject:@{@"speech": withSpeech, @"keyword": key}];
                 // Remove it from dictionary to avoid double counts
                 [arrayFromCount removeObject:key];
             }
@@ -208,10 +230,10 @@ typedef enum : NSUInteger {
         // matches the previous word so it is still included
         int previousTotal = 0;
         for(id key in arrayFromCount) {
-            int currentTotal = [[key objectForKey:@"count"] intValue];
-            if (count < 3 || previousTotal == currentTotal) {
-                [arrayOfKeyWords addObject:key];
-                previousTotal = currentTotal;
+            NSNumber *currentTotal = [NSNumber numberWithInt:[[key objectForKey:@"count"] intValue]];
+            if (count < 3 || previousTotal == [currentTotal intValue]) {
+                previousTotal = [currentTotal intValue];
+                [arrayToReturn addObject:@{@"speech": withSpeech, @"keyword": key}];
                 count++;
             } else {
                 break;
@@ -219,10 +241,8 @@ typedef enum : NSUInteger {
         }
         break;
     }
-}
-
-- (NSArray *)returnKeywords {
-    return arrayOfKeyWords;
+    
+    return arrayToReturn;
 }
 
 @end

@@ -105,7 +105,9 @@ typedef enum : NSUInteger {
 //    {
 //        [filteredTableData addObject:vis];
 //    }
+  
     
+    return nil;
 }
 
 - (void)calculateKeyWords:(DSSpeech *)withSpeech {

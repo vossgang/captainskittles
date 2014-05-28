@@ -17,6 +17,7 @@
     NSMutableArray          *allSpeechItems;
     NSMutableArray          *allCardItems;
     NSMutableArray          *allPointItems;
+    
     // Used by application for managing Core Data
     NSManagedObjectContext  *context;
     NSManagedObjectModel    *model;

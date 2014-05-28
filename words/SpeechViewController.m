@@ -285,7 +285,6 @@
     } else {
         _timeLine = [TimeLine newTimeLineFromSpeech:_currentSpeech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
     }
-
 }
 
 
@@ -319,7 +318,8 @@
     [_cardCollectionView reloadData];
     
     //refactor the timeline for the new cards
-    [self animateTimeLineRefactor];
+//    [self animateTimeLineRefactor];
+    [_timeLine advanceToNextBlock];
 }
 
 - (IBAction)backToMain:(id)sender
@@ -388,11 +388,7 @@
         _textView.backgroundColor = [UIColor clearColor];
         
         _speechIsRunning = YES;
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
-
-        [_speechDeliverController start];
+        [_timeLine startTimer];
     }
 }
 

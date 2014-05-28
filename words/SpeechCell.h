@@ -12,5 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextView *speechCellTitle;
 @property (weak, nonatomic) IBOutlet UILabel *numberOfCardsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *speechTimeLabel;
 
 @end

@@ -290,6 +290,7 @@
 			children = (
 				1B4516831930003C00B79C33 /* SpeechDeliveryController.h */,
 				1B4516841930003C00B79C33 /* SpeechDeliveryController.m */,
+				7A105FB919368EE6001CA31C /* CollectionView Manager */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -318,6 +319,15 @@
 				1B1C292D19364E9500104415 /* Colorizer.m */,
 			);
 			name = TimeLine;
+			sourceTree = "<group>";
+		};
+		7A105FB919368EE6001CA31C /* CollectionView Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7A105FBA19368F64001CA31C /* LXReorderableCollectionViewFlowLayout.h */,
+				7A105FBB19368F64001CA31C /* LXReorderableCollectionViewFlowLayout.m */,
+			);
+			name = "CollectionView Manager";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

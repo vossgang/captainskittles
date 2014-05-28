@@ -14,14 +14,16 @@
 #import "Constants.h"
 #import "PresentationCardView.h"
 
-@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate>
+@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) IBOutlet UIView *cardEditor;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
+@property (strong, nonatomic) NSIndexPath *sourceIndexPath;
 
 @property (nonatomic, weak) Card *currentCard;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *addCardButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *cardTitle;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointOne;
@@ -32,7 +34,10 @@
 
 @property (nonatomic, strong) SpeechDeliveryController *speechDeliverController;
 @property (nonatomic) CGRect textFieldFrame;
+@property (nonatomic, strong) NSString *oldTextFieldText;
 @property (nonatomic) CGRect textViewFrame;
+@property (nonatomic, strong) NSString *oldTextViewText;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cardNumberLabel;
@@ -101,7 +106,7 @@
     int minutes = _currentCard.runTime / 60;
     int seconds = (int)_currentCard.runTime % 60;
     if (seconds != 0) {
-        _timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
@@ -112,6 +117,8 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    _oldTextFieldText = textField.text;
+    
     [_cardTitle setHidden:YES];
     [_cardPointOne setHidden:YES];
     [_cardPointTwo setHidden:YES];
@@ -143,6 +150,10 @@
     [_pointFour setHidden:NO];
     [_pointFive setHidden:NO];
     
+    if (![_oldTextFieldText isEqual:textField.text]) {
+        _currentCard.userEdited = YES;
+    }
+    
     _currentCard.points[0] = _cardPointOne.text;
     _currentCard.points[1] = _cardPointTwo.text;
     _currentCard.points[2] = _cardPointThree.text;
@@ -161,6 +172,7 @@
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     _textViewFrame = textView.frame;
+    _oldTextViewText = textView.text;
     
     [UIView animateWithDuration:.33 animations:^{
         textView.frame = CGRectMake(textView.frame.origin.x, 0, textView.frame.size.width, textView.frame.size.height);
@@ -175,6 +187,10 @@
 
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    if (![_oldTextViewText isEqual:textView.text]) {
+        _currentCard.userEdited = YES;
+    }
+    
     switch (_currentCard.type) {
         case conclusionCard:    _currentCard.conclusion = _textView.text; break;
         case prefaceCard:       _currentCard.preface    = _textView.text; break;
@@ -222,15 +238,16 @@
     if (seconds != 0) {
         cell.timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
     } else {
-        cell.timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
+        cell.timeLabel.text       = [NSString stringWithFormat:@"%@ min", partialMin];
     }
-    
     int stringCounter = 0;
     for (NSString *string in card.points) {
         if (![string isEqual:@""]) {
             stringCounter++;
         }
     }
+    
+    cell.titleLabel.text = card.title;
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
 
     
@@ -264,7 +281,7 @@
     int minutes = _currentCard.runTime / 60;
     int seconds = (int)_currentCard.runTime % 60;
     if (seconds != 0) {
-        _timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
@@ -335,6 +352,18 @@
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didBeginDraggingItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.sourceIndexPath = indexPath;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    Card *card = self.currentSpeech.cards[self.sourceIndexPath.row];
+    [self.currentSpeech.cards removeObjectAtIndex:self.sourceIndexPath.row];
+    [self.currentSpeech.cards insertObject:card atIndex:indexPath.row];
+}
+
 -(int)numberOfPointsInCurrentCard
 {
     int activePoints = 0;
@@ -343,6 +372,7 @@
             activePoints++;
         }
     }
+    _currentCard.userEdited = activePoints;
     return activePoints;
 }
 
@@ -388,7 +418,8 @@
 }
 
 
--(void)animateTimeLineRefactor {
+-(void)animateTimeLineRefactor
+{
     CGRect  originalTimeLineFrame = _timeLine.view.frame;
     
     [UIView animateWithDuration:.25 animations:^{
@@ -416,10 +447,6 @@
     NSIndexPath *index = [[_cardCollectionView indexPathsForSelectedItems] firstObject];
     [self.currentSpeech.cards insertObject:[Card newBodyCardForSpeech:self.currentSpeech] atIndex:(index.row + 1)];
     [_cardCollectionView reloadData];
-    
-    //refactor the timeline for the new cards
-//    [self animateTimeLineRefactor];
-    [_timeLine advanceToNextBlock];
 }
 
 - (IBAction)backToMain:(id)sender
@@ -427,7 +454,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
-    
 }
 
 - (IBAction)Stop:(id)sender

@@ -21,7 +21,6 @@ typedef enum : NSUInteger {
     self = [super init];
     if (self) {
         arrayOfAllWords = [NSMutableArray new];
-        arrayOfKeyWords = [NSMutableArray new];
     }
     
     return self;
@@ -36,6 +35,19 @@ typedef enum : NSUInteger {
     });
     
     return searchStore;
+}
+
+- (NSString *)getSpeechTitle:(DSSpeech *)withSpeech {
+    for (DSCard *card in withSpeech.fromCard) {
+        switch ([card.cardType intValue]) {
+            case titleCard:
+                return card.cardTitle;
+            default:
+                return nil;
+        }
+    }
+    
+    return nil;
 }
 
 - (NSArray *)buildSpeechArray:(DSSpeech *)withSpeech {
@@ -73,7 +85,89 @@ typedef enum : NSUInteger {
     return arrayToProcess;
 }
 
-- (void)calculateKeyWords:(DSSpeech *)withSpeech {
+#pragma mark - Search methods
+
+- (NSArray *)searchSpeechByTitle:(NSString *)searchTerm {
+    // This method will create an array based off of search terms, and then replace the search term with an array that it uses to store all
+    // speech objects that match the result. Once the list is complete, it will then merge the lists and sort based off of frequency of occurence
+    
+    // Get an array of all speech titles
+    NSMutableArray *arrayToSearch = [NSMutableArray new];
+    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
+        [arrayToSearch addObject:speech];
+    }
+    
+    // This sequence takes in the search terms provided by the user, splits them out into individual strings, and then stores the results in
+    // a mutable array for processing. Once a result is derived, it will pop the string out and replace it with an array that stores the speeches
+    // that contain the term(s)
+    NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
+    NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
+    
+    NSMutableArray *arraySearchObjects = [NSMutableArray new];
+    for (NSString *search in arraySearchTerms) {
+        // Create the new array for storing results
+        NSMutableArray *resultArray = [NSMutableArray new];
+        [arraySearchObjects addObject:resultArray];
+        // Iterate through all objects (speeches) to search
+        for (DSSpeech *speech in arrayToSearch) {
+            // Check to see if there is an existing array on the search terms
+            NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
+            
+            if(rangeTitleSearch.location != NSNotFound)
+            {
+                [resultArray addObject:speech];
+            }
+        }
+    }
+    NSMutableArray *arrayForCounter = [NSMutableArray new];
+    
+    for (NSMutableArray *array in arraySearchObjects) {
+        [arrayForCounter addObjectsFromArray:array];
+    }
+    
+    NSCountedSet *countedSet = [[NSCountedSet alloc] initWithArray:arrayForCounter];
+    
+    NSMutableArray *final = [NSMutableArray array];
+    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [final addObject:@{@"object": obj, @"count": @([countedSet countForObject:obj])}];
+    }];
+    
+    final = [[final sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
+    // Returns an array of speech objects sorted by occurence of search terms
+    return final;
+}
+
+- (NSArray *)searchSpeechByKeyword:(NSString *)searchTerm {
+    NSMutableArray *arrayOfSpeechKeywords = [NSMutableArray new];
+    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
+        [arrayOfSpeechKeywords addObject:[self calculateKeyWords:speech]];
+    }
+    
+    NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
+    NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
+    
+    NSMutableArray *arraySearchObjects = [NSMutableArray new];
+    for (NSString *search in arraySearchTerms) {
+        // Create the new array for storing results
+        NSMutableArray *resultArray = [NSMutableArray new];
+        [arraySearchObjects addObject:resultArray];
+        // Iterate through all objects (speeches) to search
+        for (DSSpeech *speech in arrayOfSpeechKeywords) {
+            // Check to see if there is an existing array on the search terms
+            NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
+            
+            if(rangeTitleSearch.location != NSNotFound)
+            {
+                [resultArray addObject:speech];
+            }
+        }
+    }
+    
+    return nil;
+}
+
+- (NSArray *)calculateKeyWords:(DSSpeech *)withSpeech {
+    NSMutableArray *arrayToReturn = [NSMutableArray new];
     NSArray *arrayToProcess = [self buildSpeechArray:withSpeech];
     // This string will store the contents of each speech in a single string for feeding into the counter
     NSString *stringToProcess = @"";
@@ -95,6 +189,14 @@ typedef enum : NSUInteger {
                                          // Check for words in all caps here since they are likely key points
                                          NSString *upperWord = [substring uppercaseString];
                                          if ([upperWord isEqualToString:substring] && substring.length > 1) {
+
+                                             NSString *wordStripped = [[substring componentsSeparatedByCharactersInSet:[[NSCharacterSet letterCharacterSet] invertedSet]] componentsJoinedByString:@""];
+                                             if (![wordStripped isEqualToString:upperWord]) {
+                                                 // The word contains punctuation, so add in both forms
+                                                 [countedSet addObject:wordStripped];
+                                             }
+                                             
+
                                              [countedSet addObject:substring];
                                          } else {
                                              [countedSet addObject:[substring lowercaseString]];
@@ -102,8 +204,7 @@ typedef enum : NSUInteger {
                                      }];
     // Capture the counted set objects and place them into an array for future processing
     [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [arrayFromCount addObject:@{@"object": obj,
-                               @"count": @([countedSet countForObject:obj])}];
+        [arrayFromCount addObject:@{@"object": obj, @"count": @([countedSet countForObject:obj])}];
     }];
     
     //TODO: Remove all common words in this step
@@ -120,7 +221,7 @@ typedef enum : NSUInteger {
             NSString *upperCheck = [key objectForKey:@"object"];
             NSString *upperWord = [upperCheck uppercaseString];
             if ([upperCheck isEqualToString:upperWord]) {
-                [arrayOfKeyWords addObject:key];
+                [arrayToReturn addObject:@{@"speech": withSpeech, @"keyword": key}];
                 // Remove it from dictionary to avoid double counts
                 [arrayFromCount removeObject:key];
             }
@@ -129,10 +230,10 @@ typedef enum : NSUInteger {
         // matches the previous word so it is still included
         int previousTotal = 0;
         for(id key in arrayFromCount) {
-            int currentTotal = [[key objectForKey:@"count"] intValue];
-            if (count < 3 || previousTotal == currentTotal) {
-                [arrayOfKeyWords addObject:key];
-                previousTotal = currentTotal;
+            NSNumber *currentTotal = [NSNumber numberWithInt:[[key objectForKey:@"count"] intValue]];
+            if (count < 3 || previousTotal == [currentTotal intValue]) {
+                previousTotal = [currentTotal intValue];
+                [arrayToReturn addObject:@{@"speech": withSpeech, @"keyword": key}];
                 count++;
             } else {
                 break;
@@ -140,10 +241,8 @@ typedef enum : NSUInteger {
         }
         break;
     }
-}
-
-- (NSArray *)returnKeywords {
-    return arrayOfKeyWords;
+    
+    return arrayToReturn;
 }
 
 @end

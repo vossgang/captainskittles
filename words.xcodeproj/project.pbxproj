@@ -43,6 +43,7 @@
 		C9174A581935108D001E7249 /* card.png in Resources */ = {isa = PBXBuildFile; fileRef = C9174A571935108D001E7249 /* card.png */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
 		C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6F41933CE7900F1BB8B /* SpeechCell.m */; };
+		C9E1A0081936900C0064C397 /* CoreDataInteraction.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1A0071936900C0064C397 /* CoreDataInteraction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,8 @@
 		C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
 		C99BE6F31933CE7900F1BB8B /* SpeechCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechCell.h; sourceTree = "<group>"; };
 		C99BE6F41933CE7900F1BB8B /* SpeechCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechCell.m; sourceTree = "<group>"; };
+		C9E1A0061936900C0064C397 /* CoreDataInteraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataInteraction.h; sourceTree = "<group>"; };
+		C9E1A0071936900C0064C397 /* CoreDataInteraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataInteraction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +273,8 @@
 			children = (
 				C9174A571935108D001E7249 /* card.png */,
 				1B451678192FDDF400B79C33 /* Speech.h */,
+				C9E1A0061936900C0064C397 /* CoreDataInteraction.h */,
+				C9E1A0071936900C0064C397 /* CoreDataInteraction.m */,
 				1B451679192FDDF400B79C33 /* Speech.m */,
 				1B45167C192FDE6700B79C33 /* Card.h */,
 				1B45167D192FDE6700B79C33 /* Card.m */,
@@ -455,6 +460,7 @@
 				1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */,
 				1B1C29381936868800104415 /* TimeLine.m in Sources */,
 				1B45167A192FDDF400B79C33 /* Speech.m in Sources */,
+				C9E1A0081936900C0064C397 /* CoreDataInteraction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

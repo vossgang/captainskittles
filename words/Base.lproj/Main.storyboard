@@ -212,6 +212,13 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="nothing  the textFields are under me and will be visable at run time" translatesAutoresizingMaskIntoConstraints="NO" id="6Gh-WK-WPY">
+                                        <rect key="frame" x="20" y="55" width="380" height="161"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -272,6 +279,7 @@
                         <outlet property="cardTitle" destination="eX6-U7-R6c" id="4PD-O8-adG"/>
                         <outlet property="pointFive" destination="Vyw-xz-EMy" id="92S-09-ou4"/>
                         <outlet property="pointFour" destination="XVO-6n-07z" id="ulr-It-3dy"/>
+                        <outlet property="textView" destination="6Gh-WK-WPY" id="WcP-In-cTz"/>
                         <outlet property="timeLabel" destination="iFQ-tD-hNo" id="AZl-wO-gq0"/>
                         <outlet property="timeStepper" destination="JnI-n4-Gbo" id="BXI-90-i0y"/>
                     </connections>

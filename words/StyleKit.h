@@ -17,6 +17,6 @@
 + (UIColor*)color;
 
 // Drawing Methods
-+ (void)drawTimeBlockWithFrame: (CGRect)frame;
++ (void)drawTimeBlockWithFrame: (CGRect)frame andColor:(UIColor *)color;
 
 @end

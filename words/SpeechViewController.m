@@ -12,8 +12,11 @@
 #import "TimeLine.h"
 #import "CardCell.h"
 #import "Constants.h"
+#import "PresentationCardView.h"
 
 @interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate>
+
+@property (strong, nonatomic) IBOutlet UIView *cardEditor;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
 
@@ -31,12 +34,14 @@
 @property (nonatomic) CGRect textFieldFrame;
 @property (nonatomic) CGRect textViewFrame;
 
-
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cardNumberLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *timeStepper;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+
+//UI element properties
+@property (strong, nonatomic) PresentationCardView *presentationCard;
 
 @property (nonatomic, readwrite) BOOL   speechIsRunning;
 
@@ -65,7 +70,15 @@
     
     _cardCollectionView.dataSource          = self;
     _cardCollectionView.delegate            = self;
-    _cardCollectionView.backgroundColor     = [UIColor whiteColor];
+    _cardCollectionView.backgroundColor     = [UIColor clearColor];
+    
+    
+    //setup card editor
+    _cardEditor.backgroundColor = [UIColor clearColor];
+    
+    //presentation card view
+    _presentationCard = [[PresentationCardView alloc] initWithFrame:CGRectMake(128, 55, 420, 240)];
+    [self.view insertSubview:_presentationCard belowSubview:_cardEditor];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     
@@ -201,6 +214,8 @@
     
     Card *card = _currentSpeech.cards[indexPath.row];
     
+    cell.backgroundColor = [UIColor clearColor];
+    
     cell.titleLabel.text    = card.title;
     int minutes = card.runTime / 60;
     int seconds = (int)card.runTime % 60;
@@ -217,7 +232,7 @@
         }
     }
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
-    cell.backgroundColor = [UIColor orangeColor];
+
     
     return cell;
 }

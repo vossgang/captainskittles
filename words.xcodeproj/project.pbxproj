@@ -15,6 +15,10 @@
 		146A8BF9193513D000F4AD99 /* DSCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BF8193513D000F4AD99 /* DSCard.m */; };
 		1B1C292819364BC200104415 /* CardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292719364BC200104415 /* CardCell.m */; };
 		1B1C292E19364E9500104415 /* Colorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292D19364E9500104415 /* Colorizer.m */; };
+		1B1C293119366F9F00104415 /* CardStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292F19366F9F00104415 /* CardStyleKit.m */; };
+		1B1C29371936868800104415 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C29341936868800104415 /* TimeBlock.m */; };
+		1B1C29381936868800104415 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C29361936868800104415 /* TimeLine.m */; };
+		1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C293B1936879F00104415 /* PresentationCardView.m */; };
 		1B451644192FDDDA00B79C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451643192FDDDA00B79C33 /* Foundation.framework */; };
 		1B451646192FDDDA00B79C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451645192FDDDA00B79C33 /* CoreGraphics.framework */; };
 		1B451648192FDDDA00B79C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451647192FDDDA00B79C33 /* UIKit.framework */; };
@@ -35,8 +39,6 @@
 		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
 		1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE2866219358B8A007DB1C2 /* StyleKit.m */; };
 		1BE286681936310A007DB1C2 /* Cursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE286671936310A007DB1C2 /* Cursor.m */; };
-		C9174A541934FE74001E7249 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A511934FE74001E7249 /* TimeLine.m */; };
-		C9174A551934FE74001E7249 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A521934FE74001E7249 /* TimeBlock.m */; };
 		C9174A581935108D001E7249 /* card.png in Resources */ = {isa = PBXBuildFile; fileRef = C9174A571935108D001E7249 /* card.png */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
 		C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6F41933CE7900F1BB8B /* SpeechCell.m */; };
@@ -68,6 +70,14 @@
 		1B1C292719364BC200104415 /* CardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardCell.m; sourceTree = "<group>"; };
 		1B1C292C19364E9500104415 /* Colorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorizer.h; sourceTree = "<group>"; };
 		1B1C292D19364E9500104415 /* Colorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorizer.m; sourceTree = "<group>"; };
+		1B1C292F19366F9F00104415 /* CardStyleKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardStyleKit.m; sourceTree = "<group>"; };
+		1B1C293019366F9F00104415 /* CardStyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardStyleKit.h; sourceTree = "<group>"; };
+		1B1C29331936868800104415 /* TimeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeBlock.h; sourceTree = "<group>"; };
+		1B1C29341936868800104415 /* TimeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeBlock.m; sourceTree = "<group>"; };
+		1B1C29351936868800104415 /* TimeLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeLine.h; sourceTree = "<group>"; };
+		1B1C29361936868800104415 /* TimeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLine.m; sourceTree = "<group>"; };
+		1B1C293A1936879F00104415 /* PresentationCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationCardView.h; sourceTree = "<group>"; };
+		1B1C293B1936879F00104415 /* PresentationCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentationCardView.m; sourceTree = "<group>"; };
 		1B451640192FDDDA00B79C33 /* words.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = words.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B451643192FDDDA00B79C33 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1B451645192FDDDA00B79C33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -99,11 +109,7 @@
 		1BE2866319358B8A007DB1C2 /* StyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleKit.h; sourceTree = "<group>"; };
 		1BE286661936310A007DB1C2 /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
 		1BE286671936310A007DB1C2 /* Cursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cursor.m; sourceTree = "<group>"; };
-		C9174A501934FE74001E7249 /* TimeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeBlock.h; sourceTree = "<group>"; };
-		C9174A511934FE74001E7249 /* TimeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLine.m; sourceTree = "<group>"; };
-		C9174A521934FE74001E7249 /* TimeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeBlock.m; sourceTree = "<group>"; };
-		C9174A531934FE74001E7249 /* TimeLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeLine.h; sourceTree = "<group>"; };
-		C9174A561934FE97001E7249 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C9174A561934FE97001E7249 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = /Users/christophercohen/Desktop/captainskittles/words/Constants.h; sourceTree = "<absolute>"; };
 		C9174A571935108D001E7249 /* card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = card.png; sourceTree = "<group>"; };
 		C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechViewController.h; sourceTree = "<group>"; };
 		C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
@@ -150,15 +156,34 @@
 				146A8BE21934675100F4AD99 /* SearchController.h */,
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
-				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
-				C9174A511934FE74001E7249 /* TimeLine.m */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
-				C9174A511934FE74001E7249 /* TimeLine.m */,
-				C9174A531934FE74001E7249 /* TimeLine.h */,
 				C9174A561934FE97001E7249 /* Constants.h */,
+				1BE28665193630F7007DB1C2 /* TimeLine */,
 			);
 			name = "Data Models";
+			sourceTree = "<group>";
+		};
+		1B1C293219366FA800104415 /* Cards StyleKit */ = {
+			isa = PBXGroup;
+			children = (
+				1B1C293019366F9F00104415 /* CardStyleKit.h */,
+				1B1C292F19366F9F00104415 /* CardStyleKit.m */,
+			);
+			name = "Cards StyleKit";
+			sourceTree = "<group>";
+		};
+		1B1C29391936874F00104415 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				1B1C292619364BC200104415 /* CardCell.h */,
+				1B1C292719364BC200104415 /* CardCell.m */,
+				1B45167F192FDE7D00B79C33 /* CardView.h */,
+				1B451680192FDE7D00B79C33 /* CardView.m */,
+				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
+				C99BE6F41933CE7900F1BB8B /* SpeechCell.m */,
+				1B1C293A1936879F00104415 /* PresentationCardView.h */,
+				1B1C293B1936879F00104415 /* PresentationCardView.m */,
+			);
+			name = Subclasses;
 			sourceTree = "<group>";
 		};
 		1B451637192FDDDA00B79C33 = {
@@ -252,13 +277,9 @@
 		1B451682192FDE8500B79C33 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1B1C293219366FA800104415 /* Cards StyleKit */,
 				1B451655192FDDDA00B79C33 /* Main.storyboard */,
-				1B1C292619364BC200104415 /* CardCell.h */,
-				1B1C292719364BC200104415 /* CardCell.m */,
-				1B45167F192FDE7D00B79C33 /* CardView.h */,
-				1B451680192FDE7D00B79C33 /* CardView.m */,
-				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
-				C99BE6F41933CE7900F1BB8B /* SpeechCell.m */,
+				1B1C29391936874F00104415 /* Subclasses */,
 				1BE28661193530EB007DB1C2 /* ViewControllers */,
 			);
 			name = View;
@@ -267,8 +288,6 @@
 		1B4516861930004200B79C33 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				1BE28665193630F7007DB1C2 /* TimeLine */,
-				C9174A561934FE97001E7249 /* Constants.h */,
 				1B4516831930003C00B79C33 /* SpeechDeliveryController.h */,
 				1B4516841930003C00B79C33 /* SpeechDeliveryController.m */,
 			);
@@ -289,8 +308,10 @@
 		1BE28665193630F7007DB1C2 /* TimeLine */ = {
 			isa = PBXGroup;
 			children = (
-				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A531934FE74001E7249 /* TimeLine.h */,
+				1B1C29331936868800104415 /* TimeBlock.h */,
+				1B1C29341936868800104415 /* TimeBlock.m */,
+				1B1C29351936868800104415 /* TimeLine.h */,
+				1B1C29361936868800104415 /* TimeLine.m */,
 				1BE286661936310A007DB1C2 /* Cursor.h */,
 				1BE286671936310A007DB1C2 /* Cursor.m */,
 				1B1C292C19364E9500104415 /* Colorizer.h */,
@@ -400,12 +421,14 @@
 				1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */,
 				C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */,
 				1B1C292E19364E9500104415 /* Colorizer.m in Sources */,
+				1B1C293119366F9F00104415 /* CardStyleKit.m in Sources */,
 				1B451681192FDE7D00B79C33 /* CardView.m in Sources */,
 				1B45167E192FDE6700B79C33 /* Card.m in Sources */,
 				C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */,
 				146A8BF9193513D000F4AD99 /* DSCard.m in Sources */,
 				1B45165A192FDDDA00B79C33 /* ViewController.m in Sources */,
 				146A8BE11934654900F4AD99 /* DataController.m in Sources */,
+				1B1C29371936868800104415 /* TimeBlock.m in Sources */,
 				1B451654192FDDDA00B79C33 /* AppDelegate.m in Sources */,
 				1B451650192FDDDA00B79C33 /* main.m in Sources */,
 				146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */,
@@ -413,10 +436,10 @@
 				1BE286681936310A007DB1C2 /* Cursor.m in Sources */,
 				146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */,
 				1B1C292819364BC200104415 /* CardCell.m in Sources */,
-				C9174A551934FE74001E7249 /* TimeBlock.m in Sources */,
-				C9174A541934FE74001E7249 /* TimeLine.m in Sources */,
 				146A8BF31934F65100F4AD99 /* DSPoint.m in Sources */,
 				1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */,
+				1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */,
+				1B1C29381936868800104415 /* TimeLine.m in Sources */,
 				1B45167A192FDDF400B79C33 /* Speech.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

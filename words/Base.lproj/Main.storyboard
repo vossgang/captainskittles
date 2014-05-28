@@ -272,6 +272,7 @@
                         <outlet property="CardTitle" destination="eX6-U7-R6c" id="GYu-3g-Arp"/>
                         <outlet property="backButton" destination="0eQ-dh-eHS" id="hbk-T5-cLE"/>
                         <outlet property="cardCollectionView" destination="e9u-KI-lTO" id="diV-Oh-CH5"/>
+                        <outlet property="cardEditor" destination="kfg-le-si1" id="0PA-hj-EU4"/>
                         <outlet property="cardNumberLabel" destination="Hsa-jL-hBO" id="Cop-bZ-ZGY"/>
                         <outlet property="cardPointOne" destination="TkF-q3-BCy" id="2mP-zf-RSm"/>
                         <outlet property="cardPointThree" destination="pzO-dq-zkA" id="i8G-WK-KKR"/>

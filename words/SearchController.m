@@ -87,24 +87,55 @@ typedef enum : NSUInteger {
 }
 
 - (NSArray *)searchSpeechTitle:(NSString *)searchTerm {
-    NSMutableArray *resultsOfSearch = [NSMutableArray new];
-    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
-        
+    // This method will create an array based off of search terms, and then replace the search term with an array that it uses to store all
+    // speech objects that match the result. Once the list is complete, it will then merge the lists and sort based off of frequency of occurence
+    NSMutableArray *arrayToSearch = [[NSMutableArray alloc] initWithObjects:@"Have",@"words",@"Have words",@"Have lots of words",@"Nothing",@"Test", nil];
+    // This sequence takes in the search terms provided by the user, splits them out into individual strings, and then stores the results in
+    // a mutable array for processing. Once a result is derived, it will pop the string out and replace it with an array that stores the speeches
+    // that contain the term(s)
+    NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
+    NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
+    
+    NSMutableArray *arraySearchObjects = [NSMutableArray new];
+    
+    for (NSString *search in arraySearchTerms) {
+        // Create the new array for storing results
+        NSMutableArray *resultArray = [NSMutableArray new];
+        [arraySearchObjects addObject:resultArray];
+        // Iterate through all objects (speeches) to search
+        for (NSString *stringSpeechTitle in arrayToSearch) {
+            // Check to see if there is an existing array on the search terms
+            NSRange rangeTitleSearch = [stringSpeechTitle rangeOfString:search options:NSCaseInsensitiveSearch];
+            
+            if(rangeTitleSearch.location != NSNotFound)
+            {
+                [resultArray addObject:stringSpeechTitle];
+            }
+        }
+    }
+    NSMutableArray *arrayForCounter = [NSMutableArray new];
+    
+    for (NSMutableArray *array in arraySearchObjects) {
+        [arrayForCounter addObjectsFromArray:array];
     }
     
-//    NSString *visitorFullnameLastFirst =
-//    [NSString stringWithFormat:@"%@ %@",vis.lastName, vis.firstName];
-//    NSString *visitorFullnameFirstLast =
-//    [NSString stringWithFormat:@"%@ %@",vis.firstName, vis.lastName];
-//    NSRange nameRangeLastFirst = [visitorFullnameLastFirst rangeOfString:text options:NSCaseInsensitiveSearch];
-//    NSRange nameRangeFirstLast = [visitorFullnameFirstLast rangeOfString:text options:NSCaseInsensitiveSearch];
-//    NSRange descriptionRange = [vis.hostName rangeOfString:text options:NSCaseInsensitiveSearch];
-//    if(nameRangeLastFirst.location != NSNotFound ||
-//       nameRangeFirstLast.location != NSNotFound ||
-//       descriptionRange.location != NSNotFound)
-//    {
-//        [filteredTableData addObject:vis];
-//    }
+    NSCountedSet *countedSet = [[NSCountedSet alloc] initWithArray:arrayForCounter];
+    
+    NSMutableArray *final = [NSMutableArray array];
+    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [final addObject:@{@"object": obj,
+                           @"count": @([countedSet countForObject:obj])}];
+    }];
+    
+    final = [[final sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
+    
+    
+    // Pull out the individual values
+    for(id key in final) {
+        int total = [[key objectForKey:@"count"] intValue];
+        NSString *speechTitle = [key objectForKey:@"object"];
+        
+    }
   
     
     return nil;

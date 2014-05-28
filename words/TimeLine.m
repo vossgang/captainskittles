@@ -42,8 +42,6 @@
 
 +(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame
 {
-    NSLog(@"%d", (int)speech.cards.count);
-
     TimeLine *timeLine              = [TimeLine new];
     
     timeLine.timeBlockViews         = [NSMutableArray new];

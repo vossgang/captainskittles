@@ -67,21 +67,20 @@
     _pointFive.delegate                     = self;
     _cardTitle.delegate                     = self;
     _textView.delegate                      = self;
-    [_textView setHidden:YES];
-    
     _cardCollectionView.dataSource          = self;
     _cardCollectionView.delegate            = self;
     _cardCollectionView.backgroundColor     = [UIColor whiteColor];
+    NSIndexPath *indexPath                  = [NSIndexPath indexPathForRow:0 inSection:0];
+    _textViewFrame                          = _textView.frame;
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    
-    _textViewFrame = _textView.frame;
-    
+    [_textView setHidden:YES];
+
     [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
     
     [self instantiateNewTimeLine];
     
 }
+
 - (IBAction)incramentTime:(id)sender
 {
     UIStepper *step = sender;

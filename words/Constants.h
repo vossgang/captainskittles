@@ -20,4 +20,10 @@ typedef enum : NSUInteger {
     conclusionCard,
 } CardType;
 
+typedef enum : NSUInteger {
+    presented,
+    presenting,
+    pending,
+} BlockState;
+
 @end

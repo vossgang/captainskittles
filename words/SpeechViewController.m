@@ -149,7 +149,6 @@
     } else {
         _timeLine = [TimeLine newTimeLineFromSpeech:_currentSpeech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
     }
-
 }
 
 
@@ -183,7 +182,8 @@
     [_cardCollectionView reloadData];
     
     //refactor the timeline for the new cards
-    [self animateTimeLineRefactor];
+//    [self animateTimeLineRefactor];
+    [_timeLine advanceToNextBlock];
 }
 
 - (IBAction)backToMain:(id)sender
@@ -204,9 +204,11 @@
     if (_speechIsRunning) {
         [_speechDeliverController stop];
         _speechIsRunning = NO;
+//        [_timeLine stopTimer];
     } else {
         [_speechDeliverController start];
         _speechIsRunning = YES;
+        [_timeLine startTimer];
     }
 }
 

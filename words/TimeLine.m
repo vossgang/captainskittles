@@ -11,16 +11,21 @@
 #import "Card.h"
 #import "TimeBlock.h"
 #import "Constants.h"
+#import "Cursor.h"
+
+#define CURSOR_SPEED .25
 
 @interface TimeLine()
 
 @property (nonatomic, strong) NSMutableArray *timeBlockViews;
-@property (nonatomic, strong) UIView *cursor;
-@property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic, weak) TimeBlock *currentBlock;
+@property (nonatomic, strong) Cursor *cursor;
+@property (nonatomic, strong) NSTimer *iterationTimer, *refreshTimer;
 @property (nonatomic) CGFloat pixelsPerSecond;
 @property (nonatomic) CGFloat speechTimeRemaining, speechRunTime;
-@property (nonatomic) NSInteger timeBlockIndex;
+
+//Block Management
+@property (nonatomic) NSInteger indexOfCurrentBlock;
+@property (nonatomic, strong) NSMutableArray *allBlocks;
 
 @end
 
@@ -35,6 +40,8 @@
     timeLine.speechTimeRemaining    = speech.runTime;
     timeLine.speechRunTime          = speech.runTime;
     timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
+    timeLine.allBlocks              = [NSMutableArray new];
+    timeLine.indexOfCurrentBlock    = 0;
 
     //setup timeline view in proportion with reference view
     timeLine.view = [[UIView alloc] initWithFrame:frame];
@@ -49,181 +56,200 @@
     return timeLine;
 }
 
--(void)setupTimeBlocksForSpeech:(Speech *)speech {
-    
-    NSMutableArray *tempArrayOfBlocks = [NSMutableArray new];
+#pragma mark - initial setup methods
 
-    for (Card *card in speech.cards) {
-        TimeBlock *newBlock = [TimeBlock new];
-        newBlock.percentageOfTimeLine = card.runTime / _speechRunTime;
-        [tempArrayOfBlocks addObject:newBlock];
-    }
-    
+-(void)setupTimeBlocksForSpeech:(Speech *)speech {
     
     CGFloat positionInTimeline  = 0; //x coordinate in timeline
     CGFloat width               = 0;
-    for (TimeBlock *block in tempArrayOfBlocks) {
-        width = (block.percentageOfTimeLine * self.view.frame.size.width);
-        block.frame = CGRectMake(positionInTimeline, 10, width, self.view.frame.size.height - 20);
-        [self.view addSubview:block];
-        positionInTimeline += width;
-    }
     
+    for (Card *card in speech.cards) {
+        if (!card.userEdited) {
+            
+            //allocate and initialize new block
+            TimeBlock *newBlock = [TimeBlock newTimeBlockFromCard:card andSpeechRunTime:_speechRunTime];
+            
+            //calculate the new block's width
+            width = (newBlock.percentageOfTimeLine * self.view.frame.size.width);
+            
+            //set the new blocks frame
+            newBlock.frame = CGRectMake(positionInTimeline, 0, width, self.view.frame.size.height);
+            
+            //add block to subview & mutableArray
+            [self.view addSubview:newBlock];
+            [_allBlocks addObject:newBlock];
+            
+            //advance x coordinate in timeline
+            positionInTimeline += width;
+        }
+    }
     
 }
 
 -(void)setupCursor {
     //setup timeLine cursor
-    self.cursor = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, TIMELINE_VIEW_HEIGHT)];
-    self.cursor.backgroundColor = [UIColor grayColor];
-    self.cursor.layer.cornerRadius = 2.5;
-    self.cursor.layer.masksToBounds = YES;
+    self.cursor = [[Cursor alloc] initWithFrame:CGRectMake(-8, 0, 16, self.view.frame.size.height)];
+
     [self.view addSubview:self.cursor];
     
     
 }
 
+#pragma mark - Cursor
+
+- (void)redrawTimeLine {
+    //redraw timeline
+    CGFloat positionInTimeline  = 0; //x coordinate in timeline
+    CGFloat width               = 0;
+    
+    for (TimeBlock *block in _allBlocks) {
+        
+        //calulate the new block's percentage of timeline
+        block.percentageOfTimeLine = block.duration / _speechRunTime;
+        
+        //calculate the new block's width
+        width = (block.percentageOfTimeLine * self.view.frame.size.width);
+        
+        [block setNeedsDisplay];
+        block.frame = CGRectMake(positionInTimeline, 0, width, self.view.frame.size.height);
+        [block setNeedsDisplay];
+   
+        //advance x coordinate in timeline
+        positionInTimeline += width;
+        
+    }
+}
+
 -(void)advanceCursor {
     
-    CGFloat newX = self.cursor.frame.origin.x + _pixelsPerSecond;
-    [UIView animateWithDuration:.25 animations:^{
-        self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
-    }];
-
-    //if the api has not told the timeline to advance to a new index...
-    if (++_currentBlock.timeSpent > _currentBlock.timeAllowance) {
+    TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
+    if ((currentBlock.frame.origin.x + currentBlock.frame.size.width) < (_cursor.frame.origin.x + (_pixelsPerSecond * 4))) {
         
-        //visually expand the currentBlock
-        _currentBlock.frame = CGRectMake(_currentBlock.frame.origin.x, _currentBlock.frame.origin.y, _currentBlock.frame.size.width + _pixelsPerSecond, _currentBlock.frame.size.height);
+        //add one second to the current blocks duration
+        currentBlock.duration = currentBlock.duration + 1.0;
         
-        //visually compress the remaining blocks
-#warning - incomplete method
-
+        for (TimeBlock *block in _allBlocks) {
+            NSLog(@"%f", block.duration);
+            
+        }
+//        //get pending block count
+//        int pendingBlockCount = 0;
+//        for (TimeBlock *block in _allBlocks)
+//            if (block.state == pending) pendingBlockCount++;
+    
+        
+        //new block durration = oldblock duration minus (oldblock duration / totaltime remainin)
+        
+        //subtract the 1 second overage from the time duration of the remaining blocks
+        for (TimeBlock *block in _allBlocks) {
+            if (block.state == pending) {
+                NSLog(@"%f", block.duration - (block.duration / _speechTimeRemaining));
+                block.duration = block.duration - (block.duration / _speechTimeRemaining);
+            }
+        }
         
     }
     
-    if(--_speechTimeRemaining == 3) [_timer invalidate];
+    CGFloat newX = self.cursor.frame.origin.x + _pixelsPerSecond;
     
+    [UIView animateWithDuration:.25 animations:^{
+        _cursor.alpha += .1;
+        
+        self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
+        [self redrawTimeLine];
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+    --_speechTimeRemaining;
+    if(_speechTimeRemaining == 3) [_iterationTimer invalidate];
+    
+}
+
+-(void)refreshAllViews {
+    for (UIView *view in self.view.subviews) {
+        [view setNeedsDisplay];
+    }
 }
 
 #pragma mark - TimeLine API
 
-
 -(void)startTimer {
     
-    _timeBlockIndex = 0;
-    _currentBlock   = [[self.view subviews] firstObject];
+    TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
+    currentBlock.state = presenting;
     
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1
+    _iterationTimer = [NSTimer scheduledTimerWithTimeInterval:1
                                               target:self
                                             selector:@selector(advanceCursor)
                                             userInfo:nil
                                              repeats:YES];
     
+    _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1/15
+                                                     target:self
+                                                   selector:@selector(refreshAllViews)
+                                                   userInfo:nil
+                                                    repeats:YES];
 }
+
+
+-(void)advanceToNextBlock {
+    if (_allBlocks[_indexOfCurrentBlock+1]) {
+        TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
+        currentBlock.state      = presented;
+        
+        //if the current block has time remaining in it's duration, deduct it, and add it to the remaining blocks
+        if (currentBlock) {
+            
+        }
+        
+        _indexOfCurrentBlock++;
+        currentBlock            = _allBlocks[_indexOfCurrentBlock];
+        currentBlock.state      = presenting;
+        
+    }
+}
+
 
 -(void)advanceToBlockAtIndex:(NSInteger)index {
     
-    _currentBlock.isComplete = YES;
+    if (!_allBlocks[index]) return;
     
-    if ([[[self.view subviews] objectAtIndex:index] isKindOfClass:[TimeBlock class]]) {
+    //the previous block is no longer presenting
+    TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
+    currentBlock.state      = presented;
+    
+    TimeBlock *nextBlock    = _allBlocks[index];
+    nextBlock.state         = presenting;
         
-        //make the time block at the selected index the 'currentBlock'
-        _currentBlock = [[self.view subviews] objectAtIndex:index];
-        
-        //animate cursor transition to new block
-        CGFloat newX = _currentBlock.frame.origin.x;
-        [UIView animateWithDuration:1 animations:^{
-            self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
-        } completion:^(BOOL finished) {
+    //animate the cursor's transition to the new block
+    CGFloat newX = currentBlock.frame.origin.x;
+    [UIView animateWithDuration:1 animations:^{
+        self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
+    } completion:^(BOOL finished) {
             
-            //recalculate time for all blocks
-            [self recalculateTimeForAllBlocks];
+        //recalculate time for all blocks
+        [self recalculateTimePercentagesForAllBlocks];
             
-            //redraw timeline
-            [self redrawTimeline];
+        //redraw timeline
+        [self redrawTimeLine];
             
-            //animate cursur back to the new block
-            [UIView animateWithDuration:1 animations:^{
-                self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
-            }];
-            
-        }];
-        
-    }
-}
-
--(void)recalculateTimeForAllBlocks {
-    CGFloat timeSpent           = 0;
-    CGFloat targetTimeRemaing   = 0;
-    for (TimeBlock *block in self.view.subviews) {
-        if (block.isComplete) {
-            timeSpent += block.timeSpent;
-        } else {
-            targetTimeRemaing += block.timeAllowance;
-            
-        }
-    }
-    
-    CGFloat timeRemaining   = _speechRunTime - timeSpent;
-    CGFloat timeDifference  =  timeRemaining - targetTimeRemaing;
-    
-    CGFloat actualTimeRemainig      = targetTimeRemaing + timeDifference;
-    CGFloat blockPercentageOfTime;
-    
-    for (TimeBlock *block in self.view.subviews) {
-        if (block.isComplete == NO) {
-            blockPercentageOfTime   = block.timeAllowance / targetTimeRemaing;
-            block.timeAllowance     = blockPercentageOfTime * actualTimeRemainig;
-        }
-    }
-    
+        //animate the cursor back to it's tracking position at start of _current block if needed
+    }];
 }
 
 
 
+-(void)recalculateTimePercentagesForAllBlocks {
 
-
-
-
--(void)redrawTimeline {
-    CGFloat movingX = 0;
-    CGFloat width   = 0;
-    
-    for (TimeBlock *block in self.view.subviews) {
-        
-        //create new timeblock
-        
-        TimeBlock *newBlock = [[TimeBlock alloc] initWithFrame:CGRectMake(movingX, 10, width, TIMELINE_VIEW_HEIGHT - 20)];
-        
-        //time tracking properties
-//        newBlock.timeAllowance  = card.runTime;
-        newBlock.timeSpent      = 0;
-        
-        if ([[self.view.subviews lastObject] isKindOfClass:[TimeBlock class]]) {
-            TimeBlock *preceedingBlock  = [self.view.subviews lastObject];
-            preceedingBlock.nextBlock   = newBlock;
-        }
-        
-        [self.view addSubview:newBlock];
-        movingX += width;
-        
-        
-    }
 }
-
-
-//
-
-
-
 
 #pragma mark - helper methods
 
 -(NSInteger)numberOfincompleteBlocks {
     NSInteger incompleteBlocks = 0;
     for (TimeBlock *block in self.view.subviews) {
-        if (!block.isComplete) {
+        if (!block.state) {
             incompleteBlocks++;
         }
     }
@@ -231,26 +257,9 @@
     return incompleteBlocks;
 }
 
--(TimeBlock *)blockAtCursorPosition {
-    for (TimeBlock *block in self.view.subviews) {
-        if (_cursor.frame.origin.x >= block.frame.origin.x) {
-            if (block.nextBlock) {
-                if(_cursor.frame.origin.x < block.nextBlock.frame.origin.x) {
-                    /* this line will execute if,
-                     1.) the cursor is past the blocks startpoint,
-                     2.) the block has a pointer to another block
-                     3.) the cursor is not past the next blocks startpoint */
-                    return block;
-                }
-            } else {
-                //the cursor is past the block's startpoint, and there are no more blocks in the timeline
-                return block;
-            }
-        }
-    }
-    return [TimeBlock new];
-}
 
+
+/*
 -(CGFloat)timeRemainingForBlockAtIndex:(NSInteger)index {
     if ([[[self.view subviews] objectAtIndex:index] isKindOfClass:[TimeBlock class]]) {
         TimeBlock *timeBlock = [[self.view subviews] objectAtIndex:index];
@@ -259,6 +268,7 @@
     
     return 0;
 }
+ */
 
 
 @end

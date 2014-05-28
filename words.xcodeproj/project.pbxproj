@@ -31,6 +31,8 @@
 		1B45167E192FDE6700B79C33 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B45167D192FDE6700B79C33 /* Card.m */; };
 		1B451681192FDE7D00B79C33 /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B451680192FDE7D00B79C33 /* CardView.m */; };
 		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
+		1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE2866219358B8A007DB1C2 /* StyleKit.m */; };
+		1BE286681936310A007DB1C2 /* Cursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE286671936310A007DB1C2 /* Cursor.m */; };
 		C9174A541934FE74001E7249 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A511934FE74001E7249 /* TimeLine.m */; };
 		C9174A551934FE74001E7249 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = C9174A521934FE74001E7249 /* TimeBlock.m */; };
 		C9174A581935108D001E7249 /* card.png in Resources */ = {isa = PBXBuildFile; fileRef = C9174A571935108D001E7249 /* card.png */; };
@@ -87,6 +89,10 @@
 		1B451680192FDE7D00B79C33 /* CardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardView.m; sourceTree = "<group>"; };
 		1B4516831930003C00B79C33 /* SpeechDeliveryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechDeliveryController.h; sourceTree = "<group>"; };
 		1B4516841930003C00B79C33 /* SpeechDeliveryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechDeliveryController.m; sourceTree = "<group>"; };
+		1BE2866219358B8A007DB1C2 /* StyleKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyleKit.m; sourceTree = "<group>"; };
+		1BE2866319358B8A007DB1C2 /* StyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleKit.h; sourceTree = "<group>"; };
+		1BE286661936310A007DB1C2 /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
+		1BE286671936310A007DB1C2 /* Cursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cursor.m; sourceTree = "<group>"; };
 		C9174A501934FE74001E7249 /* TimeBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeBlock.h; sourceTree = "<group>"; };
 		C9174A511934FE74001E7249 /* TimeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLine.m; sourceTree = "<group>"; };
 		C9174A521934FE74001E7249 /* TimeBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeBlock.m; sourceTree = "<group>"; };
@@ -190,6 +196,8 @@
 		1B45164A192FDDDA00B79C33 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1BE2866319358B8A007DB1C2 /* StyleKit.h */,
+				1BE2866219358B8A007DB1C2 /* StyleKit.m */,
 				1B45164B192FDDDA00B79C33 /* words-Info.plist */,
 				1B45164C192FDDDA00B79C33 /* InfoPlist.strings */,
 				1B45164F192FDDDA00B79C33 /* main.m */,
@@ -231,15 +239,12 @@
 		1B451682192FDE8500B79C33 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1B451655192FDDDA00B79C33 /* Main.storyboard */,
 				1B45167F192FDE7D00B79C33 /* CardView.h */,
 				1B451680192FDE7D00B79C33 /* CardView.m */,
-				1B451658192FDDDA00B79C33 /* ViewController.h */,
-				1B451659192FDDDA00B79C33 /* ViewController.m */,
-				C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */,
-				C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */,
-				1B451655192FDDDA00B79C33 /* Main.storyboard */,
 				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
 				C99BE6F41933CE7900F1BB8B /* SpeechCell.m */,
+				1BE28661193530EB007DB1C2 /* ViewControllers */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -247,15 +252,36 @@
 		1B4516861930004200B79C33 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
-				C9174A531934FE74001E7249 /* TimeLine.h */,
-				C9174A511934FE74001E7249 /* TimeLine.m */,
+				1BE28665193630F7007DB1C2 /* TimeLine */,
 				C9174A561934FE97001E7249 /* Constants.h */,
 				1B4516831930003C00B79C33 /* SpeechDeliveryController.h */,
 				1B4516841930003C00B79C33 /* SpeechDeliveryController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		1BE28661193530EB007DB1C2 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1B451658192FDDDA00B79C33 /* ViewController.h */,
+				1B451659192FDDDA00B79C33 /* ViewController.m */,
+				C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */,
+				C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		1BE28665193630F7007DB1C2 /* TimeLine */ = {
+			isa = PBXGroup;
+			children = (
+				C9174A501934FE74001E7249 /* TimeBlock.h */,
+				C9174A521934FE74001E7249 /* TimeBlock.m */,
+				C9174A531934FE74001E7249 /* TimeLine.h */,
+				C9174A511934FE74001E7249 /* TimeLine.m */,
+				1BE286661936310A007DB1C2 /* Cursor.h */,
+				1BE286671936310A007DB1C2 /* Cursor.m */,
+			);
+			name = TimeLine;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */,
 				C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */,
 				1B451681192FDE7D00B79C33 /* CardView.m in Sources */,
 				1B45167E192FDE6700B79C33 /* Card.m in Sources */,
@@ -367,6 +394,7 @@
 				1B451650192FDDDA00B79C33 /* main.m in Sources */,
 				146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */,
 				146A8BE41934675100F4AD99 /* SearchController.m in Sources */,
+				1BE286681936310A007DB1C2 /* Cursor.m in Sources */,
 				146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */,
 				C9174A551934FE74001E7249 /* TimeBlock.m in Sources */,
 				C9174A541934FE74001E7249 /* TimeLine.m in Sources */,

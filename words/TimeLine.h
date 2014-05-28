@@ -18,6 +18,7 @@
 
 -(void)startTimer;
 -(void)advanceToBlockAtIndex:(NSInteger)index;
--(CGFloat)timeRemainingForBlockAtIndex:(NSInteger)index;
+-(void)advanceToNextBlock;
+//-(CGFloat)timeRemainingForBlockAtIndex:(NSInteger)index;
 
 @end

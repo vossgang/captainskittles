@@ -289,7 +289,7 @@
         [_timeStepper setUserInteractionEnabled:NO];
 
         _speechIsRunning = YES;
-        [_timeLine startTimer];
+        [_timeLine start];
     }
 }
 

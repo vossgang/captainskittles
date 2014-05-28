@@ -32,11 +32,11 @@ static UIColor* _color = nil;
 
 #pragma mark Drawing Methods
 
-+ (void)drawTimeBlockWithFrame: (CGRect)frame;
++ (void)drawTimeBlockWithFrame: (CGRect)frame andColor:(UIColor *)color
 {
     //// Color Declarations
-    UIColor* backgroundColor = [UIColor colorWithRed: 0.344 green: 0.68 blue: 0.034 alpha: 1];
-    UIColor* color3 = [UIColor colorWithRed: 1 green: 1 blue: 1 alpha: 1];
+    UIColor* backgroundColor = color;
+    UIColor* color3 = [UIColor clearColor];
     
     //// Rectangle Drawing
     UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: CGRectMake(CGRectGetMinX(frame) + 1.5, CGRectGetMinY(frame) + 25.5, CGRectGetWidth(frame) - 3.5, 9.5) cornerRadius: 2];

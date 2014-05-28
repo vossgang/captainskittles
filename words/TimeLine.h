@@ -16,7 +16,9 @@
 
 +(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame;
 
--(void)startTimer;
+-(void)start;
+-(void)stop;
+
 -(void)advanceToBlockAtIndex:(NSInteger)index;
 -(void)advanceToNextBlock;
 //-(CGFloat)timeRemainingForBlockAtIndex:(NSInteger)index;

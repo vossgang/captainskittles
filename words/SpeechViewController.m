@@ -86,7 +86,8 @@
     
     [_textView setHidden:YES];
 
-    [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self collectionView:_cardCollectionView didSelectItemAtIndexPath: indexPath];
     
     [self instantiateNewTimeLine];
     

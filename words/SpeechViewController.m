@@ -222,7 +222,6 @@
     } else {
         _timeLine = [TimeLine newTimeLineFromSpeech:_currentSpeech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
     }
-
 }
 
 
@@ -256,7 +255,8 @@
     [_cardCollectionView reloadData];
     
     //refactor the timeline for the new cards
-    [self animateTimeLineRefactor];
+//    [self animateTimeLineRefactor];
+    [_timeLine advanceToNextBlock];
 }
 
 - (IBAction)backToMain:(id)sender
@@ -277,26 +277,7 @@
     if (_speechIsRunning) {
         [_speechDeliverController stop];
         _speechIsRunning = NO;
-        
-        //turn text labels and time incramentor "ON"
-        [_cardTitle setUserInteractionEnabled:YES];
-        [_cardPointOne setUserInteractionEnabled:YES];
-        [_cardPointOne setHidden:NO];
-        
-        [_cardPointTwo setUserInteractionEnabled:YES];
-        [_cardPointTwo setHidden:NO];
-
-        [_cardPointThree setUserInteractionEnabled:YES];
-        [_cardPointThree setHidden:NO];
-
-        [_pointFour setUserInteractionEnabled:YES];
-        [_pointFour setHidden:NO];
-
-        [_pointFive setUserInteractionEnabled:YES];
-        [_pointFive setHidden:NO];
-
-        [_timeStepper setUserInteractionEnabled:YES];
-
+//        [_timeLine stopTimer];
     } else {
         //turn text labels and time incramentor "ON"
         [_cardTitle setUserInteractionEnabled:NO];
@@ -308,11 +289,7 @@
         [_timeStepper setUserInteractionEnabled:NO];
 
         _speechIsRunning = YES;
-        
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
-
-        [_speechDeliverController start];
+        [_timeLine startTimer];
     }
 }
 

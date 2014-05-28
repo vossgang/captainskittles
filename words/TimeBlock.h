@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Card.h"
+#import "Constants.h"
 
 @interface TimeBlock : UIView
 
 @property (nonatomic, weak) TimeBlock *nextBlock;
-@property (nonatomic, readwrite) CGFloat timeRemaining, timeSpent, timeAllowance;
-@property (nonatomic, readwrite) CGFloat percentageOfTimeLine;
-@property (nonatomic, readwrite) BOOL isComplete;
+@property (nonatomic) CGFloat duration, timeRemaining;
+@property (nonatomic) CGFloat percentageOfTimeLine;
+@property (nonatomic) BlockState state;
+
++(TimeBlock *)newTimeBlockFromCard:(Card *)card andSpeechRunTime:(NSTimeInterval)speechRunTime;
 
 @end

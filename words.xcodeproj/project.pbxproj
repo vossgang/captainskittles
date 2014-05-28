@@ -148,8 +148,10 @@
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
+				C9174A521934FE74001E7249 /* TimeBlock.m */,
 				C9174A511934FE74001E7249 /* TimeLine.m */,
 				C9174A521934FE74001E7249 /* TimeBlock.m */,
+				C9174A511934FE74001E7249 /* TimeLine.m */,
 				C9174A531934FE74001E7249 /* TimeLine.h */,
 				C9174A561934FE97001E7249 /* Constants.h */,
 			);
@@ -285,9 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
 				C9174A531934FE74001E7249 /* TimeLine.h */,
-				C9174A511934FE74001E7249 /* TimeLine.m */,
 				1BE286661936310A007DB1C2 /* Cursor.h */,
 				1BE286671936310A007DB1C2 /* Cursor.m */,
 			);

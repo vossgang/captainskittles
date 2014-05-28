@@ -19,6 +19,7 @@
 
 @property (nonatomic, weak) Card *currentCard;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *addCardButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *cardTitle;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointOne;
@@ -85,7 +86,14 @@
     //if the current card has a run time it is edited, else it is not edited
     _currentCard.userEdited = _currentCard.runTime;
     
-    _timeLabel.text = [NSString stringWithFormat:@"%d seconds", (int)time];
+    int minutes = _currentCard.runTime / 60;
+    int seconds = (int)_currentCard.runTime % 60;
+    if (seconds != 0) {
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
+    } else {
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
+    }
+    
     [_cardCollectionView reloadData];
 }
 
@@ -131,6 +139,7 @@
     _currentCard.title     = _cardTitle.text;
     
     textField.frame = _textFieldFrame;
+    [self showActiveTextFields];
     
     [_cardCollectionView reloadData];
     
@@ -193,15 +202,29 @@
     
     Card *card = _currentSpeech.cards[indexPath.row];
     
-    cell.titleLabel.text    = card.title;
-    cell.timeLabel.text     = [NSString stringWithFormat:@"%d sec", (int)card.runTime];
-    
+    int min = card.runTime / 60;
+    int sec = (int)card.runTime % 60;
+    NSString *partialMin = @"";
+    switch (sec) {
+        case 15: partialMin = ONE_FORTH;    break;
+        case 30: partialMin = ONE_HALF;     break;
+        case 45: partialMin = THREE_FORTH;  break;
+        default:
+            break;
+    }
+    if (min) {
+        cell.timeLabel.text       = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
+    } else {
+        cell.timeLabel.text       = [NSString stringWithFormat:@"%@ min", partialMin];
+    }
     int stringCounter = 0;
     for (NSString *string in card.points) {
         if (![string isEqual:@""]) {
             stringCounter++;
         }
     }
+    
+    cell.titleLabel.text = card.title;
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
     cell.backgroundColor = [UIColor orangeColor];
     
@@ -231,10 +254,18 @@
     _pointFive.text         = _currentCard.points[4];
     _textView.text          = @"";
     
+    
+    int minutes = _currentCard.runTime / 60;
+    int seconds = (int)_currentCard.runTime % 60;
+    if (seconds != 0) {
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
+    } else {
+       _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
+    }
+    
     switch (_currentCard.type) {
         case titleCard:
             [_textView setHidden:NO];
-            _textView.text = _currentCard.title;
             break;
         case conclusionCard:
             [_textView setHidden:NO];
@@ -247,6 +278,37 @@
         default: [_textView setHidden:YES]; break;
     }
 
+    if (_currentCard.type == titleCard) {
+        NSString *string = _currentCard.title;
+        string = [NSString stringWithFormat:@"%@\n%d cards", string, (int)_currentSpeech.cards.count];
+        
+        int min = _currentSpeech.runTime / 60;
+        int sec = (int)_currentSpeech.runTime % 60;
+        if (sec) {
+            string = [NSString stringWithFormat:@"%@\n%d minutes and %d seconds", string, min, sec];
+        } else {
+            string = [NSString stringWithFormat:@"%@\n%d minutes", string, min];
+        }
+        _textView.text = string;
+        
+        //hide all textfields
+        [_cardPointOne setHidden:YES];
+        [_cardPointTwo setHidden:YES];
+        [_cardPointThree setHidden:YES];
+        [_pointFour setHidden:YES];
+        [_pointFive setHidden:YES];
+        _textView.backgroundColor = [UIColor clearColor];
+    } else {
+        //unhide all textfields
+        if (!_speechIsRunning) {
+            [_cardPointOne setHidden:NO];
+            [_cardPointTwo setHidden:NO];
+            [_cardPointThree setHidden:NO];
+            [_pointFour setHidden:NO];
+            [_pointFive setHidden:NO];
+            _textView.backgroundColor = [UIColor whiteColor];
+        }
+    }
     
     if (_speechIsRunning) {
         [_textView setHidden:NO];
@@ -255,19 +317,51 @@
         NSString *newPointChar = @"*";
         //put all the points into the text view
         for (NSString *string in _currentCard.points) {
-            NSLog(@"%@", string);
             if (![string isEqualToString:@""]) {
                 editedString = [NSString stringWithFormat:@"\n%@%@", newPointChar, string];
                 _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text, editedString];
             }
         }
     } else {
+        [self showActiveTextFields];
         //do editing stuff
         //show the corresponding views
     }
+}
 
+-(int)numberOfPointsInCurrentCard
+{
+    int activePoints = 0;
+    for (NSString *string in _currentCard.points) {
+        if (![string isEqualToString:@""]) {
+            activePoints++;
+        }
+    }
+    return activePoints;
+}
 
-    
+-(void)showActiveTextFields
+{
+    if (_currentCard.type == bodyCard) {
+        switch ([self numberOfPointsInCurrentCard]) {
+            case 0: [_cardPointTwo setHidden:YES];
+                    [_cardPointThree setHidden:YES];
+                    [_pointFour setHidden:YES];
+                    [_pointFive setHidden:YES];
+                    break;
+            case 1: [_cardPointThree setHidden:YES];
+                    [_pointFour setHidden:YES];
+                    [_pointFive setHidden:YES];
+                    break;
+            case 2: [_pointFour setHidden:YES];
+                    [_pointFive setHidden:YES];
+                    break;
+            case 3: [_pointFive setHidden:YES];
+                    break;
+            default:
+                break;
+        }
+    }
 }
 
 
@@ -288,8 +382,9 @@
 }
 
 
--(void)animateTimeLineRefactor {
-    CGRect originalTimeLineFrame = _timeLine.view.frame;
+-(void)animateTimeLineRefactor
+{
+    CGRect  originalTimeLineFrame = _timeLine.view.frame;
     
     [UIView animateWithDuration:.25 animations:^{
         _timeLine.view.alpha = 0;
@@ -316,10 +411,6 @@
     NSIndexPath *index = [[_cardCollectionView indexPathsForSelectedItems] firstObject];
     [self.currentSpeech.cards insertObject:[Card newBodyCardForSpeech:self.currentSpeech] atIndex:(index.row + 1)];
     [_cardCollectionView reloadData];
-    
-    //refactor the timeline for the new cards
-//    [self animateTimeLineRefactor];
-    [_timeLine advanceToNextBlock];
 }
 
 - (IBAction)backToMain:(id)sender
@@ -327,7 +418,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
-    
 }
 
 - (IBAction)Stop:(id)sender
@@ -388,7 +478,7 @@
         _textView.backgroundColor = [UIColor clearColor];
         
         _speechIsRunning = YES;
-        [_timeLine startTimer];
+        [_timeLine start];
     }
 }
 

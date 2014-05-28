@@ -12,6 +12,7 @@
 #import "TimeBlock.h"
 #import "Constants.h"
 #import "Cursor.h"
+#import "Colorizer.h"
 
 #define CURSOR_SPEED .25
 
@@ -22,6 +23,12 @@
 @property (nonatomic, strong) NSTimer *iterationTimer, *refreshTimer;
 @property (nonatomic) CGFloat pixelsPerSecond;
 @property (nonatomic) CGFloat speechTimeRemaining, speechRunTime;
+@property (nonatomic, strong) NSArray *lifeCycleColors;
+
+//start/stop
+@property (nonatomic, weak) Speech *speech;
+@property (nonatomic, weak) UIView *superView;
+@property (nonatomic) CGRect timeLineFrame;
 
 //Block Management
 @property (nonatomic) NSInteger indexOfCurrentBlock;
@@ -36,12 +43,14 @@
 +(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame {
 
     TimeLine *timeLine              = [TimeLine new];
+    
     timeLine.timeBlockViews         = [NSMutableArray new];
     timeLine.speechTimeRemaining    = speech.runTime;
     timeLine.speechRunTime          = speech.runTime;
     timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
     timeLine.allBlocks              = [NSMutableArray new];
     timeLine.indexOfCurrentBlock    = 0;
+    timeLine.lifeCycleColors        = @[[UIColor greenColor], [UIColor grayColor], [UIColor redColor]];
 
     //setup timeline view in proportion with reference view
     timeLine.view = [[UIView alloc] initWithFrame:frame];
@@ -52,6 +61,11 @@
     [timeLine setupTimeBlocksForSpeech:speech];
 
     [timeLine setupCursor];
+
+    //make the timeline retain a weak pointer to the speech
+    timeLine.speech         = speech;
+    timeLine.superView      = view;
+    timeLine.timeLineFrame  = frame;
     
     return timeLine;
 }
@@ -123,29 +137,21 @@
 -(void)advanceCursor {
     
     TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
+    
+    currentBlock.color = [Colorizer colorFromTimeRemaining:--currentBlock.timeRemaining withTotalTime:currentBlock.duration usingColors:_lifeCycleColors];
+    
+//    currentBlock.color = [Colorizer colorFromTimeRemaining:currentBlock.duration withTotalTime:--currentBlock.timeRemaining usingColors:self.lifeCycleColors];
+    
+    NSLog(@"%f", currentBlock.timeRemaining);
+    
     if ((currentBlock.frame.origin.x + currentBlock.frame.size.width) < (_cursor.frame.origin.x + (_pixelsPerSecond * 4))) {
         
         //add one second to the current blocks duration
         currentBlock.duration = currentBlock.duration + 1.0;
         
-        for (TimeBlock *block in _allBlocks) {
-            NSLog(@"%f", block.duration);
-            
-        }
-//        //get pending block count
-//        int pendingBlockCount = 0;
-//        for (TimeBlock *block in _allBlocks)
-//            if (block.state == pending) pendingBlockCount++;
-    
-        
-        //new block durration = oldblock duration minus (oldblock duration / totaltime remainin)
-        
         //subtract the 1 second overage from the time duration of the remaining blocks
         for (TimeBlock *block in _allBlocks) {
-            if (block.state == pending) {
-                NSLog(@"%f", block.duration - (block.duration / _speechTimeRemaining));
-                block.duration = block.duration - (block.duration / _speechTimeRemaining);
-            }
+            if (block.state == pending) block.duration = block.duration - (block.duration / _speechTimeRemaining);
         }
         
     }
@@ -161,20 +167,13 @@
         
     }];
     
-    --_speechTimeRemaining;
-    if(_speechTimeRemaining == 3) [_iterationTimer invalidate];
+    if(--_speechTimeRemaining == 3) [_iterationTimer invalidate];
     
-}
-
--(void)refreshAllViews {
-    for (UIView *view in self.view.subviews) {
-        [view setNeedsDisplay];
-    }
 }
 
 #pragma mark - TimeLine API
 
--(void)startTimer {
+-(void)start {
     
     TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
     currentBlock.state = presenting;
@@ -192,6 +191,10 @@
                                                     repeats:YES];
 }
 
+-(void)stop {
+    [self setupTimeBlocksForSpeech:_speech];
+    [self setupCursor];
+}
 
 -(void)advanceToNextBlock {
     if (_allBlocks[_indexOfCurrentBlock+1]) {
@@ -210,7 +213,6 @@
     }
 }
 
-
 -(void)advanceToBlockAtIndex:(NSInteger)index {
     
     if (!_allBlocks[index]) return;
@@ -228,9 +230,7 @@
         self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
     } completion:^(BOOL finished) {
             
-        //recalculate time for all blocks
-        [self recalculateTimePercentagesForAllBlocks];
-            
+        
         //redraw timeline
         [self redrawTimeLine];
             
@@ -238,37 +238,13 @@
     }];
 }
 
-
-
--(void)recalculateTimePercentagesForAllBlocks {
-
-}
-
 #pragma mark - helper methods
 
--(NSInteger)numberOfincompleteBlocks {
-    NSInteger incompleteBlocks = 0;
-    for (TimeBlock *block in self.view.subviews) {
-        if (!block.state) {
-            incompleteBlocks++;
-        }
+-(void)refreshAllViews {
+    for (UIView *view in self.view.subviews) {
+        [view setNeedsDisplay];
     }
-    
-    return incompleteBlocks;
 }
-
-
-
-/*
--(CGFloat)timeRemainingForBlockAtIndex:(NSInteger)index {
-    if ([[[self.view subviews] objectAtIndex:index] isKindOfClass:[TimeBlock class]]) {
-        TimeBlock *timeBlock = [[self.view subviews] objectAtIndex:index];
-        return timeBlock.timeRemaining;
-    }
-    
-    return 0;
-}
- */
 
 
 @end

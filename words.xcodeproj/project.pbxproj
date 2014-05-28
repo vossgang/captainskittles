@@ -14,6 +14,7 @@
 		146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BF51934F65100F4AD99 /* DSSpeech.m */; };
 		146A8BF9193513D000F4AD99 /* DSCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BF8193513D000F4AD99 /* DSCard.m */; };
 		1B1C292819364BC200104415 /* CardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292719364BC200104415 /* CardCell.m */; };
+		1B1C292E19364E9500104415 /* Colorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292D19364E9500104415 /* Colorizer.m */; };
 		1B451644192FDDDA00B79C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451643192FDDDA00B79C33 /* Foundation.framework */; };
 		1B451646192FDDDA00B79C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451645192FDDDA00B79C33 /* CoreGraphics.framework */; };
 		1B451648192FDDDA00B79C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451647192FDDDA00B79C33 /* UIKit.framework */; };
@@ -65,6 +66,8 @@
 		146A8BF8193513D000F4AD99 /* DSCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSCard.m; sourceTree = "<group>"; };
 		1B1C292619364BC200104415 /* CardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardCell.h; sourceTree = "<group>"; };
 		1B1C292719364BC200104415 /* CardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardCell.m; sourceTree = "<group>"; };
+		1B1C292C19364E9500104415 /* Colorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorizer.h; sourceTree = "<group>"; };
+		1B1C292D19364E9500104415 /* Colorizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colorizer.m; sourceTree = "<group>"; };
 		1B451640192FDDDA00B79C33 /* words.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = words.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B451643192FDDDA00B79C33 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1B451645192FDDDA00B79C33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -148,8 +151,6 @@
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A511934FE74001E7249 /* TimeLine.m */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
 				C9174A531934FE74001E7249 /* TimeLine.h */,
 				C9174A561934FE97001E7249 /* Constants.h */,
 			);
@@ -285,11 +286,13 @@
 			isa = PBXGroup;
 			children = (
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
-				C9174A521934FE74001E7249 /* TimeBlock.m */,
 				C9174A531934FE74001E7249 /* TimeLine.h */,
+				C9174A521934FE74001E7249 /* TimeBlock.m */,
 				C9174A511934FE74001E7249 /* TimeLine.m */,
 				1BE286661936310A007DB1C2 /* Cursor.h */,
 				1BE286671936310A007DB1C2 /* Cursor.m */,
+				1B1C292C19364E9500104415 /* Colorizer.h */,
+				1B1C292D19364E9500104415 /* Colorizer.m */,
 			);
 			name = TimeLine;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 			files = (
 				1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */,
 				C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */,
+				1B1C292E19364E9500104415 /* Colorizer.m in Sources */,
 				1B451681192FDE7D00B79C33 /* CardView.m in Sources */,
 				1B45167E192FDE6700B79C33 /* Card.m in Sources */,
 				C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */,

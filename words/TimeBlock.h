@@ -16,6 +16,7 @@
 @property (nonatomic) CGFloat duration, timeRemaining;
 @property (nonatomic) CGFloat percentageOfTimeLine;
 @property (nonatomic) BlockState state;
+@property (nonatomic) UIColor *color;
 
 +(TimeBlock *)newTimeBlockFromCard:(Card *)card andSpeechRunTime:(NSTimeInterval)speechRunTime;
 

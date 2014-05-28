@@ -26,4 +26,8 @@ typedef enum : NSUInteger {
     pending,
 } BlockState;
 
+#define ONE_FORTH   @"\u00BC"
+#define ONE_HALF    @"\u00BD"
+#define THREE_FORTH @"\u00BE"
+
 @end

@@ -104,7 +104,6 @@ typedef enum : NSUInteger {
     NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
     
     NSMutableArray *arraySearchObjects = [NSMutableArray new];
-    
     for (NSString *search in arraySearchTerms) {
         // Create the new array for storing results
         NSMutableArray *resultArray = [NSMutableArray new];
@@ -147,12 +146,13 @@ typedef enum : NSUInteger {
     NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
     NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
     
+    NSMutableArray *arraySearchObjects = [NSMutableArray new];
     for (NSString *search in arraySearchTerms) {
         // Create the new array for storing results
         NSMutableArray *resultArray = [NSMutableArray new];
         [arraySearchObjects addObject:resultArray];
         // Iterate through all objects (speeches) to search
-        for (DSSpeech *speech in arrayToSearch) {
+        for (DSSpeech *speech in arrayOfSpeechKeywords) {
             // Check to see if there is an existing array on the search terms
             NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
             

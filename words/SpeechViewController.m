@@ -28,6 +28,7 @@
 
 @property (nonatomic, strong) SpeechDeliveryController *speechDeliverController;
 @property (nonatomic) CGRect textFieldFrame;
+
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cardNumberLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *timeStepper;
@@ -51,6 +52,8 @@
     _cardPointOne.delegate                  = self;
     _cardPointTwo.delegate                  = self;
     _cardPointThree.delegate                = self;
+    _pointFour.delegate                     = self;
+    _pointFive.delegate                     = self;
     _cardTitle.delegate                     = self;
     
     _cardCollectionView.dataSource          = self;
@@ -110,7 +113,6 @@
     [_cardPointThree setHidden:NO];
     [_pointFour setHidden:NO];
     [_pointFive setHidden:NO];
-
     
     _currentCard.points[0] = _cardPointOne.text;
     _currentCard.points[1] = _cardPointTwo.text;
@@ -149,12 +151,11 @@
     
     int stringCounter = 0;
     for (NSString *string in card.points) {
-        if (!string || ![string isEqual:@""]) {
+        if (![string isEqual:@""]) {
             stringCounter++;
         }
     }
-    cell.pointLabel.text     = [NSString stringWithFormat:@"%d points", stringCounter];
-
+    cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
     cell.backgroundColor = [UIColor orangeColor];
     
     return cell;
@@ -167,18 +168,43 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Card *detailCard = _currentSpeech.cards[indexPath.row];
-    _timeStepper.value = detailCard.runTime / 15;
+    _currentCard = _currentSpeech.cards[indexPath.row];
+    [_cardPointOne setHidden:NO];
+    [_cardPointTwo setHidden:NO];
+    [_cardPointThree setHidden:NO];
+    [_pointFour setHidden:NO];
+    [_pointFive setHidden:NO];
+
+
+    _timeStepper.value = _currentCard.runTime / 15;
     
     _cardNumberLabel.text = [NSString stringWithFormat:@"Card %d", (int)(indexPath.row + 1)];
 
-    _timeLabel.text         = [NSString stringWithFormat:@"%d seconds", (int)detailCard.runTime];
-    _cardTitle.text         = detailCard.title;
-    _cardPointOne.text      = detailCard.points[0];
-    _cardPointTwo.text      = detailCard.points[1];
-    _cardPointThree.text    = detailCard.points[2];
-    _pointFour.text         = detailCard.points[3];
-    _pointFive.text         = detailCard.points[4];
+    _timeLabel.text         = [NSString stringWithFormat:@"%d seconds", (int)_currentCard.runTime];
+    _cardTitle.text         = _currentCard.title;
+    _cardPointOne.text      = _currentCard.points[0];
+    _cardPointTwo.text      = _currentCard.points[1];
+    _cardPointThree.text    = _currentCard.points[2];
+    _pointFour.text         = _currentCard.points[3];
+    _pointFive.text         = _currentCard.points[4];
+    
+    if (_speechIsRunning) {
+        if ([_currentCard.points[0] isEqualToString:@""]) {
+            [_cardPointOne setHidden:YES];
+        }
+        if ([_currentCard.points[1] isEqualToString:@""]) {
+            [_cardPointTwo setHidden:YES];
+        }
+        if ([_currentCard.points[2] isEqualToString:@""]) {
+            [_cardPointThree setHidden:YES];
+        }
+        if ([_currentCard.points[3] isEqualToString:@""]) {
+            [_pointFour setHidden:YES];
+        }
+        if ([_currentCard.points[4] isEqualToString:@""]) {
+            [_pointFive setHidden:YES];
+        }
+    }
 }
 
 
@@ -251,9 +277,42 @@
     if (_speechIsRunning) {
         [_speechDeliverController stop];
         _speechIsRunning = NO;
+        
+        //turn text labels and time incramentor "ON"
+        [_cardTitle setUserInteractionEnabled:YES];
+        [_cardPointOne setUserInteractionEnabled:YES];
+        [_cardPointOne setHidden:NO];
+        
+        [_cardPointTwo setUserInteractionEnabled:YES];
+        [_cardPointTwo setHidden:NO];
+
+        [_cardPointThree setUserInteractionEnabled:YES];
+        [_cardPointThree setHidden:NO];
+
+        [_pointFour setUserInteractionEnabled:YES];
+        [_pointFour setHidden:NO];
+
+        [_pointFive setUserInteractionEnabled:YES];
+        [_pointFive setHidden:NO];
+
+        [_timeStepper setUserInteractionEnabled:YES];
+
     } else {
-        [_speechDeliverController start];
+        //turn text labels and time incramentor "ON"
+        [_cardTitle setUserInteractionEnabled:NO];
+        [_cardPointOne setUserInteractionEnabled:NO];
+        [_cardPointTwo setUserInteractionEnabled:NO];
+        [_cardPointThree setUserInteractionEnabled:NO];
+        [_pointFour setUserInteractionEnabled:NO];
+        [_pointFive setUserInteractionEnabled:NO];
+        [_timeStepper setUserInteractionEnabled:NO];
+
         _speechIsRunning = YES;
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
+
+        [_speechDeliverController start];
     }
 }
 

@@ -16,7 +16,7 @@
         card.userEdited = NO;
         card.speech     = speech;
         card.title      = @"New Speech";
-        card.runTime    = 5;
+        card.runTime    = 30;
         card.type       = titleCard;
         card.points     = [@[[NSString new], [NSString new], [NSString new], [NSString new], [NSString new]] mutableCopy];
         [card.speech calculateTime];

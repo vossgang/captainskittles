@@ -92,6 +92,20 @@ typedef enum : NSUInteger {
         
     }
     
+//    NSString *visitorFullnameLastFirst =
+//    [NSString stringWithFormat:@"%@ %@",vis.lastName, vis.firstName];
+//    NSString *visitorFullnameFirstLast =
+//    [NSString stringWithFormat:@"%@ %@",vis.firstName, vis.lastName];
+//    NSRange nameRangeLastFirst = [visitorFullnameLastFirst rangeOfString:text options:NSCaseInsensitiveSearch];
+//    NSRange nameRangeFirstLast = [visitorFullnameFirstLast rangeOfString:text options:NSCaseInsensitiveSearch];
+//    NSRange descriptionRange = [vis.hostName rangeOfString:text options:NSCaseInsensitiveSearch];
+//    if(nameRangeLastFirst.location != NSNotFound ||
+//       nameRangeFirstLast.location != NSNotFound ||
+//       descriptionRange.location != NSNotFound)
+//    {
+//        [filteredTableData addObject:vis];
+//    }
+    
 }
 
 - (void)calculateKeyWords:(DSSpeech *)withSpeech {

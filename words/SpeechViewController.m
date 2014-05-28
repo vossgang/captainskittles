@@ -14,10 +14,9 @@
 #import "Constants.h"
 #import "LXReorderableCollectionViewFlowLayout.h"
 
-@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout>
+@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout, LXReorderableCollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
-@property (strong, nonatomic) NSIndexPath *sourceIndexPath;
 
 @property (nonatomic, weak) Card *currentCard;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -344,16 +343,11 @@
     }
 }
 
-- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didBeginDraggingItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath didMoveToIndexPath:(NSIndexPath *)toIndexPath
 {
-    self.sourceIndexPath = indexPath;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    Card *card = self.currentSpeech.cards[self.sourceIndexPath.row];
-    [self.currentSpeech.cards removeObjectAtIndex:self.sourceIndexPath.row];
-    [self.currentSpeech.cards insertObject:card atIndex:indexPath.row];
+    Card *card = self.currentSpeech.cards[fromIndexPath.row];
+    [self.currentSpeech.cards removeObjectAtIndex:fromIndexPath.row];
+    [self.currentSpeech.cards insertObject:card atIndex:toIndexPath.row];
 }
 
 -(int)numberOfPointsInCurrentCard

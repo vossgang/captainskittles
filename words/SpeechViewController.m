@@ -12,10 +12,12 @@
 #import "TimeLine.h"
 #import "CardCell.h"
 #import "Constants.h"
+#import "LXReorderableCollectionViewFlowLayout.h"
 
-@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate>
+@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
+@property (strong, nonatomic) NSIndexPath *sourceIndexPath;
 
 @property (nonatomic, weak) Card *currentCard;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -341,6 +343,18 @@
         //do editing stuff
         //show the corresponding views
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didBeginDraggingItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.sourceIndexPath = indexPath;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout didEndDraggingItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    Card *card = self.currentSpeech.cards[self.sourceIndexPath.row];
+    [self.currentSpeech.cards removeObjectAtIndex:self.sourceIndexPath.row];
+    [self.currentSpeech.cards insertObject:card atIndex:indexPath.row];
 }
 
 -(int)numberOfPointsInCurrentCard

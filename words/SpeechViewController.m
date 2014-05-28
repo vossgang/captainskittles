@@ -13,6 +13,7 @@
 #import "CardCell.h"
 #import "Constants.h"
 #import "PresentationCardView.h"
+#import "LXReorderableCollectionViewFlowLayout.h"
 
 @interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout>
 
@@ -233,12 +234,20 @@
     cell.backgroundColor = [UIColor clearColor];
     
     cell.titleLabel.text    = card.title;
-    int minutes = card.runTime / 60;
-    int seconds = (int)card.runTime % 60;
-    if (seconds != 0) {
-        cell.timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
+    int min = card.runTime / 60;
+    int sec = (int)card.runTime % 60;
+    NSString *partialMin = @"";
+    switch (sec) {
+        case 15: partialMin = ONE_FORTH; break;
+        case 30: partialMin = ONE_HALF; break;
+        case 45: partialMin = THREE_FORTH; break;
+        default:
+            break;
+    }
+    if (min) {
+        cell.timeLabel.text = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
     } else {
-        cell.timeLabel.text       = [NSString stringWithFormat:@"%@ min", partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", partialMin];
     }
     int stringCounter = 0;
     for (NSString *string in card.points) {

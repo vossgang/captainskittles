@@ -19,6 +19,7 @@
 		1B1C29371936868800104415 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C29341936868800104415 /* TimeBlock.m */; };
 		1B1C29381936868800104415 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C29361936868800104415 /* TimeLine.m */; };
 		1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C293B1936879F00104415 /* PresentationCardView.m */; };
+		1B1C294219369A0900104415 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C294119369A0900104415 /* LXReorderableCollectionViewFlowLayout.m */; };
 		1B451644192FDDDA00B79C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451643192FDDDA00B79C33 /* Foundation.framework */; };
 		1B451646192FDDDA00B79C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451645192FDDDA00B79C33 /* CoreGraphics.framework */; };
 		1B451648192FDDDA00B79C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451647192FDDDA00B79C33 /* UIKit.framework */; };
@@ -78,6 +79,8 @@
 		1B1C29361936868800104415 /* TimeLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLine.m; sourceTree = "<group>"; };
 		1B1C293A1936879F00104415 /* PresentationCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentationCardView.h; sourceTree = "<group>"; };
 		1B1C293B1936879F00104415 /* PresentationCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentationCardView.m; sourceTree = "<group>"; };
+		1B1C294019369A0900104415 /* LXReorderableCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXReorderableCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		1B1C294119369A0900104415 /* LXReorderableCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXReorderableCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		1B451640192FDDDA00B79C33 /* words.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = words.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B451643192FDDDA00B79C33 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1B451645192FDDDA00B79C33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -324,8 +327,8 @@
 		7A105FB919368EE6001CA31C /* CollectionView Manager */ = {
 			isa = PBXGroup;
 			children = (
-				7A105FBA19368F64001CA31C /* LXReorderableCollectionViewFlowLayout.h */,
-				7A105FBB19368F64001CA31C /* LXReorderableCollectionViewFlowLayout.m */,
+				1B1C294019369A0900104415 /* LXReorderableCollectionViewFlowLayout.h */,
+				1B1C294119369A0900104415 /* LXReorderableCollectionViewFlowLayout.m */,
 			);
 			name = "CollectionView Manager";
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				1BE286681936310A007DB1C2 /* Cursor.m in Sources */,
 				146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */,
 				1B1C292819364BC200104415 /* CardCell.m in Sources */,
+				1B1C294219369A0900104415 /* LXReorderableCollectionViewFlowLayout.m in Sources */,
 				146A8BF31934F65100F4AD99 /* DSPoint.m in Sources */,
 				1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */,
 				1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */,

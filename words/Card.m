@@ -18,7 +18,7 @@
         card.title      = @"New Speech";
         card.runTime    = 5;
         card.type       = titleCard;
-        card.points     = [@[[NSString new], [NSString new], [NSString new]] mutableCopy];
+        card.points     = [@[[NSString new], [NSString new], [NSString new], [NSString new], [NSString new]] mutableCopy];
         [card.speech calculateTime];
     }
     return card;
@@ -34,7 +34,7 @@
         card.runTime    = 60;
         card.preface    = @"A description of the scope of your speech goes here";
         card.type       = prefaceCard;
-        card.points     = [@[[NSString new], [NSString new], [NSString new]] mutableCopy];
+        card.points     = [@[[NSString new], [NSString new], [NSString new], [NSString new], [NSString new]] mutableCopy];
         [card.speech calculateTime];
     }
     return card;
@@ -54,7 +54,7 @@
         [card.points addObject:@"My third subpoint"];
         
         card.type    = bodyCard;
-        card.points     = [@[[NSString new], [NSString new], [NSString new]] mutableCopy];
+        card.points     = [@[[NSString new], [NSString new], [NSString new], [NSString new], [NSString new]] mutableCopy];
         [card.speech calculateTime];
 
     }
@@ -70,7 +70,7 @@
         card.runTime    = 30;
         card.conclusion = @"A conclusion statement for your speech goes here";
         card.type       = conclusionCard;
-        card.points     = [@[[NSString new], [NSString new], [NSString new]] mutableCopy];
+        card.points     = [@[[NSString new], [NSString new], [NSString new], [NSString new], [NSString new]] mutableCopy];
         [card.speech calculateTime];
 
     }

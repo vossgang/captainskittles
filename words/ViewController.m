@@ -78,7 +78,8 @@
     Card   *mainCard    = [speech.cards firstObject];
     SpeechCell *cell    = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
     
-    cell.speechCellTitle.text = mainCard.title;
+    cell.speechCellTitle.text       = mainCard.title;
+    cell.numberOfCardsLabel.text    = [NSString stringWithFormat:@"%d cards",  (int)speech.cards.count];
     
     return cell;
 }

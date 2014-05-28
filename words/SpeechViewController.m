@@ -10,20 +10,28 @@
 #import "Card.h"
 #import "SpeechDeliveryController.h"
 #import "TimeLine.h"
+#import "CardCell.h"
 
 @interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
 
 @property (nonatomic, weak) Card *currentCard;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *cardTitle;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointOne;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointTwo;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointThree;
+@property (weak, nonatomic) IBOutlet UITextField *pointFour;
+@property (weak, nonatomic) IBOutlet UITextField *pointFive;
 
 @property (nonatomic, strong) SpeechDeliveryController *speechDeliverController;
 @property (nonatomic) CGRect textFieldFrame;
+
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *cardNumberLabel;
+@property (weak, nonatomic) IBOutlet UIStepper *timeStepper;
 
 @property (nonatomic, readwrite) BOOL   speechIsRunning;
 
@@ -44,6 +52,8 @@
     _cardPointOne.delegate                  = self;
     _cardPointTwo.delegate                  = self;
     _cardPointThree.delegate                = self;
+    _pointFour.delegate                     = self;
+    _pointFive.delegate                     = self;
     _cardTitle.delegate                     = self;
     
     _cardCollectionView.dataSource          = self;
@@ -57,6 +67,18 @@
     [self instantiateNewTimeLine];
     
 }
+- (IBAction)incramentTime:(id)sender
+{
+    UIStepper *step = sender;
+    NSTimeInterval time = step.value * 15;
+    _currentCard.runTime = time;
+    
+    //if the current card has a run time it is edited, else it is not edited
+    _currentCard.userEdited = _currentCard.runTime;
+    
+    _timeLabel.text = [NSString stringWithFormat:@"%d seconds", (int)time];
+    [_cardCollectionView reloadData];
+}
 
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -65,6 +87,8 @@
     [_cardPointOne setHidden:YES];
     [_cardPointTwo setHidden:YES];
     [_cardPointThree setHidden:YES];
+    [_pointFour setHidden:YES];
+    [_pointFive setHidden:YES];
     
     [textField setHidden:NO];
 
@@ -87,13 +111,19 @@
     [_cardPointOne setHidden:NO];
     [_cardPointTwo setHidden:NO];
     [_cardPointThree setHidden:NO];
+    [_pointFour setHidden:NO];
+    [_pointFive setHidden:NO];
     
     _currentCard.points[0] = _cardPointOne.text;
     _currentCard.points[1] = _cardPointTwo.text;
     _currentCard.points[2] = _cardPointThree.text;
+    _currentCard.points[3] = _pointFour.text;
+    _currentCard.points[4] = _pointFive.text;
     _currentCard.title     = _cardTitle.text;
     
     textField.frame = _textFieldFrame;
+    
+    [_cardCollectionView reloadData];
     
     return YES;
 }
@@ -112,8 +142,20 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CardCell" forIndexPath:indexPath];
+    CardCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CardCell" forIndexPath:indexPath];
     
+    Card *card = _currentSpeech.cards[indexPath.row];
+    
+    cell.titleLabel.text    = card.title;
+    cell.timeLabel.text     = [NSString stringWithFormat:@"%d sec", (int)card.runTime];
+    
+    int stringCounter = 0;
+    for (NSString *string in card.points) {
+        if (![string isEqual:@""]) {
+            stringCounter++;
+        }
+    }
+    cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
     cell.backgroundColor = [UIColor orangeColor];
     
     return cell;
@@ -126,12 +168,43 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Card *detailCard = _currentSpeech.cards[indexPath.row];
+    _currentCard = _currentSpeech.cards[indexPath.row];
+    [_cardPointOne setHidden:NO];
+    [_cardPointTwo setHidden:NO];
+    [_cardPointThree setHidden:NO];
+    [_pointFour setHidden:NO];
+    [_pointFive setHidden:NO];
+
+
+    _timeStepper.value = _currentCard.runTime / 15;
     
-    _cardTitle.text         = detailCard.title;
-    _cardPointOne.text      = detailCard.points[0];
-    _cardPointTwo.text      = detailCard.points[1];
-    _cardPointThree.text    = detailCard.points[2];
+    _cardNumberLabel.text = [NSString stringWithFormat:@"Card %d", (int)(indexPath.row + 1)];
+
+    _timeLabel.text         = [NSString stringWithFormat:@"%d seconds", (int)_currentCard.runTime];
+    _cardTitle.text         = _currentCard.title;
+    _cardPointOne.text      = _currentCard.points[0];
+    _cardPointTwo.text      = _currentCard.points[1];
+    _cardPointThree.text    = _currentCard.points[2];
+    _pointFour.text         = _currentCard.points[3];
+    _pointFive.text         = _currentCard.points[4];
+    
+    if (_speechIsRunning) {
+        if ([_currentCard.points[0] isEqualToString:@""]) {
+            [_cardPointOne setHidden:YES];
+        }
+        if ([_currentCard.points[1] isEqualToString:@""]) {
+            [_cardPointTwo setHidden:YES];
+        }
+        if ([_currentCard.points[2] isEqualToString:@""]) {
+            [_cardPointThree setHidden:YES];
+        }
+        if ([_currentCard.points[3] isEqualToString:@""]) {
+            [_pointFour setHidden:YES];
+        }
+        if ([_currentCard.points[4] isEqualToString:@""]) {
+            [_pointFive setHidden:YES];
+        }
+    }
 }
 
 
@@ -206,7 +279,15 @@
         _speechIsRunning = NO;
 //        [_timeLine stopTimer];
     } else {
-        [_speechDeliverController start];
+        //turn text labels and time incramentor "ON"
+        [_cardTitle setUserInteractionEnabled:NO];
+        [_cardPointOne setUserInteractionEnabled:NO];
+        [_cardPointTwo setUserInteractionEnabled:NO];
+        [_cardPointThree setUserInteractionEnabled:NO];
+        [_pointFour setUserInteractionEnabled:NO];
+        [_pointFive setUserInteractionEnabled:NO];
+        [_timeStepper setUserInteractionEnabled:NO];
+
         _speechIsRunning = YES;
         [_timeLine startTimer];
     }

@@ -19,6 +19,7 @@
 
 @property (nonatomic, weak) Card *currentCard;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *addCardButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *cardTitle;
 @property (weak, nonatomic) IBOutlet UITextField *cardPointOne;
@@ -88,7 +89,7 @@
     int minutes = _currentCard.runTime / 60;
     int seconds = (int)_currentCard.runTime % 60;
     if (seconds != 0) {
-        _timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
@@ -201,21 +202,29 @@
     
     Card *card = _currentSpeech.cards[indexPath.row];
     
-    cell.titleLabel.text    = card.title;
-    int minutes = card.runTime / 60;
-    int seconds = (int)card.runTime % 60;
-    if (seconds != 0) {
-        cell.timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
-    } else {
-        cell.timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
+    int min = card.runTime / 60;
+    int sec = (int)card.runTime % 60;
+    NSString *partialMin = @"";
+    switch (sec) {
+        case 15: partialMin = ONE_FORTH;    break;
+        case 30: partialMin = ONE_HALF;     break;
+        case 45: partialMin = THREE_FORTH;  break;
+        default:
+            break;
     }
-    
+    if (min) {
+        cell.timeLabel.text       = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
+    } else {
+        cell.timeLabel.text       = [NSString stringWithFormat:@"%@ min", partialMin];
+    }
     int stringCounter = 0;
     for (NSString *string in card.points) {
         if (![string isEqual:@""]) {
             stringCounter++;
         }
     }
+    
+    cell.titleLabel.text = card.title;
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
     cell.backgroundColor = [UIColor orangeColor];
     
@@ -249,7 +258,7 @@
     int minutes = _currentCard.runTime / 60;
     int seconds = (int)_currentCard.runTime % 60;
     if (seconds != 0) {
-        _timeLabel.text     = [NSString stringWithFormat:@"%d min %d sec", minutes, seconds];
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
@@ -373,7 +382,8 @@
 }
 
 
--(void)animateTimeLineRefactor {
+-(void)animateTimeLineRefactor
+{
     CGRect  originalTimeLineFrame = _timeLine.view.frame;
     
     [UIView animateWithDuration:.25 animations:^{
@@ -401,10 +411,6 @@
     NSIndexPath *index = [[_cardCollectionView indexPathsForSelectedItems] firstObject];
     [self.currentSpeech.cards insertObject:[Card newBodyCardForSpeech:self.currentSpeech] atIndex:(index.row + 1)];
     [_cardCollectionView reloadData];
-    
-    //refactor the timeline for the new cards
-//    [self animateTimeLineRefactor];
-    [_timeLine advanceToNextBlock];
 }
 
 - (IBAction)backToMain:(id)sender
@@ -412,7 +418,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
-    
 }
 
 - (IBAction)Stop:(id)sender

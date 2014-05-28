@@ -30,6 +30,7 @@
     self.appDelegate = [UIApplication sharedApplication].delegate;
     
 
+    
     _searchCollectionView.dataSource    = self;
     _searchCollectionView.delegate      = self;
     
@@ -80,6 +81,17 @@
     
     cell.speechCellTitle.text       = mainCard.title;
     cell.numberOfCardsLabel.text    = [NSString stringWithFormat:@"%d cards",  (int)speech.cards.count];
+    int min = speech.runTime / 60;
+    int sec = (int)speech.runTime % 60;
+    NSString *partialMin = @"";
+    switch (sec) {
+        case 15: partialMin = ONE_FORTH;    break;
+        case 30: partialMin = ONE_HALF;     break;
+        case 45: partialMin = THREE_FORTH;  break;
+        default:
+            break;
+    }
+    cell.speechTimeLabel.text       = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
     
     return cell;
 }

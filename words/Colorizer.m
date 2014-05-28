@@ -50,4 +50,45 @@
                            alpha:[currentColorComponents[3] doubleValue]];
 }
 
+
+
+
+
+
++(UIColor *)gradeColor:(UIColor *)color forTimeRemaining:(NSTimeInterval)timeRemaining {
+    
+    const CGFloat *components = CGColorGetComponents(color.CGColor);
+    CGFloat red     = components[0];
+    CGFloat green   = components[1];
+    CGFloat blue    = components[2];
+    
+    if (timeRemaining < 0) {
+        
+        //transition color to red
+        return [UIColor colorWithRed:(red * 1.1) green:(green * .98) blue: (blue * .98) alpha:1];
+    } else {
+        
+        //transition color to gray
+        CGFloat rgbAverage = (red + green + blue) / 3;
+        red     = red   + red / rgbAverage;
+        green   = green + green / rgbAverage;
+        blue    = blue  + blue / rgbAverage;
+        
+        return [UIColor colorWithRed:red green:green blue: blue alpha:1];
+    }
+    
+}
+
+
++(UIColor *)lightenColor: (UIColor *)color {
+    
+    const CGFloat *components = CGColorGetComponents(color.CGColor);
+    CGFloat red     = components[0];
+    CGFloat green   = components[1];
+    CGFloat blue    = components[2];
+    
+    return [UIColor colorWithRed:(red * 1.2) green:(green * 1.2) blue: (blue * 1.2) alpha:1];
+}
+
+
 @end

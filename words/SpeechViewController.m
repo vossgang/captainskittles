@@ -473,7 +473,7 @@
         _textView.backgroundColor = [UIColor clearColor];
         
         _speechIsRunning = YES;
-        [_timeLine startTimer];
+        [_timeLine start];
     }
 }
 

@@ -40,7 +40,9 @@
 
 #pragma mark - Setup Methods
 
-+(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame {
++(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame
+{
+    NSLog(@"%d", (int)speech.cards.count);
 
     TimeLine *timeLine              = [TimeLine new];
     
@@ -78,7 +80,7 @@
     CGFloat width               = 0;
     
     for (Card *card in speech.cards) {
-        if (!card.userEdited) {
+        if (card.userEdited) {
             
             //allocate and initialize new block
             TimeBlock *newBlock = [TimeBlock newTimeBlockFromCard:card andSpeechRunTime:_speechRunTime];

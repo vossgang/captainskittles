@@ -32,7 +32,8 @@
     return [Speech new];
 }
 
--(void)calculateTime {
+-(void)calculateTime
+{
     [self calculateTotalTime:self];
 }
 
@@ -65,13 +66,11 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    
     return 1;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ExplosionCell" forIndexPath:indexPath];
     
     return cell;

@@ -88,7 +88,7 @@ typedef enum : NSUInteger {
 
 #pragma mark - Search methods
 
-- (NSArray *)search:(NSString *)searchTerm andType:(int)withType {
+- (NSArray *)searchSpeechByTitle:(NSString *)searchTerm {
     // This method will create an array based off of search terms, and then replace the search term with an array that it uses to store all
     // speech objects that match the result. Once the list is complete, it will then merge the lists and sort based off of frequency of occurence
     
@@ -139,55 +139,10 @@ typedef enum : NSUInteger {
     return final;
 }
 
-- (NSArray *)searchSpeechByTitle:(NSString *)searchTerm {
-    // This method will create an array based off of search terms, and then replace the search term with an array that it uses to store all
-    // speech objects that match the result. Once the list is complete, it will then merge the lists and sort based off of frequency of occurence
+- (NSArray *)searchSpeechByKeyword:(NSString *)searchTerm {
+
     
-    // Get an array of all speech titles
-    NSMutableArray *arrayToSearch = [NSMutableArray new];
-    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
-        [arrayToSearch addObject:speech];
-    }
-    
-    // This sequence takes in the search terms provided by the user, splits them out into individual strings, and then stores the results in
-    // a mutable array for processing. Once a result is derived, it will pop the string out and replace it with an array that stores the speeches
-    // that contain the term(s)
-    NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
-    NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
-    
-    NSMutableArray *arraySearchObjects = [NSMutableArray new];
-    
-    for (NSString *search in arraySearchTerms) {
-        // Create the new array for storing results
-        NSMutableArray *resultArray = [NSMutableArray new];
-        [arraySearchObjects addObject:resultArray];
-        // Iterate through all objects (speeches) to search
-        for (DSSpeech *speech in arrayToSearch) {
-            // Check to see if there is an existing array on the search terms
-            NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
-            
-            if(rangeTitleSearch.location != NSNotFound)
-            {
-                [resultArray addObject:speech];
-            }
-        }
-    }
-    NSMutableArray *arrayForCounter = [NSMutableArray new];
-    
-    for (NSMutableArray *array in arraySearchObjects) {
-        [arrayForCounter addObjectsFromArray:array];
-    }
-    
-    NSCountedSet *countedSet = [[NSCountedSet alloc] initWithArray:arrayForCounter];
-    
-    NSMutableArray *final = [NSMutableArray array];
-    [countedSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [final addObject:@{@"object": obj, @"count": @([countedSet countForObject:obj])}];
-    }];
-    
-    final = [[final sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"count" ascending:NO]]] mutableCopy];
-    // Returns an array of speech objects sorted by occurence of search terms
-    return final;
+    return nil;
 }
 
 - (void)calculateKeyWords:(DSSpeech *)withSpeech {

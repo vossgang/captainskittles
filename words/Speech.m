@@ -60,7 +60,6 @@
     for (Card *card in self.cards) {
         time += card.runTime;
     }
-    NSLog(@"%.0f", time);
     return time;
 }
 

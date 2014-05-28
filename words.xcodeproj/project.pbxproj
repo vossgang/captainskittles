@@ -261,8 +261,8 @@
 				1B1C292719364BC200104415 /* CardCell.m */,
 				1B45167F192FDE7D00B79C33 /* CardView.h */,
 				1B451680192FDE7D00B79C33 /* CardView.m */,
-				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
 				C99BE6F41933CE7900F1BB8B /* SpeechCell.m */,
+				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
 				1BE28661193530EB007DB1C2 /* ViewControllers */,
 			);
 			name = View;

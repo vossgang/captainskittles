@@ -30,7 +30,10 @@
 
 @property (nonatomic, strong) SpeechDeliveryController *speechDeliverController;
 @property (nonatomic) CGRect textFieldFrame;
+@property (nonatomic, strong) NSString *oldTextFieldText;
 @property (nonatomic) CGRect textViewFrame;
+@property (nonatomic, strong) NSString *oldTextViewText;
+
 
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -100,6 +103,8 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    _oldTextFieldText = textField.text;
+    
     [_cardTitle setHidden:YES];
     [_cardPointOne setHidden:YES];
     [_cardPointTwo setHidden:YES];
@@ -131,6 +136,10 @@
     [_pointFour setHidden:NO];
     [_pointFive setHidden:NO];
     
+    if (![_oldTextFieldText isEqual:textField.text]) {
+        _currentCard.userEdited = YES;
+    }
+    
     _currentCard.points[0] = _cardPointOne.text;
     _currentCard.points[1] = _cardPointTwo.text;
     _currentCard.points[2] = _cardPointThree.text;
@@ -149,6 +158,7 @@
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     _textViewFrame = textView.frame;
+    _oldTextViewText = textView.text;
     
     [UIView animateWithDuration:.33 animations:^{
         textView.frame = CGRectMake(textView.frame.origin.x, 0, textView.frame.size.width, textView.frame.size.height);
@@ -163,6 +173,10 @@
 
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    if (![_oldTextViewText isEqual:textView.text]) {
+        _currentCard.userEdited = YES;
+    }
+    
     switch (_currentCard.type) {
         case conclusionCard:    _currentCard.conclusion = _textView.text; break;
         case prefaceCard:       _currentCard.preface    = _textView.text; break;
@@ -337,6 +351,7 @@
             activePoints++;
         }
     }
+    _currentCard.userEdited = activePoints;
     return activePoints;
 }
 

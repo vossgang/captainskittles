@@ -13,8 +13,9 @@
 
 @property (nonatomic, strong) UIView *view;
 
-
 +(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame;
+
+-(BOOL)isInitialized;
 
 -(void)start;
 -(void)stop;

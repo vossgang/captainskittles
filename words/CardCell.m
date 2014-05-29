@@ -26,7 +26,7 @@
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    [CardStyleKit drawExplosionViewCardWithTitle:_titleLabel withPointCount:_pointLabel timeRemaining:_timeLabel withinFrame:rect];
+    [CardStyleKit drawExplosionViewCardWithTitle:@"" withPointCount:@"" timeRemaining:@"" withinFrame:rect];
 }
 
 

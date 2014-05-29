@@ -230,7 +230,7 @@
     
     cell.backgroundColor = [UIColor clearColor];
     
-    cell.titleLabel    = card.title;
+    cell.titleLabel.text    = card.title;
     int min = card.runTime / 60;
     int sec = (int)card.runTime % 60;
     NSString *partialMin = @"";
@@ -242,9 +242,9 @@
             break;
     }
     if (min) {
-        cell.timeLabel = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
     } else {
-        cell.timeLabel = [NSString stringWithFormat:@"%@ min", partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", partialMin];
     }
     int stringCounter = 0;
     for (NSString *string in card.points) {
@@ -253,8 +253,8 @@
         }
     }
     
-    cell.titleLabel = card.title;
-    cell.pointLabel = [NSString stringWithFormat:@"%d points", stringCounter];
+    cell.titleLabel.text = card.title;
+    cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
 
     
     return cell;

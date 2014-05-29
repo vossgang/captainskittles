@@ -30,9 +30,7 @@
     [super viewDidLoad];
     
     self.appDelegate = [UIApplication sharedApplication].delegate;
-    
 
-    
     _searchCollectionView.dataSource    = self;
     _searchCollectionView.delegate      = self;
     
@@ -48,17 +46,16 @@
 {
     if ([segue.identifier isEqualToString:@"SpeechDetail"]) {
         NSInteger row = [_searchCollectionView indexPathForCell:sender].row;
-        Speech *speech = [_appDelegate.speeches objectAtIndex:row];
+        Speech *speech = [[[DataController dataStore] allSpeechItems] objectAtIndex:row];
         
-        Card *firstCard = [[[DataController dataStore] allSpeechItems] firstObject];
+        // Obtain the title card by searching the cards set for one with the sequence value of 1
+        Card *firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
+        
         if ([firstCard.title isEqual:@"New Speech"]) {
-            // This information is now stored at [[DataController dataStore] allSpeechItems]
-            //[_appDelegate.speeches insertObject:[Speech newSpeech] atIndex:0];
-            //speech = _appDelegate.speeches[0];
-            
+#warning What should happen here?
             // Obtain the title card by searching the cards set for one with the sequence value of 1
-            NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %@", 1];
-            firstCard = [speech.cards filteredSetUsingPredicate:findTitleCard].anyObject;
+            //NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %i", 1];
+            firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
 
             firstCard.title =@"Speech Title";
         }
@@ -77,17 +74,14 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {    
-    return _appDelegate.speeches.count;
+    return [[[DataController dataStore] allSpeechItems] count];
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Speech *speech      = _appDelegate.speeches[indexPath.row];
-    // Card   *mainCard    = [speech.cards firstObject];
-    // Obtain the title card by searching the cards set for one with the sequence value of 1
-    NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %@", 1];
-    Card   *mainCard  = [speech.cards filteredSetUsingPredicate:findTitleCard].anyObject;
-    SpeechCell *cell    = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
+    Speech *speech          = [[[DataController dataStore] allSpeechItems] objectAtIndex:indexPath.row];
+    Card   *mainCard        = [[[DataController dataStore] allCardItems:speech] firstObject];
+    SpeechCell *cell        = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
     
     cell.speechCellTitle.text       = mainCard.title;
     cell.numberOfCardsLabel.text    = [NSString stringWithFormat:@"%d cards",  (int)speech.cards.count];

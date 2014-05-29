@@ -14,11 +14,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-//    self.speeches = [NSMutableArray new];
-//    
-//    if (!self.speeches.count) {
-//        [self.speeches addObject:[Speech newSpeech]];
-//    }
+    if (![[[DataController dataStore] allSpeechItems] count]) {
+        [[DataController dataStore] createSpeechItem];
+    }
     
     return YES;
 }

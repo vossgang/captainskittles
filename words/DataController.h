@@ -24,7 +24,7 @@
 }
 
 + (DataController *)dataStore;
-- (void)removeManagedObject:(NSManagedObject *)objectToRemove;
+- (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard;
 - (void)reloadAllItems;
 
 - (Speech *)createSpeechItem;
@@ -32,6 +32,6 @@
 
 - (Card *)createCardItem:(Speech *)withSpeech andType:(int)withcardType;
 - (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence;
-- (NSArray *)allCardItems;
+- (NSArray *)allCardItems:(Speech *)withSpeech;
 
 @end

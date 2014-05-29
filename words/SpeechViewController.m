@@ -239,11 +239,8 @@
     CardCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CardCell" forIndexPath:indexPath];
     
     // Obtain the specified card by searching the cards set for one with the provided sequence number
-    NSPredicate *findCard = [NSPredicate predicateWithFormat:@"sequence == %@", indexPath.row];
-    Card *card = [_currentSpeech.cards filteredSetUsingPredicate:findCard].anyObject;
-    
-    //Card *card = _currentSpeech.cards[indexPath.row];
-    
+    Card *card = [[[DataController dataStore] allCardItems:_currentSpeech] objectAtIndex:indexPath.row];
+        
     cell.backgroundColor = [UIColor clearColor];
     
     cell.titleLabel.text    = card.title;
@@ -263,8 +260,8 @@
         cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", partialMin];
     }
     int stringCounter = 0;
-    for (NSString *string in card.points) {
-        if (![string isEqual:@""]) {
+    for (BodyPoint *points in card.points) {
+        if (points.words.length != 0) {
             stringCounter++;
         }
     }
@@ -287,10 +284,7 @@
         [self textViewShouldEndEditing:_textView];
     }
 
-    // Obtain the specified card by searching the cards set for one with the provided sequence number
-    NSPredicate *findCard = [NSPredicate predicateWithFormat:@"sequence == %@", indexPath.row];
-    _currentCard = [_currentSpeech.cards filteredSetUsingPredicate:findCard].anyObject;
-    //_currentCard            = _currentSpeech.cards[indexPath.row];
+    _currentCard = [[[DataController dataStore] allCardItems:_currentSpeech] objectAtIndex:indexPath.row];
     _timeStepper.value      = [_currentCard.runTime intValue] / 15;
     
     _cardNumberLabel.text   = [NSString stringWithFormat:@"Card %d", (int)(indexPath.row + 1)];
@@ -299,7 +293,7 @@
     _cardTitle.text         = _currentCard.title;
     
     for (BodyPoint *point in _currentCard.points) {
-        UITextField *currentField = (UITextField *)[self.view viewWithTag:[point.sequence intValue]];
+        UITextField *currentField = (UITextField *)[self.view viewWithTag:([point.sequence intValue] + 1)];
         [currentField setText:point.words];
     }
     _textView.text          = @"";
@@ -368,11 +362,13 @@
         NSString *editedString = @"";
         NSString *newPointChar = @"*";
         //put all the points into the text view
-        for (NSString *string in _currentCard.points) {
-            if (![string isEqualToString:@""]) {
-                editedString = [NSString stringWithFormat:@"\n%@%@", newPointChar, string];
+        for (BodyPoint *point in _currentCard.points) {
+            if (point.words.length > 0) {
+                editedString = [NSString stringWithFormat:@"\n%@%@", newPointChar, point.words];
                 _textView.text = [NSString stringWithFormat:@"%@%@", _textView.text, editedString];
             }
+            UITextField *currentField = (UITextField *)[self.view viewWithTag:([point.sequence intValue] + 1)];
+            [currentField setText:point.words];
         }
     } else {
         [self showActiveTextFields];
@@ -392,12 +388,12 @@
 -(int)numberOfPointsInCurrentCard
 {
     int activePoints = 0;
-    for (NSString *string  in _currentCard.points) {
-        if (![string isEqualToString:@""]) {
+    for (BodyPoint *point in _currentCard.points) {
+        if (point.words.length > 0) {
             activePoints++;
+
         }
     }
-    
     return activePoints;
 }
 

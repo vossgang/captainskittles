@@ -125,18 +125,18 @@ typedef enum : int {
         case titleCard:
             [card setTitle:@"New Speech"];
             [card setRunTime:[NSNumber numberWithDouble:30.0]];
-             [card setSequence:[NSNumber numberWithInt:1]];
+             [card setSequence:[NSNumber numberWithInt:0]];
             break;
         case prefaceCard:
             [card setTitle:@"Preface"];
             [card setRunTime:[NSNumber numberWithDouble:60.0]];
-            [card setSequence:[NSNumber numberWithInt:2]];
+            [card setSequence:[NSNumber numberWithInt:1]];
             [card setPreface:@"A description of the scope of your speech goes here"];
             break;
         case bodyCard:
             [card setTitle:@"Point"];
             [card setRunTime:[NSNumber numberWithDouble:120.0]];
-            [card setSequence:[NSNumber numberWithInt:3]];
+            [card setSequence:[NSNumber numberWithInt:2]];
             for (int i = 0; i < 5; i++) {
                 NSString *words = @"";
                 [self createPointItem:card andSequence:i andWords:words];
@@ -145,13 +145,13 @@ typedef enum : int {
         case conclusionCard:
             [card setTitle:@"Conclusion"];
             [card setRunTime:[NSNumber numberWithDouble:30.0]];
-            [card setSequence:[NSNumber numberWithInt:4]];
+            [card setSequence:[NSNumber numberWithInt:3]];
             [card setConclusion:@"A conclusion statement for your speech goes here"];
             break;
         default:
             [card setTitle:@"Blank Entry"];
             [card setRunTime:[NSNumber numberWithDouble:0.0]];
-            [card setSequence:[NSNumber numberWithInt:0]];
+            [card setSequence:[NSNumber numberWithInt:9999]];
             break;
     }
     NSError *error;
@@ -181,7 +181,7 @@ typedef enum : int {
     // Update the sequence on all cards ahead of this one
     for (Card *cardSort in withSpeech.cards) {
         if ([cardSort.sequence intValue] >= withSequence) {
-            int newSequence = [cardSort.sequence intValue];
+            int newSequence = [cardSort.sequence intValue] + 1;
             card.sequence = [NSNumber numberWithInt:newSequence];
         }
     }
@@ -201,7 +201,25 @@ typedef enum : int {
     return card;
 }
 
-- (NSArray *)allCardItems {
+- (NSArray *)allCardItems:(Speech *)withSpeech {
+    allCardItems = nil;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.predicate = [NSPredicate predicateWithFormat:@"speech = %@", withSpeech];
+    NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Card"];
+    [request setEntity:e];
+    
+    NSSortDescriptor *sd = [NSSortDescriptor
+                            sortDescriptorWithKey:@"sequence"
+                            ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
+    
+    NSError *error;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if (!request) {
+        [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
+    }
+    allCardItems = [[NSMutableArray alloc] initWithArray:result];
+    
     return allCardItems;
 }
 
@@ -210,7 +228,7 @@ typedef enum : int {
 - (BodyPoint *)createPointItem:(Card *)withCard andSequence:(int)withSequence andWords:(NSString *)withWords {
     BodyPoint *point;
     // Create new object and insert it into context
-    point = [NSEntityDescription insertNewObjectForEntityForName:@"Point"
+    point = [NSEntityDescription insertNewObjectForEntityForName:@"BodyPoint"
                                           inManagedObjectContext:context];
     [point setCards:withCard];
     [point setSequence:[NSNumber numberWithInt:withSequence]];
@@ -234,21 +252,18 @@ typedef enum : int {
 
 #pragma mark - Core data interaction
 
-- (void)removeManagedObject:(NSManagedObject *)objectToRemove {
+- (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard {
+    // Update the sequence on all cards ahead of this one
+    for (Card *cardSort in withSpeech.cards) {
+        if ([cardSort.sequence intValue] > [withCard.sequence intValue]) {
+            int newSequence = [cardSort.sequence intValue] - 1;
+            withCard.sequence = [NSNumber numberWithInt:newSequence];
+        }
+    }
     NSError *error;
     // Remove the object from the context
-    [context deleteObject:objectToRemove];
-    [objectToRemove.managedObjectContext save:&error];
-    // Check for what kind of object it is and then remove from local array
-    if ([objectToRemove isKindOfClass:[Speech class]]) {
-        [allSpeechItems removeObject:objectToRemove];
-    };
-    if ([objectToRemove isKindOfClass:[Card class]]) {
-        [allCardItems removeObject:objectToRemove];
-    };
-    if ([objectToRemove isKindOfClass:[BodyPoint class]]) {
-        [allPointItems removeObject:objectToRemove];
-    };
+    [context deleteObject:withCard];
+    [withCard.managedObjectContext save:&error];
 }
 
 - (void)reloadAllItems {
@@ -296,7 +311,14 @@ typedef enum : int {
             if (!request) {
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
-            allCardItems = [[NSMutableArray alloc] initWithArray:result];        }
+            allCardItems = [[NSMutableArray alloc] initWithArray:result];
+            
+            for (Card *cardTest in allCardItems) {
+                NSLog(@"Title: %@",cardTest.title);
+            }
+        
+        
+        }
     }];
     
     NSBlockOperation *operationPoint = [NSBlockOperation blockOperationWithBlock:^{

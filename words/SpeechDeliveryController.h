@@ -11,7 +11,9 @@
 
 @interface SpeechDeliveryController : NSObject
 
-@property (nonatomic, copy) Speech *speech;
+//@property (nonatomic, copy) Speech *speech;
+@property (nonatomic, weak) Speech *speech;
+
 @property (nonatomic) NSTimeInterval totalTime, elapsedTime, remaningTime;
 
 +(instancetype)newDeliveryControllerForSpeech:(Speech *)speech;

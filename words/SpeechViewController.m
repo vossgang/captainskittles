@@ -469,25 +469,22 @@
         _speechIsRunning = NO;
         
         //turn text labels and time incramentor "ON"
+        [_cardPointOne setHidden:NO];
+        [_cardPointTwo setHidden:NO];
+        [_cardPointThree setHidden:NO];
+        [_pointFour setHidden:NO];
+        [_pointFive setHidden:NO];
+        [_timeStepper setHidden:NO];
+        
         [_cardTitle setUserInteractionEnabled:YES];
         [_cardPointOne setUserInteractionEnabled:YES];
-        [_cardPointOne setHidden:NO];
-        
         [_cardPointTwo setUserInteractionEnabled:YES];
-        [_cardPointTwo setHidden:NO];
-
         [_cardPointThree setUserInteractionEnabled:YES];
-        [_cardPointThree setHidden:NO];
-
         [_pointFour setUserInteractionEnabled:YES];
-        [_pointFour setHidden:NO];
-
         [_pointFive setUserInteractionEnabled:YES];
-        [_pointFive setHidden:NO];
-
         [_textView setUserInteractionEnabled:YES];
         [_timeStepper setUserInteractionEnabled:YES];
-        [_timeStepper setHidden:NO];
+        
         _textView.backgroundColor = [UIColor whiteColor];
         _cardTitle.backgroundColor = [UIColor whiteColor];
 

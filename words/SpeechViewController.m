@@ -496,7 +496,7 @@
 
     } else {
         
-        if (_timeLine.) {
+        if ([_timeLine isInitialized]) {
             
             //turn text labels and time incramentor "ON"
             [_cardTitle setUserInteractionEnabled:NO];

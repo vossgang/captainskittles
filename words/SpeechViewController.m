@@ -270,16 +270,10 @@
     return YES;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+-(void)setTextValues
 {
-    if ([_textView isFirstResponder] && (!_speechIsRunning)) {
-        [self textViewShouldEndEditing:_textView];
-    }
-
-    _currentCard            = _currentSpeech.cards[indexPath.row];
-    _timeStepper.value      = _currentCard.runTime / 15;
-    
-    _cardNumberLabel.text   = [NSString stringWithFormat:@"Card %d", (int)(indexPath.row + 1)];
+    int index = (int)[_currentSpeech.cards indexOfObject:_currentCard];
+    _cardNumberLabel.text   = [NSString stringWithFormat:@"Card %d", (index + 1)];
     
     _timeLabel.text         = [NSString stringWithFormat:@"%d seconds", (int)_currentCard.runTime];
     _cardTitle.text         = _currentCard.title;
@@ -290,15 +284,17 @@
     _pointFive.text         = _currentCard.points[4];
     _textView.text          = @"";
     
-    
     int minutes = _currentCard.runTime / 60;
     int seconds = (int)_currentCard.runTime % 60;
     if (seconds != 0) {
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
-       _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
+        _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
-    
+}
+
+-(void)showFieldsForCurrentCard
+{
     switch (_currentCard.type) {
         case titleCard:
             [_textView setHidden:NO];
@@ -313,6 +309,21 @@
             break;
         default: [_textView setHidden:YES]; break;
     }
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([_textView isFirstResponder] && (!_speechIsRunning)) {
+        [self textViewShouldEndEditing:_textView];
+    }
+
+    _currentCard            = _currentSpeech.cards[indexPath.row];
+    _timeStepper.value      = _currentCard.runTime / 15;
+    
+    [self setTextValues];
+    
+    [self showFieldsForCurrentCard];
+
 
     if (_currentCard.type == titleCard) {
         NSString *string = _currentCard.title;
@@ -328,20 +339,12 @@
         _textView.text = string;
         
         //hide all textfields
-        [_cardPointOne setHidden:YES];
-        [_cardPointTwo setHidden:YES];
-        [_cardPointThree setHidden:YES];
-        [_pointFour setHidden:YES];
-        [_pointFive setHidden:YES];
+        [self unhideTextFields];
         _textView.backgroundColor = [UIColor clearColor];
     } else {
         //unhide all textfields
         if (!_speechIsRunning) {
-            [_cardPointOne setHidden:NO];
-            [_cardPointTwo setHidden:NO];
-            [_cardPointThree setHidden:NO];
-            [_pointFour setHidden:NO];
-            [_pointFive setHidden:NO];
+            [self hideTextFields];
             _textView.backgroundColor = [UIColor whiteColor];
         }
     }
@@ -364,6 +367,24 @@
         //do editing stuff
         //show the corresponding views
     }
+}
+
+-(void)hideTextFields
+{
+    [_cardPointOne setHidden:NO];
+    [_cardPointTwo setHidden:NO];
+    [_cardPointThree setHidden:NO];
+    [_pointFour setHidden:NO];
+    [_pointFive setHidden:NO];
+}
+
+-(void)unhideTextFields
+{
+    [_cardPointOne setHidden:YES];
+    [_cardPointTwo setHidden:YES];
+    [_cardPointThree setHidden:YES];
+    [_pointFour setHidden:YES];
+    [_pointFive setHidden:YES];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath didMoveToIndexPath:(NSIndexPath *)toIndexPath

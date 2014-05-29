@@ -164,7 +164,7 @@
     // Iterate through all the points associated with the card and then pull the textfield
     // by its tag that is associated with the points sequence number
     for (BodyPoint *point in _currentCard.points) {
-        UITextField *currentField = (UITextField *)[self.view viewWithTag:[point.sequence intValue]];
+        UITextField *currentField = (UITextField *)[self.view viewWithTag:[point.sequence intValue] + 1];
         [point setWords:currentField.text];
     }
     _currentCard.title     = _cardTitle.text;
@@ -215,6 +215,19 @@
     
     return YES;
 }
+
+//- (void)textViewDidEndEditing:(UITextView *)textView {
+//    if ([textView.text isEqualToString:@""]) {
+//        [textView setText:@"Notes"];
+//    }
+//    [textView resignFirstResponder];
+//}
+//
+//- (void)textViewDidBeginEditing:(UITextView *)textView {
+//    if ([textView.text isEqual:@"Notes"]) {
+//        [textView setText:@""];
+//    }
+//}
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

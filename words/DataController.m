@@ -134,7 +134,7 @@ typedef enum : int {
             [card setPreface:@"A description of the scope of your speech goes here"];
             break;
         case bodyCard:
-            [card setTitle:@"Point"];
+            [card setTitle:@"Main Point"];
             [card setRunTime:[NSNumber numberWithDouble:120.0]];
             [card setSequence:[NSNumber numberWithInt:2]];
             for (int i = 0; i < 5; i++) {

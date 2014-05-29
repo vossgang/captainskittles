@@ -21,13 +21,12 @@
     return self;
 }
 
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    [CardStyleKit drawExplosionViewCardWithTitle:@"" withPointCount:@"" timeRemaining:@"" withinFrame:rect];
+    [CardStyleKit drawExplosionViewCardWithTitle:_titleLabel withPointCount:_pointLabel timeRemaining:_timeLabel withinFrame:rect];
 }
 
 

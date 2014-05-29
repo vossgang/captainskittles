@@ -273,9 +273,9 @@
 			children = (
 				C9174A571935108D001E7249 /* card.png */,
 				1B451678192FDDF400B79C33 /* Speech.h */,
+				1B451679192FDDF400B79C33 /* Speech.m */,
 				C9E1A0061936900C0064C397 /* CoreDataInteraction.h */,
 				C9E1A0071936900C0064C397 /* CoreDataInteraction.m */,
-				1B451679192FDDF400B79C33 /* Speech.m */,
 				1B45167C192FDE6700B79C33 /* Card.h */,
 				1B45167D192FDE6700B79C33 /* Card.m */,
 			);

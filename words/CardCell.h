@@ -12,9 +12,9 @@
 
 
 @interface CardCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UITextView *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *pointLabel;
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic)  NSString *titleLabel;
+@property (weak, nonatomic)  NSString *pointLabel;
+@property (weak, nonatomic)  NSString *timeLabel;
 
 
 

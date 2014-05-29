@@ -50,7 +50,8 @@
     timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
     timeLine.allBlocks              = [NSMutableArray new];
     timeLine.indexOfCurrentBlock    = 0;
-    timeLine.lifeCycleColors        = @[[UIColor greenColor], [UIColor grayColor], [UIColor redColor]];
+    timeLine.lifeCycleColors        = @[[UIColor colorWithRed:.2 green:1 blue:.2 alpha:1],
+                                        [UIColor colorWithRed:1 green:.2 blue:.2 alpha:1] ];
 
     //setup timeline view in proportion with reference view
     timeLine.view = [[UIView alloc] initWithFrame:frame];
@@ -137,11 +138,9 @@
 -(void)advanceCursor {
     
     TimeBlock *currentBlock = _allBlocks[_indexOfCurrentBlock];
-    
+
     currentBlock.color = [Colorizer colorFromTimeRemaining:--currentBlock.timeRemaining withTotalTime:currentBlock.duration usingColors:_lifeCycleColors];
-    
-//    currentBlock.color = [Colorizer colorFromTimeRemaining:currentBlock.duration withTotalTime:--currentBlock.timeRemaining usingColors:self.lifeCycleColors];
-    
+            
     NSLog(@"%f", currentBlock.timeRemaining);
     
     if ((currentBlock.frame.origin.x + currentBlock.frame.size.width) < (_cursor.frame.origin.x + (_pixelsPerSecond * 4))) {

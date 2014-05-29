@@ -1,15 +1,15 @@
 //
-//  CardCell.m
+//  PresentationCardView.m
 //  words
 //
-//  Created by Matthew Voss on 5/27/14.
+//  Created by Christopher Cohen on 5/28/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
-#import "CardCell.h"
+#import "PresentationCardView.h"
 #import "CardStyleKit.h"
 
-@implementation CardCell
+@implementation PresentationCardView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -21,13 +21,15 @@
     return self;
 }
 
+-(void)setCard:(Card *)card {
+    
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
-    [CardStyleKit drawExplosionViewCardWithTitle:@"" withPointCount:@"" timeRemaining:@"" withinFrame:rect];
+    [CardStyleKit drawPresentationCardWithTitle:@"" withTextField:@"" withCardNumber:@"" andTimeRemaining:@""];
 }
 
 

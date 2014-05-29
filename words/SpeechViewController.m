@@ -12,9 +12,12 @@
 #import "TimeLine.h"
 #import "CardCell.h"
 #import "Constants.h"
+#import "PresentationCardView.h"
 #import "LXReorderableCollectionViewFlowLayout.h"
 
 @interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout, LXReorderableCollectionViewDataSource>
+
+@property (strong, nonatomic) IBOutlet UIView *cardEditor;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
 
@@ -36,12 +39,14 @@
 @property (nonatomic, strong) NSString *oldTextViewText;
 
 
-
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cardNumberLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *timeStepper;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+
+//UI element properties
+@property (strong, nonatomic) PresentationCardView *presentationCard;
 
 @property (nonatomic, readwrite) BOOL   speechIsRunning;
 
@@ -68,13 +73,20 @@
     _textView.delegate                      = self;
     _cardCollectionView.dataSource          = self;
     _cardCollectionView.delegate            = self;
-    _cardCollectionView.backgroundColor     = [UIColor whiteColor];
-    NSIndexPath *indexPath                  = [NSIndexPath indexPathForRow:0 inSection:0];
-    _textViewFrame                          = _textView.frame;
+    _cardCollectionView.backgroundColor     = [UIColor clearColor];
+    
+    
+    //setup card editor
+    _cardEditor.backgroundColor = [UIColor clearColor];
+    
+    //presentation card view
+    _presentationCard = [[PresentationCardView alloc] initWithFrame:CGRectMake(128, 55, 420, 240)];
+    [self.view insertSubview:_presentationCard belowSubview:_cardEditor];
     
     [_textView setHidden:YES];
 
-    [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self collectionView:_cardCollectionView didSelectItemAtIndexPath: indexPath];
     
     [self instantiateNewTimeLine];
     
@@ -216,20 +228,23 @@
     
     Card *card = _currentSpeech.cards[indexPath.row];
     
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.titleLabel.text    = card.title;
     int min = card.runTime / 60;
     int sec = (int)card.runTime % 60;
     NSString *partialMin = @"";
     switch (sec) {
-        case 15: partialMin = ONE_FORTH;    break;
-        case 30: partialMin = ONE_HALF;     break;
-        case 45: partialMin = THREE_FORTH;  break;
+        case 15: partialMin = ONE_FORTH; break;
+        case 30: partialMin = ONE_HALF; break;
+        case 45: partialMin = THREE_FORTH; break;
         default:
             break;
     }
     if (min) {
-        cell.timeLabel.text       = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
     } else {
-        cell.timeLabel.text       = [NSString stringWithFormat:@"%@ min", partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", partialMin];
     }
     int stringCounter = 0;
     for (NSString *string in card.points) {
@@ -240,7 +255,7 @@
     
     cell.titleLabel.text = card.title;
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
-    cell.backgroundColor = [UIColor orangeColor];
+
     
     return cell;
 }

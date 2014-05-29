@@ -50,8 +50,8 @@
     timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
     timeLine.blocks              = [NSMutableArray new];
     timeLine.indexOfCurrentBlock    = 0;
-    timeLine.lifeCycleColors        = @[[UIColor colorWithRed:.2 green:1 blue:.2 alpha:1],
-                                        [UIColor yellowColor],
+    timeLine.lifeCycleColors        = @[[UIColor colorWithRed:0.36 green:0.71 blue:0.26 alpha:1],
+                                        [UIColor colorWithRed:0.84 green:0.58 blue:0 alpha:1],
                                         [UIColor colorWithRed:1 green:.2 blue:.2 alpha:1] ];
 
     //setup timeline view in proportion with reference view
@@ -130,7 +130,6 @@
         //calculate the new block's width
         width = (block.percentageOfTimeLine * self.view.frame.size.width);
         
-        [block setNeedsDisplay];
         block.frame = CGRectMake(positionInTimeline, 0, width, self.view.frame.size.height);
         [block setNeedsDisplay];
    
@@ -141,12 +140,13 @@
 }
 
 -(void)advanceCursor {
-    
-    TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
 
-    currentBlock.color = [Colorizer colorFromTimeRemaining:--currentBlock.timeRemaining withTotalTime:currentBlock.duration usingColors:_lifeCycleColors];
-            
+    TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
+    currentBlock.timeRemaining -= 1.0f; //decrement the time remaning
+    currentBlock.color = [Colorizer colorFromTimeRemaining:currentBlock.timeRemaining withTotalTime:currentBlock.duration usingColors:_lifeCycleColors];
+    
     NSLog(@"%f", currentBlock.timeRemaining);
+            
     
     if ((currentBlock.frame.origin.x + currentBlock.frame.size.width) < (_cursor.frame.origin.x + (_pixelsPerSecond * 4))) {
         
@@ -205,15 +205,26 @@
         TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
         currentBlock.state      = presented;
         
-        //if the current block has time remaining in it's duration, deduct it, and add it to the remaining blocks
-        if (currentBlock) {
-            
+        //add one second to the current blocks duration
+        NSLog(@"%f", currentBlock.timeRemaining);
+        CGFloat timeRemainingForCurrentBlock = currentBlock.timeRemaining;
+        currentBlock.duration       = currentBlock.duration - timeRemainingForCurrentBlock;
+        currentBlock.timeRemaining  = 0;
+        NSLog(@"%f", currentBlock.duration);
+
+        
+        //add the overage from the time duration to the remaining blocks
+        for (TimeBlock *block in _blocks) {
+            if (block.state == pending) block.duration = block.duration + (timeRemainingForCurrentBlock * (block.duration / _speechTimeRemaining));
         }
         
-        _indexOfCurrentBlock++;
-        currentBlock            = _blocks[_indexOfCurrentBlock];
+        //increment index of currentblock
+        currentBlock            = _blocks[++_indexOfCurrentBlock];
         currentBlock.state      = presenting;
         
+        [UIView animateWithDuration:1 animations:^{
+            [self redrawTimeLine];
+        }];
     }
 }
 

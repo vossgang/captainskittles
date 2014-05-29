@@ -13,7 +13,7 @@
 @interface TimeBlock : UIView
 
 @property (nonatomic, weak) TimeBlock *nextBlock;
-@property (nonatomic) CGFloat duration, timeRemaining;
+@property (nonatomic, readwrite) CGFloat duration, timeRemaining;
 @property (nonatomic) CGFloat percentageOfTimeLine;
 @property (nonatomic) BlockState state;
 @property (nonatomic) UIColor *color;

@@ -252,6 +252,15 @@ typedef enum : int {
 
 #pragma mark - Core data interaction
 
+- (void)removeSpeechCard:(Speech *)withSpeech {
+    NSError *error;
+    // Remove the object from the context
+    [context deleteObject:withSpeech];
+    [withSpeech.managedObjectContext save:&error];
+    allSpeechItems = nil;
+    [self loadAllItems];
+}
+
 - (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard {
     // Update the sequence on all cards ahead of this one
     for (Card *cardSort in withSpeech.cards) {
@@ -264,6 +273,8 @@ typedef enum : int {
     // Remove the object from the context
     [context deleteObject:withCard];
     [withCard.managedObjectContext save:&error];
+    allCardItems = nil;
+    [self allCardItems:withSpeech];
 }
 
 - (void)reloadAllItems {

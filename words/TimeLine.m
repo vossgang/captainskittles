@@ -10,7 +10,7 @@
 #import "Speech.h"
 #import "Card.h"
 #import "TimeBlock.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "Cursor.h"
 #import "Colorizer.h"
 #import "SpeechController.h"
@@ -45,16 +45,18 @@
 {
     NSLog(@"%d", (int)speech.cards.count);
 
-    TimeLine *timeLine                  = [TimeLine new];
-    SpeechController *speechController  = [SpeechController new];
+    TimeLine *timeLine                 = [TimeLine new];
+    NSTimeInterval timeInterval     = [SpeechController calculateTotalTime:speech];
     
-    timeLine.timeBlockViews             = [NSMutableArray new];
-    //timeLine.speechTimeRemaining        = speech.runTime;
-    //timeLine.speechRunTime              = speech.runTime;
-    //timeLine.pixelsPerSecond            = (frame.size.width / speech.runTime);
-    timeLine.allBlocks                  = [NSMutableArray new];
-    timeLine.indexOfCurrentBlock        = 0;
-    timeLine.lifeCycleColors            = @[[UIColor greenColor], [UIColor grayColor], [UIColor redColor]];
+    timeLine.timeBlockViews         = [NSMutableArray new];
+    timeLine.speechTimeRemaining    = timeInterval;
+    timeLine.speechRunTime          = timeInterval;
+    timeLine.pixelsPerSecond        = (frame.size.width / timeInterval);
+    timeLine.blocks              = [NSMutableArray new];
+    timeLine.indexOfCurrentBlock    = 0;
+    timeLine.lifeCycleColors        = @[[UIColor colorWithRed:0.36 green:0.71 blue:0.26 alpha:1],
+                                        [UIColor colorWithRed:0.84 green:0.58 blue:0 alpha:1],
+                                        [UIColor colorWithRed:1 green:.2 blue:.2 alpha:1] ];
 
     //setup timeline view in proportion with reference view
     timeLine.view = [[UIView alloc] initWithFrame:frame];

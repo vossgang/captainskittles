@@ -12,6 +12,6 @@
 @interface SpeechController : NSObject
 
 //instance methods
-- (void)calculateTotalTime:(Speech *)speech;
++ (NSTimeInterval)calculateTotalTime:(Speech *)speech;
 
 @end

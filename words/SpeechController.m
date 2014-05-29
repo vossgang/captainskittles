@@ -9,31 +9,21 @@
 #import "SpeechController.h"
 
 @interface SpeechController ()
-{
-    double _runTime;
-}
+
 
 @end
 
 @implementation SpeechController
 
-- (void)calculateTotalTime:(Speech *)speech {
-    _runTime = 0;
++ (NSTimeInterval)calculateTotalTime:(Speech *)speech {
+    double _runTime = 0;
     for (Card *card in speech.cards) {
         if (card.userEdited) {
             _runTime += [card.runTime doubleValue];
         }
     }
-}
-
--(NSTimeInterval)runTime
-{
-    NSTimeInterval time = 0;
-    for (Card *card in [[DataController dataStore] allCardItems]) {
-        if (card.userEdited) {
-            _runTime += [card.runTime doubleValue];
-        }    }
-    return time;
+    
+    return _runTime;
 }
 
 @end

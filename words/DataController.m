@@ -137,8 +137,8 @@ typedef enum : int {
             [card setTitle:@"Point"];
             [card setRunTime:[NSNumber numberWithDouble:120.0]];
             [card setSequence:[NSNumber numberWithInt:3]];
-            for (int i = 1; i < 6; i++) {
-                NSString *words = @"A point goes here";
+            for (int i = 0; i < 5; i++) {
+                NSString *words = @"";
                 [self createPointItem:card andSequence:i andWords:words];
             }
             break;
@@ -162,6 +162,40 @@ typedef enum : int {
         NSLog(@"%@",[error localizedDescription]);
     } else {
         [allCardItems addObject:card];;
+    }
+    
+    return card;
+}
+
+- (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence {
+    Card *card;
+    // Create new object and insert it into context
+    card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"
+                                         inManagedObjectContext:context];
+    
+    // Default values for cards
+    [card setUserEdited:NO];
+    [card setSpeech:withSpeech];
+    [card setType:[NSNumber numberWithInt:2]];
+    [card setSequence:[NSNumber numberWithInt:withSequence]];
+    // Update the sequence on all cards ahead of this one
+    for (Card *cardSort in withSpeech.cards) {
+        if ([cardSort.sequence intValue] >= withSequence) {
+            int newSequence = [cardSort.sequence intValue];
+            card.sequence = [NSNumber numberWithInt:newSequence];
+        }
+    }
+    
+    NSError *error;
+    // Save the object to context
+    [card.managedObjectContext save:&error];
+    
+    if (error) {
+        NSLog(@"%@",[error localizedDescription]);
+    } else {
+        // Reload the card array to reorder sequence values
+        allCardItems = nil;
+        [self loadAllItems];
     }
     
     return card;
@@ -232,7 +266,7 @@ typedef enum : int {
         // Speech items
         if (!allSpeechItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSSpeech"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Speech"];
             [request setEntity:e];
             
             NSError *error;
@@ -249,11 +283,11 @@ typedef enum : int {
         if (!allCardItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toSpeech = %@", ];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSCard"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Card"];
             [request setEntity:e];
             
             NSSortDescriptor *sd = [NSSortDescriptor
-                                    sortDescriptorWithKey:@"cardSequence"
+                                    sortDescriptorWithKey:@"sequence"
                                     ascending:YES];
             [request setSortDescriptors:[NSArray arrayWithObject:sd]];
             
@@ -270,11 +304,11 @@ typedef enum : int {
         if (!allPointItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toCard = %@", ];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSPoint"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"BodyPoint"];
             [request setEntity:e];
             
             NSSortDescriptor *sd = [NSSortDescriptor
-                                    sortDescriptorWithKey:@"pointSequence"
+                                    sortDescriptorWithKey:@"sequence"
                                     ascending:YES];
             [request setSortDescriptors:[NSArray arrayWithObject:sd]];
             

@@ -10,17 +10,16 @@
 		146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */; };
 		146A8BE11934654900F4AD99 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BE01934654900F4AD99 /* DataController.m */; };
 		146A8BE41934675100F4AD99 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BE31934675100F4AD99 /* SearchController.m */; };
-		146A8C7319379F5500F4AD99 /* SpeechController.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C7219379F5500F4AD99 /* SpeechController.m */; };
-		146A8C891937A8F400F4AD99 /* BodyPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C881937A8F400F4AD99 /* BodyPoint.m */; };
-		146A8C8C1937A8F500F4AD99 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C8B1937A8F500F4AD99 /* Card.m */; };
-		146A8C8F1937A8F500F4AD99 /* Speech.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C8E1937A8F500F4AD99 /* Speech.m */; };
+		146A8C961937AD0E00F4AD99 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C951937AD0E00F4AD99 /* Card.m */; };
+		146A8C991937AD0E00F4AD99 /* BodyPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C981937AD0E00F4AD99 /* BodyPoint.m */; };
+		146A8C9F1937B8D300F4AD99 /* SpeechController.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C9E1937B8D300F4AD99 /* SpeechController.m */; };
+		146A8CA21937BF5000F4AD99 /* Speech.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8CA11937BF5000F4AD99 /* Speech.m */; };
 		1B1C292819364BC200104415 /* CardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292719364BC200104415 /* CardCell.m */; };
 		1B1C292E19364E9500104415 /* Colorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292D19364E9500104415 /* Colorizer.m */; };
 		1B1C293119366F9F00104415 /* CardStyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292F19366F9F00104415 /* CardStyleKit.m */; };
 		1B1C29371936868800104415 /* TimeBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C29341936868800104415 /* TimeBlock.m */; };
 		1B1C29381936868800104415 /* TimeLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C29361936868800104415 /* TimeLine.m */; };
 		1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C293B1936879F00104415 /* PresentationCardView.m */; };
-		1B1C294219369A0900104415 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C294119369A0900104415 /* LXReorderableCollectionViewFlowLayout.m */; };
 		1B451644192FDDDA00B79C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451643192FDDDA00B79C33 /* Foundation.framework */; };
 		1B451646192FDDDA00B79C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451645192FDDDA00B79C33 /* CoreGraphics.framework */; };
 		1B451648192FDDDA00B79C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451647192FDDDA00B79C33 /* UIKit.framework */; };
@@ -41,7 +40,6 @@
 		1BE286681936310A007DB1C2 /* Cursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE286671936310A007DB1C2 /* Cursor.m */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
 		C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6F41933CE7900F1BB8B /* SpeechCell.m */; };
-		C9E1A0081936900C0064C397 /* CoreDataInteraction.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1A0071936900C0064C397 /* CoreDataInteraction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,14 +58,15 @@
 		146A8BE01934654900F4AD99 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		146A8BE21934675100F4AD99 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
 		146A8BE31934675100F4AD99 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchController.m; sourceTree = "<group>"; };
-		146A8C7119379F5500F4AD99 /* SpeechController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechController.h; sourceTree = "<group>"; };
-		146A8C7219379F5500F4AD99 /* SpeechController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechController.m; sourceTree = "<group>"; };
-		146A8C871937A8F400F4AD99 /* BodyPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyPoint.h; sourceTree = "<group>"; };
-		146A8C881937A8F400F4AD99 /* BodyPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BodyPoint.m; sourceTree = "<group>"; };
-		146A8C8A1937A8F500F4AD99 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
-		146A8C8B1937A8F500F4AD99 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
-		146A8C8D1937A8F500F4AD99 /* Speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Speech.h; sourceTree = "<group>"; };
-		146A8C8E1937A8F500F4AD99 /* Speech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Speech.m; sourceTree = "<group>"; };
+		146A8C941937AD0E00F4AD99 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		146A8C951937AD0E00F4AD99 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		146A8C971937AD0E00F4AD99 /* BodyPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyPoint.h; sourceTree = "<group>"; };
+		146A8C981937AD0E00F4AD99 /* BodyPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BodyPoint.m; sourceTree = "<group>"; };
+		146A8C9A1937B30F00F4AD99 /* Constant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
+		146A8C9D1937B8D300F4AD99 /* SpeechController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechController.h; sourceTree = "<group>"; };
+		146A8C9E1937B8D300F4AD99 /* SpeechController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechController.m; sourceTree = "<group>"; };
+		146A8CA01937BF5000F4AD99 /* Speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Speech.h; sourceTree = "<group>"; };
+		146A8CA11937BF5000F4AD99 /* Speech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Speech.m; sourceTree = "<group>"; };
 		1B1C292619364BC200104415 /* CardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardCell.h; sourceTree = "<group>"; };
 		1B1C292719364BC200104415 /* CardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardCell.m; sourceTree = "<group>"; };
 		1B1C292C19364E9500104415 /* Colorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorizer.h; sourceTree = "<group>"; };
@@ -109,13 +108,10 @@
 		1BE2866319358B8A007DB1C2 /* StyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleKit.h; sourceTree = "<group>"; };
 		1BE286661936310A007DB1C2 /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
 		1BE286671936310A007DB1C2 /* Cursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cursor.m; sourceTree = "<group>"; };
-		C9174A561934FE97001E7249 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = /Users/christophercohen/Desktop/captainskittles/words/Constants.h; sourceTree = "<absolute>"; };
 		C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechViewController.h; sourceTree = "<group>"; };
 		C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
 		C99BE6F31933CE7900F1BB8B /* SpeechCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechCell.h; sourceTree = "<group>"; };
 		C99BE6F41933CE7900F1BB8B /* SpeechCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechCell.m; sourceTree = "<group>"; };
-		C9E1A0061936900C0064C397 /* CoreDataInteraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataInteraction.h; sourceTree = "<group>"; };
-		C9E1A0071936900C0064C397 /* CoreDataInteraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataInteraction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,30 +141,53 @@
 		146A8BD21934641400F4AD99 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
-				C9174A561934FE97001E7249 /* Constants.h */,
+				146A8C9D1937B8D300F4AD99 /* SpeechController.h */,
+				146A8C9E1937B8D300F4AD99 /* SpeechController.m */,
 				146A8BDF1934654900F4AD99 /* DataController.h */,
 				146A8BE01934654900F4AD99 /* DataController.m */,
 				146A8BE21934675100F4AD99 /* SearchController.h */,
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
-				C9174A561934FE97001E7249 /* Constants.h */,
-				146A8C7119379F5500F4AD99 /* SpeechController.h */,
-				146A8C7219379F5500F4AD99 /* SpeechController.m */,
+				1BE28665193630F7007DB1C2 /* TimeLine */,
 			);
 			name = "Data Models";
 			sourceTree = "<group>";
 		};
-		146A8C771937A1C800F4AD99 /* Entitites */ = {
+		146A8C901937ACFC00F4AD99 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				146A8C8D1937A8F500F4AD99 /* Speech.h */,
-				146A8C8E1937A8F500F4AD99 /* Speech.m */,
-				146A8C8A1937A8F500F4AD99 /* Card.h */,
-				146A8C8B1937A8F500F4AD99 /* Card.m */,
-				146A8C871937A8F400F4AD99 /* BodyPoint.h */,
-				146A8C881937A8F400F4AD99 /* BodyPoint.m */,
+				146A8C971937AD0E00F4AD99 /* BodyPoint.h */,
+				146A8C981937AD0E00F4AD99 /* BodyPoint.m */,
+				146A8C941937AD0E00F4AD99 /* Card.h */,
+				146A8C951937AD0E00F4AD99 /* Card.m */,
+				146A8CA01937BF5000F4AD99 /* Speech.h */,
+				146A8CA11937BF5000F4AD99 /* Speech.m */,
 			);
-			name = Entitites;
+			name = Entities;
+			sourceTree = "<group>";
+		};
+		1B1C293219366FA800104415 /* Cards StyleKit */ = {
+			isa = PBXGroup;
+			children = (
+				1B1C293019366F9F00104415 /* CardStyleKit.h */,
+				1B1C292F19366F9F00104415 /* CardStyleKit.m */,
+			);
+			name = "Cards StyleKit";
+			sourceTree = "<group>";
+		};
+		1B1C29391936874F00104415 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				1B1C292619364BC200104415 /* CardCell.h */,
+				1B1C292719364BC200104415 /* CardCell.m */,
+				1B45167F192FDE7D00B79C33 /* CardView.h */,
+				1B451680192FDE7D00B79C33 /* CardView.m */,
+				C99BE6F31933CE7900F1BB8B /* SpeechCell.h */,
+				C99BE6F41933CE7900F1BB8B /* SpeechCell.m */,
+				1B1C293A1936879F00104415 /* PresentationCardView.h */,
+				1B1C293B1936879F00104415 /* PresentationCardView.m */,
+			);
+			name = Subclasses;
 			sourceTree = "<group>";
 		};
 		1B451637192FDDDA00B79C33 = {
@@ -204,7 +223,7 @@
 		1B451649192FDDDA00B79C33 /* words */ = {
 			isa = PBXGroup;
 			children = (
-				146A8C771937A1C800F4AD99 /* Entitites */,
+				146A8C901937ACFC00F4AD99 /* Entities */,
 				146A8BD21934641400F4AD99 /* Data Models */,
 				1B45165B192FDDDA00B79C33 /* Images.xcassets */,
 				1B451652192FDDDA00B79C33 /* AppDelegate.h */,
@@ -251,7 +270,7 @@
 		1B45167B192FDE0700B79C33 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C9174A571935108D001E7249 /* card.png */,
+				146A8C9A1937B30F00F4AD99 /* Constant.h */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -409,7 +428,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				146A8C8F1937A8F500F4AD99 /* Speech.m in Sources */,
+				146A8C991937AD0E00F4AD99 /* BodyPoint.m in Sources */,
 				1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */,
 				C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */,
 				1B1C292E19364E9500104415 /* Colorizer.m in Sources */,
@@ -418,19 +437,19 @@
 				C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */,
 				1B45165A192FDDDA00B79C33 /* ViewController.m in Sources */,
 				146A8BE11934654900F4AD99 /* DataController.m in Sources */,
+				146A8C961937AD0E00F4AD99 /* Card.m in Sources */,
 				1B1C29371936868800104415 /* TimeBlock.m in Sources */,
 				1B451654192FDDDA00B79C33 /* AppDelegate.m in Sources */,
 				1B451650192FDDDA00B79C33 /* main.m in Sources */,
 				146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */,
 				146A8BE41934675100F4AD99 /* SearchController.m in Sources */,
-				146A8C891937A8F400F4AD99 /* BodyPoint.m in Sources */,
 				1BE286681936310A007DB1C2 /* Cursor.m in Sources */,
+				146A8CA21937BF5000F4AD99 /* Speech.m in Sources */,
 				1B1C292819364BC200104415 /* CardCell.m in Sources */,
-				146A8C8C1937A8F500F4AD99 /* Card.m in Sources */,
-				146A8C7319379F5500F4AD99 /* SpeechController.m in Sources */,
-				C9174A551934FE74001E7249 /* TimeBlock.m in Sources */,
-				C9174A541934FE74001E7249 /* TimeLine.m in Sources */,
 				1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */,
+				1B1C293C1936879F00104415 /* PresentationCardView.m in Sources */,
+				1B1C29381936868800104415 /* TimeLine.m in Sources */,
+				146A8C9F1937B8D300F4AD99 /* SpeechController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

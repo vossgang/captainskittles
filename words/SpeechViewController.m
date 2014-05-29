@@ -272,7 +272,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_textView isFirstResponder]) {
+    if ([_textView isFirstResponder] && (!_speechIsRunning)) {
         [self textViewShouldEndEditing:_textView];
     }
 

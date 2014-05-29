@@ -110,6 +110,8 @@
     }
     
     [_cardCollectionView reloadData];
+    [self instantiateNewTimeLine];
+
 }
 
 
@@ -163,6 +165,7 @@
     [self showActiveTextFields];
     
     [_cardCollectionView reloadData];
+    [self instantiateNewTimeLine];
     
     return YES;
 }
@@ -200,6 +203,8 @@
     _currentCard.preface   = _textView.text;
 
     [textView resignFirstResponder];
+    
+    [self instantiateNewTimeLine];
     
     return YES;
 }
@@ -490,29 +495,34 @@
 
 
     } else {
-        //turn text labels and time incramentor "ON"
-        [_cardTitle setUserInteractionEnabled:NO];
-        [_cardPointOne setUserInteractionEnabled:NO];
-        [_cardPointTwo setUserInteractionEnabled:NO];
-        [_cardPointThree setUserInteractionEnabled:NO];
-        [_pointFour setUserInteractionEnabled:NO];
-        [_pointFive setUserInteractionEnabled:NO];
-        [_textView setUserInteractionEnabled:NO];
-        [_timeStepper setUserInteractionEnabled:NO];
         
-        
-        [_timeStepper setHidden:YES];
-        [_cardPointOne setHidden:YES];
-        [_cardPointTwo setHidden:YES];
-        [_cardPointThree setHidden:YES];
-        [_pointFour setHidden:YES];
-        [_pointFive setHidden:YES];
+        if ([_timeLine isInitialized]) {
+            
+            //turn text labels and time incramentor "ON"
+            [_cardTitle setUserInteractionEnabled:NO];
+            [_cardPointOne setUserInteractionEnabled:NO];
+            [_cardPointTwo setUserInteractionEnabled:NO];
+            [_cardPointThree setUserInteractionEnabled:NO];
+            [_pointFour setUserInteractionEnabled:NO];
+            [_pointFive setUserInteractionEnabled:NO];
+            [_textView setUserInteractionEnabled:NO];
+            [_timeStepper setUserInteractionEnabled:NO];
+            
+            
+            [_timeStepper setHidden:YES];
+            [_cardPointOne setHidden:YES];
+            [_cardPointTwo setHidden:YES];
+            [_cardPointThree setHidden:YES];
+            [_pointFour setHidden:YES];
+            [_pointFive setHidden:YES];
+            
+            _cardTitle.backgroundColor = [UIColor clearColor];
+            _textView.backgroundColor = [UIColor clearColor];
+            
+            _speechIsRunning = YES;
+            [_timeLine start];
+        }
 
-        _cardTitle.backgroundColor = [UIColor clearColor];
-        _textView.backgroundColor = [UIColor clearColor];
-        
-        _speechIsRunning = YES;
-        [_timeLine start];
     }
 }
 

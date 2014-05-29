@@ -74,7 +74,7 @@
     _cardCollectionView.dataSource          = self;
     _cardCollectionView.delegate            = self;
     _cardCollectionView.backgroundColor     = [UIColor clearColor];
-    
+    _oldTextViewText                        = @"";
     
     //setup card editor
     _cardEditor.backgroundColor = [UIColor clearColor];
@@ -110,7 +110,7 @@
     }
     
     [_cardCollectionView reloadData];
-    [self instantiateNewTimeLine];
+    [self animateTimeLineRefactor];
 
 }
 
@@ -152,6 +152,7 @@
     
     if (![_oldTextFieldText isEqual:textField.text]) {
         _currentCard.userEdited = YES;
+        [self animateTimeLineRefactor];
     }
     
     _currentCard.points[0] = _cardPointOne.text;
@@ -165,7 +166,6 @@
     [self showActiveTextFields];
     
     [_cardCollectionView reloadData];
-    [self instantiateNewTimeLine];
     
     return YES;
 }
@@ -190,6 +190,7 @@
 {
     if (![_oldTextViewText isEqual:textView.text]) {
         _currentCard.userEdited = YES;
+        [self animateTimeLineRefactor];
     }
     
     switch (_currentCard.type) {
@@ -204,7 +205,6 @@
 
     [textView resignFirstResponder];
     
-    [self instantiateNewTimeLine];
     
     return YES;
 }
@@ -272,7 +272,9 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self textViewShouldEndEditing:_textView];
+    if ([_textView isFirstResponder]) {
+        [self textViewShouldEndEditing:_textView];
+    }
 
     _currentCard            = _currentSpeech.cards[indexPath.row];
     _timeStepper.value      = _currentCard.runTime / 15;
@@ -498,7 +500,7 @@
         
         if ([_timeLine isInitialized]) {
             
-            //turn text labels and time incramentor "ON"
+            //turn text labels and time incramentor "OFF"
             [_cardTitle setUserInteractionEnabled:NO];
             [_cardPointOne setUserInteractionEnabled:NO];
             [_cardPointTwo setUserInteractionEnabled:NO];

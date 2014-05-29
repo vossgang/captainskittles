@@ -55,19 +55,22 @@
 
 
 
-+(UIColor *)gradeColor:(UIColor *)color forTimeRemaining:(NSTimeInterval)timeRemaining {
++(UIColor *)gradeColor:(UIColor *)color forTimeRemaining:(NSTimeInterval)timeRemaining andTotalTime:(NSTimeInterval)totalTime {
+    
+    if ([color isEqual:[UIColor greenColor]]) {
+        return [UIColor colorWithRed:.1 green:1 blue:.1 alpha:1];
+    }
     
     const CGFloat *components = CGColorGetComponents(color.CGColor);
     CGFloat red     = components[0];
     CGFloat green   = components[1];
     CGFloat blue    = components[2];
     
-    if (timeRemaining < 0) {
-        
-        //transition color to red
-        return [UIColor colorWithRed:(red * 1.1) green:(green * .98) blue: (blue * .98) alpha:1];
-    } else {
-        
+    CGFloat percentageOfTimeRemaining = timeRemaining / totalTime;
+    
+    
+    //green to gray
+    if (percentageOfTimeRemaining >= .5) {
         //transition color to gray
         CGFloat rgbAverage = (red + green + blue) / 3;
         red     = red   + red / rgbAverage;
@@ -77,6 +80,26 @@
         return [UIColor colorWithRed:red green:green blue: blue alpha:1];
     }
     
+    //gray to red
+    else if (percentageOfTimeRemaining < .5) {
+        return [UIColor colorWithRed:(red * 1.6) green:(green * .8) blue: (blue * .8) alpha:1];
+    }
+    
+//    if (timeRemaining < 0) {
+//        
+//        //transition color to red
+//        return [UIColor colorWithRed:(red * 1.1) green:(green * .98) blue: (blue * .98) alpha:1];
+//    } else {
+//        
+//        //transition color to gray
+//        CGFloat rgbAverage = (red + green + blue) / 3;
+//        red     = red   + red / rgbAverage;
+//        green   = green + green / rgbAverage;
+//        blue    = blue  + blue / rgbAverage;
+//        
+//        return [UIColor colorWithRed:red green:green blue: blue alpha:1];
+//    }
+    return [UIColor brownColor];
 }
 
 

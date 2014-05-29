@@ -14,7 +14,7 @@
 #import "DataController.h"
 #import "SpeechController.h"
 
-@interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *searchCollectionView;
 @property (nonatomic, weak) AppDelegate *appDelegate;
@@ -57,7 +57,7 @@
             //NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %i", 1];
             firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
 
-            firstCard.title =@"Speech Title";
+            firstCard.title = @"Speech Title";
         }
         
         SpeechViewController *speechVC = segue.destinationViewController;
@@ -104,6 +104,22 @@
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [searchBar setText:@""];
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    // Call search controller
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    // Call search controller
 }
 
 @end

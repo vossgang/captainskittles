@@ -59,7 +59,7 @@
 {
     NSTimeInterval time = 0;
     for (Card *card in self.cards) {
-        time += card.runTime;
+        if (card.userEdited) { time += card.runTime; }
     }
     return time;
 }

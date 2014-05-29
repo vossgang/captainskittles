@@ -40,7 +40,6 @@
 		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
 		1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE2866219358B8A007DB1C2 /* StyleKit.m */; };
 		1BE286681936310A007DB1C2 /* Cursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE286671936310A007DB1C2 /* Cursor.m */; };
-		C9174A581935108D001E7249 /* card.png in Resources */ = {isa = PBXBuildFile; fileRef = C9174A571935108D001E7249 /* card.png */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
 		C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6F41933CE7900F1BB8B /* SpeechCell.m */; };
 		C9E1A0081936900C0064C397 /* CoreDataInteraction.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E1A0071936900C0064C397 /* CoreDataInteraction.m */; };
@@ -114,7 +113,6 @@
 		1BE286661936310A007DB1C2 /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
 		1BE286671936310A007DB1C2 /* Cursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cursor.m; sourceTree = "<group>"; };
 		C9174A561934FE97001E7249 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = /Users/christophercohen/Desktop/captainskittles/words/Constants.h; sourceTree = "<absolute>"; };
-		C9174A571935108D001E7249 /* card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = card.png; sourceTree = "<group>"; };
 		C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechViewController.h; sourceTree = "<group>"; };
 		C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
 		C99BE6F31933CE7900F1BB8B /* SpeechCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechCell.h; sourceTree = "<group>"; };
@@ -271,11 +269,10 @@
 		1B45167B192FDE0700B79C33 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C9174A571935108D001E7249 /* card.png */,
 				1B451678192FDDF400B79C33 /* Speech.h */,
+				1B451679192FDDF400B79C33 /* Speech.m */,
 				C9E1A0061936900C0064C397 /* CoreDataInteraction.h */,
 				C9E1A0071936900C0064C397 /* CoreDataInteraction.m */,
-				1B451679192FDDF400B79C33 /* Speech.m */,
 				1B45167C192FDE6700B79C33 /* Card.h */,
 				1B45167D192FDE6700B79C33 /* Card.m */,
 			);
@@ -285,8 +282,8 @@
 		1B451682192FDE8500B79C33 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1B1C293219366FA800104415 /* Cards StyleKit */,
 				1B451655192FDDDA00B79C33 /* Main.storyboard */,
+				1B1C293219366FA800104415 /* Cards StyleKit */,
 				1B1C29391936874F00104415 /* Subclasses */,
 				1BE28661193530EB007DB1C2 /* ViewControllers */,
 			);
@@ -415,7 +412,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B45165C192FDDDA00B79C33 /* Images.xcassets in Resources */,
-				C9174A581935108D001E7249 /* card.png in Resources */,
 				1B45164E192FDDDA00B79C33 /* InfoPlist.strings in Resources */,
 				1B451657192FDDDA00B79C33 /* Main.storyboard in Resources */,
 			);

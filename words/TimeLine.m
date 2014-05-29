@@ -50,7 +50,7 @@
     timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
     timeLine.allBlocks              = [NSMutableArray new];
     timeLine.indexOfCurrentBlock    = 0;
-    timeLine.lifeCycleColors        = @[[UIColor greenColor], [UIColor grayColor], [UIColor redColor]];
+    timeLine.lifeCycleColors        = @[[UIColor greenColor], [UIColor redColor], [UIColor redColor]];
 
     //setup timeline view in proportion with reference view
     timeLine.view = [[UIView alloc] initWithFrame:frame];

@@ -26,8 +26,13 @@ typedef enum : NSUInteger {
     pending,
 } BlockState;
 
+typedef enum : NSUInteger {
+    cardIsEditing,
+    cardIsPresenting,
+    cardIsNew,
+} PresentationCardState;
+
 #define ONE_FORTH   @"\u00BC"
 #define ONE_HALF    @"\u00BD"
 #define THREE_FORTH @"\u00BE"
-
 @end

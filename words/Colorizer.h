@@ -12,7 +12,6 @@
 
 + (UIColor *)colorFromTimeRemaining:(NSTimeInterval)remainingTime withTotalTime:(NSTimeInterval)totalTime usingColors:(NSArray *)colors;
 
-+(UIColor *)gradeColor:(UIColor *)color forTimeRemaining:(NSTimeInterval)timeRemaining;
-
++(UIColor *)gradeColor:(UIColor *)color forTimeRemaining:(NSTimeInterval)timeRemaining andTotalTime:(NSTimeInterval)totalTime;
 
 @end

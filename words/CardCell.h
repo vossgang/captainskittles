@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CardStyleKit.h"
 
 
 
 @interface CardCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UITextView *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *pointLabel;
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic)  UITextView *titleLabel;
+@property (weak, nonatomic)  UILabel *pointLabel;
+@property (weak, nonatomic)  UILabel *timeLabel;
 
 
 

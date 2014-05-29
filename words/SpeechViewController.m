@@ -12,8 +12,12 @@
 #import "TimeLine.h"
 #import "CardCell.h"
 #import "Constants.h"
+#import "PresentationCardView.h"
+#import "LXReorderableCollectionViewFlowLayout.h"
 
-@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate>
+@interface SpeechViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UITextViewDelegate, LXReorderableCollectionViewDelegateFlowLayout, LXReorderableCollectionViewDataSource>
+
+@property (strong, nonatomic) IBOutlet UIView *cardEditor;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *cardCollectionView;
 
@@ -35,12 +39,14 @@
 @property (nonatomic, strong) NSString *oldTextViewText;
 
 
-
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *cardNumberLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *timeStepper;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+
+//UI element properties
+@property (strong, nonatomic) PresentationCardView *presentationCard;
 
 @property (nonatomic, readwrite) BOOL   speechIsRunning;
 
@@ -65,21 +71,27 @@
     _pointFive.delegate                     = self;
     _cardTitle.delegate                     = self;
     _textView.delegate                      = self;
-    [_textView setHidden:YES];
-    
     _cardCollectionView.dataSource          = self;
     _cardCollectionView.delegate            = self;
-    _cardCollectionView.backgroundColor     = [UIColor whiteColor];
+    _cardCollectionView.backgroundColor     = [UIColor clearColor];
+    _oldTextViewText                        = @"";
     
+    //setup card editor
+    _cardEditor.backgroundColor = [UIColor clearColor];
+    
+    //presentation card view
+    _presentationCard = [[PresentationCardView alloc] initWithFrame:CGRectMake(128, 55, 420, 240)];
+    [self.view insertSubview:_presentationCard belowSubview:_cardEditor];
+    
+    [_textView setHidden:YES];
+
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    
-    _textViewFrame = _textView.frame;
-    
-    [self collectionView:_cardCollectionView didSelectItemAtIndexPath:indexPath];
+    [self collectionView:_cardCollectionView didSelectItemAtIndexPath: indexPath];
     
     [self instantiateNewTimeLine];
     
 }
+
 - (IBAction)incramentTime:(id)sender
 {
     UIStepper *step = sender;
@@ -98,6 +110,8 @@
     }
     
     [_cardCollectionView reloadData];
+    [self animateTimeLineRefactor];
+
 }
 
 
@@ -138,6 +152,7 @@
     
     if (![_oldTextFieldText isEqual:textField.text]) {
         _currentCard.userEdited = YES;
+        [self animateTimeLineRefactor];
     }
     
     _currentCard.points[0] = _cardPointOne.text;
@@ -175,6 +190,7 @@
 {
     if (![_oldTextViewText isEqual:textView.text]) {
         _currentCard.userEdited = YES;
+        [self animateTimeLineRefactor];
     }
     
     switch (_currentCard.type) {
@@ -188,6 +204,7 @@
     _currentCard.preface   = _textView.text;
 
     [textView resignFirstResponder];
+    
     
     return YES;
 }
@@ -216,20 +233,23 @@
     
     Card *card = _currentSpeech.cards[indexPath.row];
     
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.titleLabel.text    = card.title;
     int min = card.runTime / 60;
     int sec = (int)card.runTime % 60;
     NSString *partialMin = @"";
     switch (sec) {
-        case 15: partialMin = ONE_FORTH;    break;
-        case 30: partialMin = ONE_HALF;     break;
-        case 45: partialMin = THREE_FORTH;  break;
+        case 15: partialMin = ONE_FORTH; break;
+        case 30: partialMin = ONE_HALF; break;
+        case 45: partialMin = THREE_FORTH; break;
         default:
             break;
     }
     if (min) {
-        cell.timeLabel.text       = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%d%@ min", min, partialMin];
     } else {
-        cell.timeLabel.text       = [NSString stringWithFormat:@"%@ min", partialMin];
+        cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", partialMin];
     }
     int stringCounter = 0;
     for (NSString *string in card.points) {
@@ -240,7 +260,7 @@
     
     cell.titleLabel.text = card.title;
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
-    cell.backgroundColor = [UIColor orangeColor];
+
     
     return cell;
 }
@@ -252,7 +272,9 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self textViewShouldEndEditing:_textView];
+    if ([_textView isFirstResponder]) {
+        [self textViewShouldEndEditing:_textView];
+    }
 
     _currentCard            = _currentSpeech.cards[indexPath.row];
     _timeStepper.value      = _currentCard.runTime / 15;
@@ -325,6 +347,7 @@
     }
     
     if (_speechIsRunning) {
+        [_timeLine advanceToNextBlock];
         [_textView setHidden:NO];
         //do running stuff
         NSString *editedString = @"";
@@ -341,6 +364,13 @@
         //do editing stuff
         //show the corresponding views
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath didMoveToIndexPath:(NSIndexPath *)toIndexPath
+{
+    Card *card = self.currentSpeech.cards[fromIndexPath.row];
+    [self.currentSpeech.cards removeObjectAtIndex:fromIndexPath.row];
+    [self.currentSpeech.cards insertObject:card atIndex:toIndexPath.row];
 }
 
 -(int)numberOfPointsInCurrentCard
@@ -447,53 +477,55 @@
         _speechIsRunning = NO;
         
         //turn text labels and time incramentor "ON"
+        [_cardPointOne setHidden:NO];
+        [_cardPointTwo setHidden:NO];
+        [_cardPointThree setHidden:NO];
+        [_pointFour setHidden:NO];
+        [_pointFive setHidden:NO];
+        [_timeStepper setHidden:NO];
+        
         [_cardTitle setUserInteractionEnabled:YES];
         [_cardPointOne setUserInteractionEnabled:YES];
-        [_cardPointOne setHidden:NO];
-        
         [_cardPointTwo setUserInteractionEnabled:YES];
-        [_cardPointTwo setHidden:NO];
-
         [_cardPointThree setUserInteractionEnabled:YES];
-        [_cardPointThree setHidden:NO];
-
         [_pointFour setUserInteractionEnabled:YES];
-        [_pointFour setHidden:NO];
-
         [_pointFive setUserInteractionEnabled:YES];
-        [_pointFive setHidden:NO];
-
         [_textView setUserInteractionEnabled:YES];
         [_timeStepper setUserInteractionEnabled:YES];
-        [_timeStepper setHidden:NO];
+        
         _textView.backgroundColor = [UIColor whiteColor];
         _cardTitle.backgroundColor = [UIColor whiteColor];
 
 
     } else {
-        //turn text labels and time incramentor "ON"
-        [_cardTitle setUserInteractionEnabled:NO];
-        [_cardPointOne setUserInteractionEnabled:NO];
-        [_cardPointTwo setUserInteractionEnabled:NO];
-        [_cardPointThree setUserInteractionEnabled:NO];
-        [_pointFour setUserInteractionEnabled:NO];
-        [_pointFive setUserInteractionEnabled:NO];
-        [_textView setUserInteractionEnabled:NO];
-        [_timeStepper setUserInteractionEnabled:NO];
         
-        
-        [_timeStepper setHidden:YES];
-        [_cardPointOne setHidden:YES];
-        [_cardPointTwo setHidden:YES];
-        [_cardPointThree setHidden:YES];
-        [_pointFour setHidden:YES];
-        [_pointFive setHidden:YES];
+        if ([_timeLine isInitialized]) {
+            
+            //turn text labels and time incramentor "OFF"
+            [_cardTitle setUserInteractionEnabled:NO];
+            [_cardPointOne setUserInteractionEnabled:NO];
+            [_cardPointTwo setUserInteractionEnabled:NO];
+            [_cardPointThree setUserInteractionEnabled:NO];
+            [_pointFour setUserInteractionEnabled:NO];
+            [_pointFive setUserInteractionEnabled:NO];
+            [_textView setUserInteractionEnabled:NO];
+            [_timeStepper setUserInteractionEnabled:NO];
+            
+            
+            [_timeStepper setHidden:YES];
+            [_cardPointOne setHidden:YES];
+            [_cardPointTwo setHidden:YES];
+            [_cardPointThree setHidden:YES];
+            [_pointFour setHidden:YES];
+            [_pointFive setHidden:YES];
+            
+            _cardTitle.backgroundColor = [UIColor clearColor];
+            _textView.backgroundColor = [UIColor clearColor];
+            
+            _speechIsRunning = YES;
+            [_timeLine start];
+        }
 
-        _cardTitle.backgroundColor = [UIColor clearColor];
-        _textView.backgroundColor = [UIColor clearColor];
-        
-        _speechIsRunning = YES;
-        [_timeLine start];
     }
 }
 

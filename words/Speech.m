@@ -8,6 +8,7 @@
 
 #import "Speech.h"
 #import "Card.h"
+#import "DataController.h"
 
 @interface Speech () <NSCopying, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -19,6 +20,7 @@
     Speech *speech = [Speech new];
     if (speech) {
         speech.cards = [NSMutableArray new];
+        speech.speechData = [[DataController dataStore] createSpeechItem];
         [speech.cards addObject:[Card newTitleCardForSpeech:speech]];
         [speech.cards addObject:[Card newPrefaceCardForSpeech:speech]];
         [speech.cards addObject:[Card newBodyCardForSpeech:speech]];
@@ -48,13 +50,13 @@
 {
     Speech *copy = [[[self class] allocWithZone:zone] init];
     [copy setCards:self.cards];
-    [copy setKeyWords:self.keyWords];
     [copy setRunTime:self.runTime];
     [copy setTimeRemaning:self.timeRemaning];
     
     return copy;
 }
 
+// Needed
 -(NSTimeInterval)runTime
 {
     NSTimeInterval time = 0;
@@ -62,18 +64,6 @@
         time += card.runTime;
     }
     return time;
-}
-
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return 1;
-}
-
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ExplosionCell" forIndexPath:indexPath];
-    
-    return cell;
 }
 
 @end

@@ -2,13 +2,14 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DSCard" representedClassName="DSCard" syncable="YES">
         <attribute name="cardConclusion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardIsEntity" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="cardPreface" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cardRuntime" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="cardSequence" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="cardTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="cardType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="fromPoint" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DSPoint" inverseName="toCard" inverseEntity="DSPoint" syncable="YES"/>
-        <relationship name="toSpeech" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DSSpeech" inverseName="fromCard" inverseEntity="DSSpeech" syncable="YES"/>
+        <relationship name="speech" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DSSpeech" inverseName="cards" inverseEntity="DSSpeech" syncable="YES"/>
     </entity>
     <entity name="DSPoint" representedClassName="DSPoint" syncable="YES">
         <attribute name="pointSequence" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -16,11 +17,12 @@
         <relationship name="toCard" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DSCard" inverseName="fromPoint" inverseEntity="DSCard" syncable="YES"/>
     </entity>
     <entity name="DSSpeech" representedClassName="DSSpeech" syncable="YES">
-        <relationship name="fromCard" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DSCard" inverseName="toSpeech" inverseEntity="DSCard" syncable="YES"/>
+        <attribute name="attribute" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <relationship name="cards" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DSCard" inverseName="speech" inverseEntity="DSCard" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DSSpeech" positionX="-18" positionY="27" width="128" height="58"/>
-        <element name="DSCard" positionX="36" positionY="81" width="128" height="163"/>
+        <element name="DSCard" positionX="36" positionY="81" width="128" height="178"/>
         <element name="DSPoint" positionX="9" positionY="54" width="128" height="88"/>
+        <element name="DSSpeech" positionX="-18" positionY="27" width="128" height="73"/>
     </elements>
 </model>

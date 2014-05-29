@@ -10,9 +10,9 @@
 		146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */; };
 		146A8BE11934654900F4AD99 /* DataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BE01934654900F4AD99 /* DataController.m */; };
 		146A8BE41934675100F4AD99 /* SearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BE31934675100F4AD99 /* SearchController.m */; };
-		146A8BF31934F65100F4AD99 /* DSPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BF21934F65100F4AD99 /* DSPoint.m */; };
-		146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BF51934F65100F4AD99 /* DSSpeech.m */; };
-		146A8BF9193513D000F4AD99 /* DSCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BF8193513D000F4AD99 /* DSCard.m */; };
+		146A8BFF1936A2A500F4AD99 /* DSSpeech.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8BFE1936A2A500F4AD99 /* DSSpeech.m */; };
+		146A8C021936A2A500F4AD99 /* DSCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C011936A2A500F4AD99 /* DSCard.m */; };
+		146A8C051936A2A500F4AD99 /* DSPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 146A8C041936A2A500F4AD99 /* DSPoint.m */; };
 		1B1C292819364BC200104415 /* CardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292719364BC200104415 /* CardCell.m */; };
 		1B1C292E19364E9500104415 /* Colorizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C292D19364E9500104415 /* Colorizer.m */; };
 		1B451644192FDDDA00B79C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B451643192FDDDA00B79C33 /* Foundation.framework */; };
@@ -58,12 +58,12 @@
 		146A8BE01934654900F4AD99 /* DataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataController.m; sourceTree = "<group>"; };
 		146A8BE21934675100F4AD99 /* SearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchController.h; sourceTree = "<group>"; };
 		146A8BE31934675100F4AD99 /* SearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchController.m; sourceTree = "<group>"; };
-		146A8BF11934F65100F4AD99 /* DSPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSPoint.h; sourceTree = "<group>"; };
-		146A8BF21934F65100F4AD99 /* DSPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSPoint.m; sourceTree = "<group>"; };
-		146A8BF41934F65100F4AD99 /* DSSpeech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSpeech.h; sourceTree = "<group>"; };
-		146A8BF51934F65100F4AD99 /* DSSpeech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSSpeech.m; sourceTree = "<group>"; };
-		146A8BF7193513D000F4AD99 /* DSCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSCard.h; sourceTree = "<group>"; };
-		146A8BF8193513D000F4AD99 /* DSCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSCard.m; sourceTree = "<group>"; };
+		146A8BFD1936A2A500F4AD99 /* DSSpeech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSSpeech.h; sourceTree = "<group>"; };
+		146A8BFE1936A2A500F4AD99 /* DSSpeech.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSSpeech.m; sourceTree = "<group>"; };
+		146A8C001936A2A500F4AD99 /* DSCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSCard.h; sourceTree = "<group>"; };
+		146A8C011936A2A500F4AD99 /* DSCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSCard.m; sourceTree = "<group>"; };
+		146A8C031936A2A500F4AD99 /* DSPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSPoint.h; sourceTree = "<group>"; };
+		146A8C041936A2A500F4AD99 /* DSPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSPoint.m; sourceTree = "<group>"; };
 		1B1C292619364BC200104415 /* CardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardCell.h; sourceTree = "<group>"; };
 		1B1C292719364BC200104415 /* CardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardCell.m; sourceTree = "<group>"; };
 		1B1C292C19364E9500104415 /* Colorizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colorizer.h; sourceTree = "<group>"; };
@@ -141,18 +141,18 @@
 				C9174A561934FE97001E7249 /* Constants.h */,
 				146A8BDF1934654900F4AD99 /* DataController.h */,
 				146A8BE01934654900F4AD99 /* DataController.m */,
-				146A8BF7193513D000F4AD99 /* DSCard.h */,
-				146A8BF8193513D000F4AD99 /* DSCard.m */,
-				146A8BF11934F65100F4AD99 /* DSPoint.h */,
-				146A8BF21934F65100F4AD99 /* DSPoint.m */,
-				146A8BF41934F65100F4AD99 /* DSSpeech.h */,
-				146A8BF51934F65100F4AD99 /* DSSpeech.m */,
 				146A8BE21934675100F4AD99 /* SearchController.h */,
 				146A8BE31934675100F4AD99 /* SearchController.m */,
 				146A8BD31934642900F4AD99 /* WordsDataModel.xcdatamodeld */,
 				C9174A501934FE74001E7249 /* TimeBlock.h */,
 				C9174A531934FE74001E7249 /* TimeLine.h */,
 				C9174A561934FE97001E7249 /* Constants.h */,
+				146A8C031936A2A500F4AD99 /* DSPoint.h */,
+				146A8C041936A2A500F4AD99 /* DSPoint.m */,
+				146A8C001936A2A500F4AD99 /* DSCard.h */,
+				146A8C011936A2A500F4AD99 /* DSCard.m */,
+				146A8BFD1936A2A500F4AD99 /* DSSpeech.h */,
+				146A8BFE1936A2A500F4AD99 /* DSSpeech.m */,
 			);
 			name = "Data Models";
 			sourceTree = "<group>";
@@ -395,26 +395,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				146A8C021936A2A500F4AD99 /* DSCard.m in Sources */,
 				1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */,
 				C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */,
 				1B1C292E19364E9500104415 /* Colorizer.m in Sources */,
 				1B451681192FDE7D00B79C33 /* CardView.m in Sources */,
 				1B45167E192FDE6700B79C33 /* Card.m in Sources */,
 				C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */,
-				146A8BF9193513D000F4AD99 /* DSCard.m in Sources */,
 				1B45165A192FDDDA00B79C33 /* ViewController.m in Sources */,
 				146A8BE11934654900F4AD99 /* DataController.m in Sources */,
 				1B451654192FDDDA00B79C33 /* AppDelegate.m in Sources */,
 				1B451650192FDDDA00B79C33 /* main.m in Sources */,
 				146A8BD51934642900F4AD99 /* WordsDataModel.xcdatamodeld in Sources */,
+				146A8C051936A2A500F4AD99 /* DSPoint.m in Sources */,
 				146A8BE41934675100F4AD99 /* SearchController.m in Sources */,
 				1BE286681936310A007DB1C2 /* Cursor.m in Sources */,
-				146A8BF61934F65100F4AD99 /* DSSpeech.m in Sources */,
 				1B1C292819364BC200104415 /* CardCell.m in Sources */,
 				C9174A551934FE74001E7249 /* TimeBlock.m in Sources */,
 				C9174A541934FE74001E7249 /* TimeLine.m in Sources */,
-				146A8BF31934F65100F4AD99 /* DSPoint.m in Sources */,
 				1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */,
+				146A8BFF1936A2A500F4AD99 /* DSSpeech.m in Sources */,
 				1B45167A192FDDF400B79C33 /* Speech.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

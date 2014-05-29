@@ -12,7 +12,7 @@
 @interface Speech : NSObject
 
 @property (nonatomic, strong) NSMutableArray *cards;
-@property (nonatomic, strong) NSString *keyWords; //if we have time, store similar words
+@property (nonatomic, strong) DSSpeech *speechData;
 
 //Timeline Management
 @property (nonatomic) NSTimeInterval runTime, timeRemaning;
@@ -24,7 +24,5 @@
 
 //instance methods
 -(void)calculateTime;
-
-
 
 @end

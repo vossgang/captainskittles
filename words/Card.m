@@ -7,12 +7,14 @@
 //
 
 #import "Card.h"
+#import "DataController.h"
 
 @implementation Card
 
 +(id)newTitleCardForSpeech:(Speech *)speech {
-    Card *card = [Card new];
+    DSCard *card = [[DataController dataStore] createCardItem];
     if (card) {
+        DSCard *cardData = [[DataController dataStore] createCardItem];
         card.userEdited = NO;
         card.speech     = speech;
         card.title      = @"New Speech";

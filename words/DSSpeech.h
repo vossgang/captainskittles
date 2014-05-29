@@ -2,7 +2,7 @@
 //  DSSpeech.h
 //  words
 //
-//  Created by seanmcneil on 5/27/14.
+//  Created by seanmcneil on 5/28/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
@@ -13,14 +13,15 @@
 
 @interface DSSpeech : NSManagedObject
 
-@property (nonatomic, retain) NSSet *fromCard;
+@property (nonatomic, retain) id attribute;
+@property (nonatomic, retain) NSSet *cards;
 @end
 
 @interface DSSpeech (CoreDataGeneratedAccessors)
 
-- (void)addFromCardObject:(DSCard *)value;
-- (void)removeFromCardObject:(DSCard *)value;
-- (void)addFromCard:(NSSet *)values;
-- (void)removeFromCard:(NSSet *)values;
+- (void)addCardsObject:(DSCard *)value;
+- (void)removeCardsObject:(DSCard *)value;
+- (void)addCards:(NSSet *)values;
+- (void)removeCards:(NSSet *)values;
 
 @end

@@ -7,6 +7,14 @@
 //
 
 #import "DataController.h"
+#import "Card.h"
+
+typedef enum : int {
+    titleCard,
+    prefaceCard,
+    bodyCard,
+    conclusionCard,
+} CardType;
 
 @implementation DataController
 
@@ -80,6 +88,21 @@
     speech = [NSEntityDescription insertNewObjectForEntityForName:@"DSSpeech"
                                            inManagedObjectContext:context];
     NSError *error;
+    // Create the associated cards for the speed
+    DSCard *cardTitle       = [self createCardItem];
+    DSCard *cardPreface     = [self createCardItem];
+    DSCard *cardBody        = [self createCardItem];
+    DSCard *cardConclusion  = [self createCardItem];
+    
+    [cardTitle          setCardType:[NSNumber numberWithInt:titleCard]];
+    [cardPreface        setCardType:[NSNumber numberWithInt:prefaceCard]];
+    [cardBody           setCardType:[NSNumber numberWithInt:bodyCard]];
+    [cardConclusion     setCardType:[NSNumber numberWithInt:conclusionCard]];
+    
+    [cardTitle          setSpeech:speech];
+    [cardPreface        setSpeech:speech];
+    [cardBody           setSpeech:speech];
+    [cardConclusion     setSpeech:speech];
     // Save the object to context
     [speech.managedObjectContext save:&error];
     

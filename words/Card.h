@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *title, *preface, *conclusion;
 @property (nonatomic) NSTimeInterval runTime, timeRemaning;
 @property (nonatomic, weak)   Speech *speech;
+@property (nonatomic, strong) DSCard *cardData;
 
 +(id)newTitleCardForSpeech:(Speech *)speech;
 +(id)newPrefaceCardForSpeech:(Speech *)speech;

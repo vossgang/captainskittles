@@ -2,7 +2,7 @@
 //  DSPoint.h
 //  words
 //
-//  Created by seanmcneil on 5/27/14.
+//  Created by seanmcneil on 5/28/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 
 @interface DSPoint : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * pointSequence;
 @property (nonatomic, retain) NSString * pointWords;
 @property (nonatomic, retain) DSCard *toCard;
 

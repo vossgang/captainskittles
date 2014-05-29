@@ -2,7 +2,7 @@
 //  DSCard.m
 //  words
 //
-//  Created by seanmcneil on 5/27/14.
+//  Created by seanmcneil on 5/28/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
@@ -17,9 +17,10 @@
 @dynamic cardPreface;
 @dynamic cardRuntime;
 @dynamic cardSequence;
-@dynamic cardType;
 @dynamic cardTitle;
-@dynamic toSpeech;
+@dynamic cardType;
+@dynamic cardIsEntity;
 @dynamic fromPoint;
+@dynamic speech;
 
 @end

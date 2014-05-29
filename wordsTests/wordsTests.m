@@ -36,10 +36,11 @@ typedef enum : NSUInteger {
 }
 
 - (void)testGenerateKeywordSearch {
+    // ***************************
     // Generate a speech for testing
     DSSpeech *speech = [[DataController dataStore] createSpeechItem];
     // Build three cards to put into speech
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         DSCard *card = [[DataController dataStore] createCardItem];
         [card setCardType:[NSNumber numberWithInt:i]];
         switch (i) {
@@ -65,6 +66,9 @@ typedef enum : NSUInteger {
                 [point setPointWords:@"NSA U.S.A"];
                 [point.managedObjectContext save:nil];
                 break; }
+                case conclusionCard:
+                [card setCardTitle:@"Amazing speech conclusion"];
+                [card setCardConclusion:@"This is my conclusion"];
             default:
                 break;
         }
@@ -72,6 +76,8 @@ typedef enum : NSUInteger {
         [card.managedObjectContext save:nil];
     }
     [speech.managedObjectContext save:nil];
+    // ***************************
+
     // Speech completely generated
     [[SearchController searchStore] calculateKeyWords:speech];
     // Testing component

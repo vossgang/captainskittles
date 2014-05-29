@@ -2,7 +2,7 @@
 //  DSCard.h
 //  words
 //
-//  Created by seanmcneil on 5/27/14.
+//  Created by seanmcneil on 5/28/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
@@ -17,10 +17,11 @@
 @property (nonatomic, retain) NSString * cardPreface;
 @property (nonatomic, retain) NSNumber * cardRuntime;
 @property (nonatomic, retain) NSNumber * cardSequence;
-@property (nonatomic, retain) NSNumber * cardType;
 @property (nonatomic, retain) NSString * cardTitle;
-@property (nonatomic, retain) DSSpeech *toSpeech;
+@property (nonatomic, retain) NSNumber * cardType;
+@property (nonatomic, retain) NSNumber * cardIsEntity;
 @property (nonatomic, retain) NSSet *fromPoint;
+@property (nonatomic, retain) DSSpeech *speech;
 @end
 
 @interface DSCard (CoreDataGeneratedAccessors)

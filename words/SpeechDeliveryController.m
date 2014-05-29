@@ -8,11 +8,13 @@
 
 #import "SpeechDeliveryController.h"
 
+#import "DataController.h"
+
 @implementation SpeechDeliveryController
 
 +(instancetype)newDeliveryControllerForSpeech:(Speech *)speech {
     SpeechDeliveryController *controller = [SpeechDeliveryController new];
-    
+#warning Changed speech variable to weak from copy
     if (controller) {
         controller.speech = speech;
     }

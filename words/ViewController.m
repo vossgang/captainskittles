@@ -10,7 +10,9 @@
 #import "AppDelegate.h"
 #import "SpeechViewController.h"
 #import "SpeechCell.h"
-#import "Card.h"
+#import "Constant.h"
+#import "DataController.h"
+#import "SpeechController.h"
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -28,9 +30,7 @@
     [super viewDidLoad];
     
     self.appDelegate = [UIApplication sharedApplication].delegate;
-    
 
-    
     _searchCollectionView.dataSource    = self;
     _searchCollectionView.delegate      = self;
     
@@ -46,13 +46,17 @@
 {
     if ([segue.identifier isEqualToString:@"SpeechDetail"]) {
         NSInteger row = [_searchCollectionView indexPathForCell:sender].row;
-        Speech *speech = [_appDelegate.speeches objectAtIndex:row];
+        Speech *speech = [[[DataController dataStore] allSpeechItems] objectAtIndex:row];
         
-        Card *firstCard = speech.cards[0];
+        // Obtain the title card by searching the cards set for one with the sequence value of 1
+        Card *firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
+        
         if ([firstCard.title isEqual:@"New Speech"]) {
-            [_appDelegate.speeches insertObject:[Speech newSpeech] atIndex:0];
-            speech = _appDelegate.speeches[0];
-            firstCard = speech.cards[0];
+#warning What should happen here?
+            // Obtain the title card by searching the cards set for one with the sequence value of 1
+            //NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %i", 1];
+            firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
+
             firstCard.title =@"Speech Title";
         }
         
@@ -70,19 +74,20 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {    
-    return _appDelegate.speeches.count;
+    return [[[DataController dataStore] allSpeechItems] count];
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    Speech *speech      = _appDelegate.speeches[indexPath.row];
-    Card   *mainCard    = [speech.cards firstObject];
-    SpeechCell *cell    = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
+    Speech *speech          = [[[DataController dataStore] allSpeechItems] objectAtIndex:indexPath.row];
+    Card   *mainCard        = [[[DataController dataStore] allCardItems:speech] firstObject];
+    SpeechCell *cell        = [collectionView dequeueReusableCellWithReuseIdentifier:@"SearchCell" forIndexPath:indexPath];
     
     cell.speechCellTitle.text       = mainCard.title;
     cell.numberOfCardsLabel.text    = [NSString stringWithFormat:@"%d cards",  (int)speech.cards.count];
-    int min = speech.runTime / 60;
-    int sec = (int)speech.runTime % 60;
+    NSTimeInterval timeInterval = [SpeechController calculateTotalTime:speech];
+    int min = timeInterval / 60;
+    int sec = (int)timeInterval % 60;
     NSString *partialMin = @"";
     switch (sec) {
         case 15: partialMin = ONE_FORTH;    break;

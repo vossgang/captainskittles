@@ -25,8 +25,8 @@
     TimeBlock *newBlock = [TimeBlock new];
     
     //calulate the new block's percentage of timeline
-    newBlock.percentageOfTimeLine = card.runTime / speechRunTime;
-    newBlock.duration             = card.runTime;
+    newBlock.percentageOfTimeLine = [card.runTime doubleValue]/ speechRunTime;
+    newBlock.duration             = [card.runTime doubleValue];
     newBlock.timeRemaining        = newBlock.duration;
     
     //set the new card's state

@@ -37,11 +37,11 @@ typedef enum : NSUInteger {
     return searchStore;
 }
 
-- (NSString *)getSpeechTitle:(DSSpeech *)withSpeech {
-    for (DSCard *card in withSpeech.fromCard) {
-        switch ([card.cardType intValue]) {
+- (NSString *)getSpeechTitle:(Speech *)withSpeech {
+    for (Card *card in withSpeech.cards) {
+        switch ([card.type intValue]) {
             case titleCard:
-                return card.cardTitle;
+                return card.title;
             default:
                 return nil;
         }
@@ -50,31 +50,31 @@ typedef enum : NSUInteger {
     return nil;
 }
 
-- (NSArray *)buildSpeechArray:(DSSpeech *)withSpeech {
+- (NSArray *)buildSpeechArray:(Speech *)withSpeech {
     // Construct a speech into a series of strings in the array
     NSMutableArray *arrayToProcess = [NSMutableArray new];
-    for (DSCard *card in withSpeech.fromCard) {
+    for (Card *card in withSpeech.cards) {
         NSString *stringToProcess;
-        switch ([card.cardType intValue]) {
+        switch ([card.type intValue]) {
             case titleCard: {
-                stringToProcess = card.cardTitle;
+                stringToProcess = card.title;
                 [arrayToProcess addObject:stringToProcess];
                 break; }
             case prefaceCard: {
-                stringToProcess = card.cardTitle;
-                stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",card.cardPreface]];
+                stringToProcess = card.title;
+                stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",card.preface]];
                 [arrayToProcess addObject:stringToProcess];
                 break; }
             case bodyCard: {
-                stringToProcess = card.cardTitle;
-                for (DSPoint *point in card.fromPoint) {
-                    stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",point.pointWords]];
+                stringToProcess = card.title;
+                for (Point *point in card.points) {
+                    stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",point.words]];
                 }
                 [arrayToProcess addObject:stringToProcess];
                 break; }
             case conclusionCard: {
-                stringToProcess = card.cardTitle;
-                stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",card.cardConclusion]];
+                stringToProcess = card.title;
+                stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",card.conclusion]];
                 [arrayToProcess addObject:stringToProcess];
             break; }
             default:
@@ -93,7 +93,7 @@ typedef enum : NSUInteger {
     
     // Get an array of all speech titles
     NSMutableArray *arrayToSearch = [NSMutableArray new];
-    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
+    for (Speech *speech in [[DataController dataStore] allSpeechItems]) {
         [arrayToSearch addObject:speech];
     }
     
@@ -109,7 +109,7 @@ typedef enum : NSUInteger {
         NSMutableArray *resultArray = [NSMutableArray new];
         [arraySearchObjects addObject:resultArray];
         // Iterate through all objects (speeches) to search
-        for (DSSpeech *speech in arrayToSearch) {
+        for (Speech *speech in arrayToSearch) {
             // Check to see if there is an existing array on the search terms
             NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
             
@@ -139,7 +139,7 @@ typedef enum : NSUInteger {
 
 - (NSArray *)searchSpeechByKeyword:(NSString *)searchTerm {
     NSMutableArray *arrayOfSpeechKeywords = [NSMutableArray new];
-    for (DSSpeech *speech in [[DataController dataStore] allSpeechItems]) {
+    for (Speech *speech in [[DataController dataStore] allSpeechItems]) {
         [arrayOfSpeechKeywords addObject:[self calculateKeyWords:speech]];
     }
     
@@ -152,7 +152,7 @@ typedef enum : NSUInteger {
         NSMutableArray *resultArray = [NSMutableArray new];
         [arraySearchObjects addObject:resultArray];
         // Iterate through all objects (speeches) to search
-        for (DSSpeech *speech in arrayOfSpeechKeywords) {
+        for (Speech *speech in arrayOfSpeechKeywords) {
             // Check to see if there is an existing array on the search terms
             NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
             
@@ -166,7 +166,7 @@ typedef enum : NSUInteger {
     return nil;
 }
 
-- (NSArray *)calculateKeyWords:(DSSpeech *)withSpeech {
+- (NSArray *)calculateKeyWords:(Speech *)withSpeech {
     NSMutableArray *arrayToReturn = [NSMutableArray new];
     NSArray *arrayToProcess = [self buildSpeechArray:withSpeech];
     // This string will store the contents of each speech in a single string for feeding into the counter

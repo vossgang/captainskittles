@@ -1,18 +1,16 @@
 //
-//  DSSpeech.m
+//  OldSpeech.h
 //  words
 //
 //  Created by seanmcneil on 5/29/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
-#import "DSSpeech.h"
-#import "DSCard.h"
+#import <Foundation/Foundation.h>
 
+@interface OldSpeech : NSObject
 
-@implementation DSSpeech
-
-@dynamic attribute;
-@dynamic cards;
+//instance methods
+-(void)calculateTime;
 
 @end

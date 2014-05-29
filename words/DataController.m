@@ -82,27 +82,17 @@ typedef enum : int {
 
 #pragma mark - Speech item
 
-- (DSSpeech *)createSpeechItem {
-    DSSpeech *speech;
+- (Speech *)createSpeechItem {
+    Speech *speech;
     // Create new object and insert it into context
-    speech = [NSEntityDescription insertNewObjectForEntityForName:@"DSSpeech"
+    speech = [NSEntityDescription insertNewObjectForEntityForName:@"Speech"
                                            inManagedObjectContext:context];
     NSError *error;
     // Create the associated cards for the speed
-    DSCard *cardTitle       = [self createCardItem:titleCard];
-    DSCard *cardPreface     = [self createCardItem:prefaceCard];
-    DSCard *cardBody        = [self createCardItem:bodyCard];
-    DSCard *cardConclusion  = [self createCardItem:conclusionCard];
-    
-    [cardTitle          setType:[NSNumber numberWithInt:titleCard]];
-    [cardPreface        setType:[NSNumber numberWithInt:prefaceCard]];
-    [cardBody           setType:[NSNumber numberWithInt:bodyCard]];
-    [cardConclusion     setType:[NSNumber numberWithInt:conclusionCard]];
-    
-    [cardTitle          setSpeech:speech];
-    [cardPreface        setSpeech:speech];
-    [cardBody           setSpeech:speech];
-    [cardConclusion     setSpeech:speech];
+    [self createCardItem:speech andType:titleCard];
+    [self createCardItem:speech andType:prefaceCard];
+    [self createCardItem:speech andType:bodyCard];
+    [self createCardItem:speech andType:conclusionCard];
     // Save the object to context
     [speech.managedObjectContext save:&error];
     
@@ -121,14 +111,16 @@ typedef enum : int {
 
 #pragma mark - Card item
 
-- (DSCard *)createCardItem:(int)withcardType {
-    DSCard *card;
+- (Card *)createCardItem:(Speech *)withSpeech andType:(int)withcardType {
+    Card *card;
     // Create new object and insert it into context
-    card = [NSEntityDescription insertNewObjectForEntityForName:@"DSCard"
+    card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"
                                          inManagedObjectContext:context];
     
     // Default values for cards
     [card setUserEdited:NO];
+    [card setSpeech:withSpeech];
+    [card setType:[NSNumber numberWithInt:withcardType]];
     switch (withcardType) {
         case titleCard:
             [card setTitle:@"New Speech"];
@@ -137,25 +129,26 @@ typedef enum : int {
             break;
         case prefaceCard:
             [card setTitle:@"Preface"];
-            [card setPreface:@"A description of the scope of your speech goes here"];
             [card setRunTime:[NSNumber numberWithDouble:60.0]];
             [card setSequence:[NSNumber numberWithInt:2]];
+            [card setPreface:@"A description of the scope of your speech goes here"];
             break;
         case bodyCard:
             [card setTitle:@"Point"];
             [card setRunTime:[NSNumber numberWithDouble:120.0]];
             [card setSequence:[NSNumber numberWithInt:3]];
             for (int i = 1; i < 6; i++) {
-                DSPoint *point = [self createPointItem];
-                [point setToCard:card];
-                [point set]
-                
+                Point *point = [self createPointItem];
+                [point setCards:card];
+                [point setSequence:[NSNumber numberWithInt:i]];
+                [point setWords:@"A point goes here"];
             }
             break;
         case conclusionCard:
-            [card setTitle:@"New Speech"];
+            [card setTitle:@"Conclusion"];
             [card setRunTime:[NSNumber numberWithDouble:30.0]];
             [card setSequence:[NSNumber numberWithInt:4]];
+            [card setConclusion:@"A conclusion statement for your speech goes here"];
             break;
         default:
             [card setTitle:@"Blank Entry"];
@@ -182,10 +175,10 @@ typedef enum : int {
 
 #pragma mark - Point item
 
-- (DSPoint *)createPointItem {
-    DSPoint *point;
+- (Point *)createPointItem {
+    Point *point;
     // Create new object and insert it into context
-    point = [NSEntityDescription insertNewObjectForEntityForName:@"DSPoint"
+    point = [NSEntityDescription insertNewObjectForEntityForName:@"Point"
                                           inManagedObjectContext:context];
     NSError *error;
     // Save the object to context
@@ -212,13 +205,13 @@ typedef enum : int {
     [context deleteObject:objectToRemove];
     [objectToRemove.managedObjectContext save:&error];
     // Check for what kind of object it is and then remove from local array
-    if ([objectToRemove isKindOfClass:[DSSpeech class]]) {
+    if ([objectToRemove isKindOfClass:[Speech class]]) {
         [allSpeechItems removeObject:objectToRemove];
     };
-    if ([objectToRemove isKindOfClass:[DSCard class]]) {
+    if ([objectToRemove isKindOfClass:[Card class]]) {
         [allCardItems removeObject:objectToRemove];
     };
-    if ([objectToRemove isKindOfClass:[DSPoint class]]) {
+    if ([objectToRemove isKindOfClass:[Point class]]) {
         [allPointItems removeObject:objectToRemove];
     };
 }

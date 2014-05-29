@@ -1,5 +1,5 @@
 //
-//  DSPoint.h
+//  Point.h
 //  words
 //
 //  Created by seanmcneil on 5/29/14.
@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DSCard;
+@class Card;
 
-@interface DSPoint : NSManagedObject
+@interface Point : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * sequence;
 @property (nonatomic, retain) NSString * words;
-@property (nonatomic, retain) DSCard *toCard;
+@property (nonatomic, retain) Card *cards;
 
 @end

@@ -2,29 +2,34 @@
 //  Card.h
 //  words
 //
-//  Created by Christopher Cohen on 5/23/14.
+//  Created by seanmcneil on 5/29/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "Speech.h"
-#import "Constants.h"
-#import "DSCard.h"
+#import <CoreData/CoreData.h>
 
-@interface Card : NSObject
+@class Point, Speech;
 
-@property (nonatomic) CardType type;
-@property (nonatomic, readwrite) BOOL userEdited;
+@interface Card : NSManagedObject
 
-@property (nonatomic, strong) NSMutableArray *points; //contains points as strings
-@property (nonatomic, strong) NSString *title, *preface, *conclusion;
-@property (nonatomic) NSTimeInterval runTime, timeRemaning;
-@property (nonatomic, weak)   Speech *speech;
-@property (nonatomic, strong) DSCard *cardData;
+@property (nonatomic, retain) NSString * conclusion;
+@property (nonatomic, retain) NSNumber * cardIsEntity;
+@property (nonatomic, retain) NSString * preface;
+@property (nonatomic, retain) NSNumber * runTime;
+@property (nonatomic, retain) NSNumber * sequence;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSNumber * userEdited;
+@property (nonatomic, retain) NSSet *points;
+@property (nonatomic, retain) Speech *speech;
+@end
 
-+(id)newTitleCardForSpeech:(Speech *)speech;
-+(id)newPrefaceCardForSpeech:(Speech *)speech;
-+(id)newBodyCardForSpeech:(Speech *)speech;
-+(id)newConclusionCardForSpeech:(Speech *)speech;
+@interface Card (CoreDataGeneratedAccessors)
+
+- (void)addPointsObject:(Point *)value;
+- (void)removePointsObject:(Point *)value;
+- (void)addPoints:(NSSet *)values;
+- (void)removePoints:(NSSet *)values;
 
 @end

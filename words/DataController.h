@@ -30,7 +30,7 @@
 - (DSSpeech *)createSpeechItem;
 - (NSArray *)allSpeechItems;
 
-- (DSCard *)createCardItem;
+- (DSCard *)createCardItem:(int)withcardType andSpeech:(DSSpeech *)withSpeech;
 - (NSArray *)allCardItems;
 
 - (DSPoint *)createPointItem;

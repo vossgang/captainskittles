@@ -89,15 +89,15 @@ typedef enum : int {
                                            inManagedObjectContext:context];
     NSError *error;
     // Create the associated cards for the speed
-    DSCard *cardTitle       = [self createCardItem];
-    DSCard *cardPreface     = [self createCardItem];
-    DSCard *cardBody        = [self createCardItem];
-    DSCard *cardConclusion  = [self createCardItem];
+    DSCard *cardTitle       = [self createCardItem:titleCard];
+    DSCard *cardPreface     = [self createCardItem:prefaceCard];
+    DSCard *cardBody        = [self createCardItem:bodyCard];
+    DSCard *cardConclusion  = [self createCardItem:conclusionCard];
     
-    [cardTitle          setCardType:[NSNumber numberWithInt:titleCard]];
-    [cardPreface        setCardType:[NSNumber numberWithInt:prefaceCard]];
-    [cardBody           setCardType:[NSNumber numberWithInt:bodyCard]];
-    [cardConclusion     setCardType:[NSNumber numberWithInt:conclusionCard]];
+    [cardTitle          setType:[NSNumber numberWithInt:titleCard]];
+    [cardPreface        setType:[NSNumber numberWithInt:prefaceCard]];
+    [cardBody           setType:[NSNumber numberWithInt:bodyCard]];
+    [cardConclusion     setType:[NSNumber numberWithInt:conclusionCard]];
     
     [cardTitle          setSpeech:speech];
     [cardPreface        setSpeech:speech];
@@ -121,11 +121,48 @@ typedef enum : int {
 
 #pragma mark - Card item
 
-- (DSCard *)createCardItem {
+- (DSCard *)createCardItem:(int)withcardType {
     DSCard *card;
     // Create new object and insert it into context
     card = [NSEntityDescription insertNewObjectForEntityForName:@"DSCard"
                                          inManagedObjectContext:context];
+    
+    // Default values for cards
+    [card setUserEdited:NO];
+    switch (withcardType) {
+        case titleCard:
+            [card setTitle:@"New Speech"];
+            [card setRunTime:[NSNumber numberWithDouble:30.0]];
+             [card setSequence:[NSNumber numberWithInt:1]];
+            break;
+        case prefaceCard:
+            [card setTitle:@"Preface"];
+            [card setPreface:@"A description of the scope of your speech goes here"];
+            [card setRunTime:[NSNumber numberWithDouble:60.0]];
+            [card setSequence:[NSNumber numberWithInt:2]];
+            break;
+        case bodyCard:
+            [card setTitle:@"Point"];
+            [card setRunTime:[NSNumber numberWithDouble:120.0]];
+            [card setSequence:[NSNumber numberWithInt:3]];
+            for (int i = 1; i < 6; i++) {
+                DSPoint *point = [self createPointItem];
+                [point setToCard:card];
+                [point set]
+                
+            }
+            break;
+        case conclusionCard:
+            [card setTitle:@"New Speech"];
+            [card setRunTime:[NSNumber numberWithDouble:30.0]];
+            [card setSequence:[NSNumber numberWithInt:4]];
+            break;
+        default:
+            [card setTitle:@"Blank Entry"];
+            [card setRunTime:[NSNumber numberWithDouble:0.0]];
+            [card setSequence:[NSNumber numberWithInt:0]];
+            break;
+    }
     NSError *error;
     // Save the object to context
     [card.managedObjectContext save:&error];

@@ -2,7 +2,7 @@
 //  DSCard.h
 //  words
 //
-//  Created by seanmcneil on 5/28/14.
+//  Created by seanmcneil on 5/29/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
@@ -13,13 +13,14 @@
 
 @interface DSCard : NSManagedObject
 
-@property (nonatomic, retain) NSString * cardConclusion;
-@property (nonatomic, retain) NSString * cardPreface;
-@property (nonatomic, retain) NSNumber * cardRuntime;
-@property (nonatomic, retain) NSNumber * cardSequence;
-@property (nonatomic, retain) NSString * cardTitle;
-@property (nonatomic, retain) NSNumber * cardType;
+@property (nonatomic, retain) NSString * conclusion;
 @property (nonatomic, retain) NSNumber * cardIsEntity;
+@property (nonatomic, retain) NSString * preface;
+@property (nonatomic, retain) NSNumber * runTime;
+@property (nonatomic, retain) NSNumber * sequence;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSNumber * userEdited;
 @property (nonatomic, retain) NSSet *fromPoint;
 @property (nonatomic, retain) DSSpeech *speech;
 @end

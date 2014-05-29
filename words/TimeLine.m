@@ -10,9 +10,10 @@
 #import "Speech.h"
 #import "Card.h"
 #import "TimeBlock.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "Cursor.h"
 #import "Colorizer.h"
+#import "SpeechController.h"
 
 #define CURSOR_SPEED .25
 
@@ -42,12 +43,15 @@
 
 +(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame
 {
-    TimeLine *timeLine              = [TimeLine new];
+    NSLog(@"%d", (int)speech.cards.count);
+
+    TimeLine *timeLine                 = [TimeLine new];
+    NSTimeInterval timeInterval     = [SpeechController calculateTotalTime:speech];
     
     timeLine.timeBlockViews         = [NSMutableArray new];
-    timeLine.speechTimeRemaining    = speech.runTime;
-    timeLine.speechRunTime          = speech.runTime;
-    timeLine.pixelsPerSecond        = (frame.size.width / speech.runTime);
+    timeLine.speechTimeRemaining    = timeInterval;
+    timeLine.speechRunTime          = timeInterval;
+    timeLine.pixelsPerSecond        = (frame.size.width / timeInterval);
     timeLine.blocks              = [NSMutableArray new];
     timeLine.indexOfCurrentBlock    = 0;
     timeLine.lifeCycleColors        = @[[UIColor colorWithRed:0.36 green:0.71 blue:0.26 alpha:1],

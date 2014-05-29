@@ -1,14 +1,14 @@
 //
-//  Constants.h
+//  Constant.h
 //  words
 //
-//  Created by Christopher Cohen on 5/26/14.
+//  Created by seanmcneil on 5/29/14.
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface Constants : NSObject
+@interface Constant : NSObject
 
 #define TIMELINE_VIEW_HEIGHT 50
 
@@ -32,7 +32,8 @@ typedef enum : NSUInteger {
     cardIsNew,
 } PresentationCardState;
 
-#define ONE_FORTH   @"\u00BC"
-#define ONE_HALF    @"\u00BD"
+#define ONE_FORTH @"\u00BC"
+#define ONE_HALF @"\u00BD"
 #define THREE_FORTH @"\u00BE"
+
 @end

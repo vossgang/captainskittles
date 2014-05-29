@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "DSSpeech.h"
-#import "DSCard.h"
-#import "DSPoint.h"
+#import "Speech.h"
+#import "Card.h"
+#import "BodyPoint.h"
 
 @interface DataController : NSObject
 {
@@ -24,16 +24,14 @@
 }
 
 + (DataController *)dataStore;
-- (void)removeManagedObject:(NSManagedObject *)objectToRemove;
+- (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard;
 - (void)reloadAllItems;
 
-- (DSSpeech *)createSpeechItem;
+- (Speech *)createSpeechItem;
 - (NSArray *)allSpeechItems;
 
-- (DSCard *)createCardItem;
-- (NSArray *)allCardItems;
-
-- (DSPoint *)createPointItem;
-- (NSArray *)allPointItems;
+- (Card *)createCardItem:(Speech *)withSpeech andType:(int)withcardType;
+- (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence;
+- (NSArray *)allCardItems:(Speech *)withSpeech;
 
 @end

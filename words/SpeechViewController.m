@@ -347,6 +347,7 @@
     }
     
     if (_speechIsRunning) {
+        [_timeLine advanceToNextBlock];
         [_textView setHidden:NO];
         //do running stuff
         NSString *editedString = @"";

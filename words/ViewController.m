@@ -57,7 +57,7 @@
             //NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %i", 1];
             firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
 
-            firstCard.title =@"Speech Title";
+            firstCard.title = @"Speech Title";
         }
         
         SpeechViewController *speechVC = segue.destinationViewController;

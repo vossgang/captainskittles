@@ -91,7 +91,7 @@
     [self.view insertSubview:_presentationCard belowSubview:_cardEditor];
     
     [_textView setHidden:YES];
-
+    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self collectionView:_cardCollectionView didSelectItemAtIndexPath: indexPath];
     
@@ -108,8 +108,8 @@
     //if the current card has a run time it is edited, else it is not edited
     _currentCard.userEdited = _currentCard.runTime;
     
-    int minutes = [_currentCard.runTime intValue] / 60;
-    int seconds = (int)_currentCard.runTime % 60;
+    int minutes = [_currentCard.runTime doubleValue] / 60;
+    int seconds = (int)[_currentCard.runTime doubleValue] % 60;
     if (seconds != 0) {
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
@@ -118,7 +118,7 @@
     
     [_cardCollectionView reloadData];
     [self animateTimeLineRefactor];
-
+    
 }
 
 
@@ -134,13 +134,13 @@
     [_point5 setHidden:YES];
     
     [textField setHidden:NO];
-
+    
     _textFieldFrame = textField.frame;
     
     [UIView animateWithDuration:.33 animations:^{
         textField.center = CGPointMake(textField.center.x, 22);
     } completion:^(BOOL finished) {
-
+        
     }];
     
     return YES;
@@ -149,7 +149,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-
+    
     [_cardTitle setHidden:NO];
     [_point1 setHidden:NO];
     [_point2 setHidden:NO];
@@ -209,7 +209,7 @@
     _textView.frame = _textViewFrame;
     [_cardTitle setHidden:NO];
     _currentCard.preface   = _textView.text;
-
+    
     [textView resignFirstResponder];
     
     
@@ -253,12 +253,12 @@
     
     // Obtain the specified card by searching the cards set for one with the provided sequence number
     Card *card = [[[DataController dataStore] allCardItems:_currentSpeech] objectAtIndex:indexPath.row];
-        
+    
     cell.backgroundColor = [UIColor clearColor];
     
     cell.titleLabel.text    = card.title;
-    int min = [card.runTime intValue] / 60;
-    int sec = (int)card.runTime % 60;
+    int min = [card.runTime doubleValue] / 60;
+    int sec = (int)[card.runTime doubleValue] % 60;
     NSString *partialMin = @"";
     switch (sec) {
         case 15: partialMin = ONE_FORTH; break;
@@ -281,7 +281,7 @@
     
     cell.titleLabel.text = card.title;
     cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
-
+    
     
     return cell;
 }
@@ -291,12 +291,17 @@
     return YES;
 }
 
--(void)setTextValues
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    int index = (int)[_currentSpeech.cards indexOfObject:_currentCard];
-    _cardNumberLabel.text   = [NSString stringWithFormat:@"Card %d", (index + 1)];
+    if ([_textView isFirstResponder] && (!_speechIsRunning)) {
+        [self textViewShouldEndEditing:_textView];
+    }
     
-    _timeLabel.text         = [NSString stringWithFormat:@"%d seconds", (int)_currentCard.runTime];
+    _currentCard = [[[DataController dataStore] allCardItems:_currentSpeech] objectAtIndex:indexPath.row];
+    _timeStepper.value      = [_currentCard.runTime intValue] / 15;
+    
+    _cardNumberLabel.text   = [NSString stringWithFormat:@"Card %d", (int)(indexPath.row + 1)];
+    
     _cardTitle.text         = _currentCard.title;
     
     for (BodyPoint *point in _currentCard.points) {
@@ -305,18 +310,16 @@
     }
     _textView.text          = @"";
     
-    int minutes = _currentCard.runTime / 60;
-    int seconds = (int)_currentCard.runTime % 60;
+    
+    int minutes = [_currentCard.runTime doubleValue] / 60;
+    int seconds = (int)[_currentCard.runTime doubleValue] % 60;
     if (seconds != 0) {
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes %d seconds", minutes, seconds];
     } else {
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
-}
-
--(void)showFieldsForCurrentCard
-{
-    switch (_currentCard.type) {
+    
+    switch ([_currentCard.type intValue]) {
         case titleCard:
             [_textView setHidden:NO];
             break;
@@ -330,22 +333,7 @@
             break;
         default: [_textView setHidden:YES]; break;
     }
-}
-
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([_textView isFirstResponder] && (!_speechIsRunning)) {
-        [self textViewShouldEndEditing:_textView];
-    }
-
-    _currentCard            = _currentSpeech.cards[indexPath.row];
-    _timeStepper.value      = _currentCard.runTime / 15;
     
-    [self setTextValues];
-    
-    [self showFieldsForCurrentCard];
-
-
     if (_currentCard.type == titleCard) {
         NSString *string = _currentCard.title;
         string = [NSString stringWithFormat:@"%@\n%d cards", string, (int)_currentSpeech.cards.count];
@@ -361,12 +349,12 @@
         _textView.text = string;
         
         //hide all textfields
-        [self unhideTextFields];
+        [self hideTextFields];
         _textView.backgroundColor = [UIColor clearColor];
     } else {
         //unhide all textfields
         if (!_speechIsRunning) {
-            [self hideTextFields];
+            [self unhideTextFields];
             _textView.backgroundColor = [UIColor whiteColor];
         }
     }
@@ -395,26 +383,26 @@
 
 -(void)hideTextFields
 {
-    [_cardPointOne setHidden:NO];
-    [_cardPointTwo setHidden:NO];
-    [_cardPointThree setHidden:NO];
-    [_pointFour setHidden:NO];
-    [_pointFive setHidden:NO];
+    [_point1 setHidden:YES];
+    [_point2 setHidden:YES];
+    [_point3 setHidden:YES];
+    [_point4 setHidden:YES];
+    [_point5 setHidden:YES];
 }
 
 -(void)unhideTextFields
 {
-    [_cardPointOne setHidden:YES];
-    [_cardPointTwo setHidden:YES];
-    [_cardPointThree setHidden:YES];
-    [_pointFour setHidden:YES];
-    [_pointFive setHidden:YES];
+    [_point1 setHidden:NO];
+    [_point2 setHidden:NO];
+    [_point3 setHidden:NO];
+    [_point4 setHidden:NO];
+    [_point5 setHidden:NO];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath didMoveToIndexPath:(NSIndexPath *)toIndexPath
 {
 #warning Will need to modify this to update sequence values on cards card.sequence
-   // Card *card = self.currentSpeech.cards[fromIndexPath.row];
+    // Card *card = self.currentSpeech.cards[fromIndexPath.row];
     //[self.currentSpeech.cards removeObjectAtIndex:fromIndexPath.row];
     //[self.currentSpeech.cards insertObject:card atIndex:toIndexPath.row];
 }
@@ -425,7 +413,7 @@
     for (BodyPoint *point in _currentCard.points) {
         if (point.words.length > 0) {
             activePoints++;
-
+            
         }
     }
     return activePoints;
@@ -436,19 +424,19 @@
     if ([_currentCard.type intValue] == bodyCard) {
         switch ([self numberOfPointsInCurrentCard]) {
             case 0: [_point2 setHidden:YES];
-                    [_point3 setHidden:YES];
-                    [_point4 setHidden:YES];
-                    [_point5 setHidden:YES];
-                    break;
+                [_point3 setHidden:YES];
+                [_point4 setHidden:YES];
+                [_point5 setHidden:YES];
+                break;
             case 1: [_point3 setHidden:YES];
-                    [_point4 setHidden:YES];
-                    [_point5 setHidden:YES];
-                    break;
+                [_point4 setHidden:YES];
+                [_point5 setHidden:YES];
+                break;
             case 2: [_point4 setHidden:YES];
-                    [_point5 setHidden:YES];
-                    break;
+                [_point5 setHidden:YES];
+                break;
             case 3: [_point5 setHidden:YES];
-                    break;
+                break;
             default:
                 break;
         }
@@ -461,35 +449,39 @@
 - (void)instantiateNewTimeLine
 {
     //setup timeline
-    [_timeLine.view removeFromSuperview];
     
-    _timeLine = NULL;
-    
-    if (_speechIsRunning) {
-        _timeLine = [TimeLine newTimeLineFromSpeech:_speechDeliverController.speech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
-    } else {
-        _timeLine = [TimeLine newTimeLineFromSpeech:_currentSpeech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
+    if ([SpeechController calculateTotalTime:_currentSpeech] > 0) {
+        
+        [_timeLine.view removeFromSuperview];
+        
+        _timeLine = NULL;
+        
+        if (_speechIsRunning) {
+            _timeLine = [TimeLine newTimeLineFromSpeech:_speechDeliverController.speech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
+        } else {
+            _timeLine = [TimeLine newTimeLineFromSpeech:_currentSpeech isSubviewOf:self.view withFrame:CGRectMake(128, 0, 420, 60)];
+        }
     }
 }
 
 
 -(void)animateTimeLineRefactor
 {
-    //CGRect  originalTimeLineFrame = _timeLine.view.frame;
+//    CGRect  originalTimeLineFrame = _timeLine.view.frame;
     
     [UIView animateWithDuration:.25 animations:^{
         _timeLine.view.alpha = 0;
-
+        
         _timeLine.view.transform = CGAffineTransformMakeScale(.5, .5);
         
     } completion:^(BOOL finished) {
         
         [self instantiateNewTimeLine];
-    
+        
         [UIView animateWithDuration:.25 animations:^{
             _timeLine.view.alpha = 1;
             _timeLine.view.transform = CGAffineTransformMakeScale(1, 1);
-
+            
         }];
     }];
 }
@@ -501,7 +493,7 @@
 {
     NSIndexPath *index = [[_cardCollectionView indexPathsForSelectedItems] firstObject];
     //[self.currentSpeech.cards insertObject:[Card newBodyCardForSpeech:self.currentSpeech] atIndex:(index.row + 1)];
-    [[DataController dataStore] createBodyCard:self.currentSpeech andSequence:(index.row + 1)];
+    [[DataController dataStore] createBodyCard:self.currentSpeech andSequence:((int)index.row + 1)];
     
     [_cardCollectionView reloadData];
 }
@@ -525,11 +517,8 @@
         _speechIsRunning = NO;
         
         //turn text labels and time incramentor "ON"
-        [_point1 setHidden:NO];
-        [_point2 setHidden:NO];
-        [_point3 setHidden:NO];
-        [_point4 setHidden:NO];
-        [_point5 setHidden:NO];
+        
+        [self unhideTextFields];
         [_timeStepper setHidden:NO];
         
         [_cardTitle setUserInteractionEnabled:YES];
@@ -543,8 +532,8 @@
         
         _textView.backgroundColor = [UIColor whiteColor];
         _cardTitle.backgroundColor = [UIColor whiteColor];
-
-
+        
+        
     } else {
         
         if ([_timeLine isInitialized]) {
@@ -561,19 +550,14 @@
             
             
             [_timeStepper setHidden:YES];
-            [_point1 setHidden:YES];
-            [_point2 setHidden:YES];
-            [_point3 setHidden:YES];
-            [_point4 setHidden:YES];
-            [_point5 setHidden:YES];
-            
+            [self hideTextFields];
             _cardTitle.backgroundColor = [UIColor clearColor];
             _textView.backgroundColor = [UIColor clearColor];
             
             _speechIsRunning = YES;
             [_timeLine start];
         }
-
+        
     }
 }
 

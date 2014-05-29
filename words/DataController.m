@@ -138,10 +138,8 @@ typedef enum : int {
             [card setRunTime:[NSNumber numberWithDouble:120.0]];
             [card setSequence:[NSNumber numberWithInt:3]];
             for (int i = 1; i < 6; i++) {
-                Point *point = [self createPointItem];
-                [point setCards:card];
-                [point setSequence:[NSNumber numberWithInt:i]];
-                [point setWords:@"A point goes here"];
+                NSString *words = @"A point goes here";
+                [self createPointItem:card andSequence:i andWords:words];
             }
             break;
         case conclusionCard:
@@ -175,11 +173,14 @@ typedef enum : int {
 
 #pragma mark - Point item
 
-- (Point *)createPointItem {
-    Point *point;
+- (BodyPoint *)createPointItem:(Card *)withCard andSequence:(int)withSequence andWords:(NSString *)withWords {
+    BodyPoint *point;
     // Create new object and insert it into context
     point = [NSEntityDescription insertNewObjectForEntityForName:@"Point"
                                           inManagedObjectContext:context];
+    [point setCards:withCard];
+    [point setSequence:[NSNumber numberWithInt:withSequence]];
+    [point setWords:withWords];
     NSError *error;
     // Save the object to context
     [point.managedObjectContext save:&error];
@@ -211,7 +212,7 @@ typedef enum : int {
     if ([objectToRemove isKindOfClass:[Card class]]) {
         [allCardItems removeObject:objectToRemove];
     };
-    if ([objectToRemove isKindOfClass:[Point class]]) {
+    if ([objectToRemove isKindOfClass:[BodyPoint class]]) {
         [allPointItems removeObject:objectToRemove];
     };
 }

@@ -20,16 +20,19 @@
 - (void)calculateTotalTime:(Speech *)speech {
     _runTime = 0;
     for (Card *card in speech.cards) {
-        _runTime += card.runTime;
+        if (card.userEdited) {
+            _runTime += [card.runTime doubleValue];
+        }
     }
 }
 
 -(NSTimeInterval)runTime
 {
     NSTimeInterval time = 0;
-    for (Card *card in self.cards) {
-        time += card.runTime;
-    }
+    for (Card *card in [[DataController dataStore] allCardItems]) {
+        if (card.userEdited) {
+            _runTime += [card.runTime doubleValue];
+        }    }
     return time;
 }
 

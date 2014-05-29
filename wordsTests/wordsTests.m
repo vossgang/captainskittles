@@ -227,4 +227,9 @@ for (id key in [[SearchController searchStore] calculateKeyWords:speech]) {
 
 }
 
+- (void)testCreateSpeech {
+    Speech *speech = [[DataController dataStore] createSpeechItem];
+    NSLog(@"Speech made");
+}
+
 @end

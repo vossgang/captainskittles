@@ -67,7 +67,7 @@ typedef enum : NSUInteger {
                 break; }
             case bodyCard: {
                 stringToProcess = card.title;
-                for (Point *point in card.points) {
+                for (BodyPoint *point in card.points) {
                     stringToProcess = [stringToProcess stringByAppendingString:[NSString stringWithFormat:@" %@",point.words]];
                 }
                 [arrayToProcess addObject:stringToProcess];

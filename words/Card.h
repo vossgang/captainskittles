@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Point, Speech;
+@class BodyPoint, Speech;
 
 @interface Card : NSManagedObject
 
@@ -27,8 +27,8 @@
 
 @interface Card (CoreDataGeneratedAccessors)
 
-- (void)addPointsObject:(Point *)value;
-- (void)removePointsObject:(Point *)value;
+- (void)addPointsObject:(BodyPoint *)value;
+- (void)removePointsObject:(BodyPoint *)value;
 - (void)addPoints:(NSSet *)values;
 - (void)removePoints:(NSSet *)values;
 

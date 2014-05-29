@@ -7,7 +7,7 @@
 //
 
 #import "Card.h"
-#import "Point.h"
+#import "BodyPoint.h"
 #import "Speech.h"
 
 

@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "Speech.h"
 #import "Card.h"
-#import "Point.h"
+#import "BodyPoint.h"
 
 @interface DataController : NSObject
 {
@@ -32,8 +32,5 @@
 
 - (Card *)createCardItem:(Speech *)withSpeech andType:(int)withcardType;
 - (NSArray *)allCardItems;
-
-- (Point *)createPointItem;
-- (NSArray *)allPointItems;
 
 @end

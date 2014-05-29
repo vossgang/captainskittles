@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BodyPoint" representedClassName="BodyPoint" syncable="YES">
+        <attribute name="sequence" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="words" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="points" inverseEntity="Card" syncable="YES"/>
+    </entity>
     <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="cardIsEntity" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="conclusion" optional="YES" attributeType="String" syncable="YES"/>
@@ -9,13 +14,8 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="userEdited" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="points" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Point" inverseName="cards" inverseEntity="Point" syncable="YES"/>
+        <relationship name="points" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BodyPoint" inverseName="cards" inverseEntity="BodyPoint" syncable="YES"/>
         <relationship name="speech" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Speech" inverseName="cards" inverseEntity="Speech" syncable="YES"/>
-    </entity>
-    <entity name="Point" representedClassName="Point" syncable="YES">
-        <attribute name="sequence" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="words" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="cards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="points" inverseEntity="Card" syncable="YES"/>
     </entity>
     <entity name="Speech" representedClassName="Speech" syncable="YES">
         <attribute name="attribute" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -23,7 +23,7 @@
     </entity>
     <elements>
         <element name="Card" positionX="36" positionY="81" width="128" height="193"/>
-        <element name="Point" positionX="9" positionY="54" width="128" height="88"/>
+        <element name="BodyPoint" positionX="9" positionY="54" width="128" height="88"/>
         <element name="Speech" positionX="-18" positionY="27" width="128" height="73"/>
     </elements>
 </model>

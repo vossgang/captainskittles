@@ -20,7 +20,7 @@
 - (NSArray *)calculateKeyWords:(Speech *)withSpeech;
 
 - (NSArray *)searchSpeechByTitle:(NSString *)searchTerm;
-
+- (NSArray *)searchSpeechByKeyword:(NSString *)searchTerm;
 
 // Test only
 - (NSString *)getSpeechTitle:(Speech *)withSpeech;

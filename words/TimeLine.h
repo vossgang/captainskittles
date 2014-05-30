@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 #import "Speech.h"
 
@@ -20,8 +21,6 @@
 -(void)start;
 -(void)stop;
 
--(void)advanceToBlockAtIndex:(NSInteger)index;
 -(void)advanceToNextBlock;
-//-(CGFloat)timeRemainingForBlockAtIndex:(NSInteger)index;
 
 @end

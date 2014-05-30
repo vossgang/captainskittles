@@ -65,6 +65,7 @@
     _speechIsRunning = NO;
     _speechDeliverController = [SpeechDeliveryController newDeliveryControllerForSpeech:self.currentSpeech];
     
+    //assisign data soursces and delegates
     _point1.delegate                        = self;
     _point2.delegate                        = self;
     _point3.delegate                        = self;
@@ -74,9 +75,12 @@
     _textView.delegate                      = self;
     _cardCollectionView.dataSource          = self;
     _cardCollectionView.delegate            = self;
+    
+    
     _cardCollectionView.backgroundColor     = [UIColor clearColor];
     _oldTextViewText                        = @"";
     
+    //asssign tags to the text fields
     [_point1 setTag:1];
     [_point2 setTag:2];
     [_point3 setTag:3];
@@ -92,6 +96,7 @@
     
     [_textView setHidden:YES];
     
+    //present first card in speech
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self collectionView:_cardCollectionView didSelectItemAtIndexPath: indexPath];
     
@@ -108,6 +113,7 @@
     //if the current card has a run time it is edited, else it is not edited
     _currentCard.userEdited = _currentCard.runTime;
     
+    //display the updated time
     int minutes = [_currentCard.runTime doubleValue] / 60;
     int seconds = (int)[_currentCard.runTime doubleValue] % 60;
     if (seconds != 0) {
@@ -116,6 +122,7 @@
         _timeLabel.text     = [NSString stringWithFormat:@"%d minutes", minutes];
     }
     
+    //reload the collection view so it shows the updated time
     [_cardCollectionView reloadData];
     [self animateTimeLineRefactor];
     
@@ -126,17 +133,13 @@
 {
     _oldTextFieldText = textField.text;
     
+    //hide the other text fields
     [_cardTitle setHidden:YES];
-    [_point1 setHidden:YES];
-    [_point2 setHidden:YES];
-    [_point3 setHidden:YES];
-    [_point4 setHidden:YES];
-    [_point5 setHidden:YES];
-    
+    [self hideTextFields];
     [textField setHidden:NO];
     
+    //keep a copy of the current frame and animate to a text field to the desired spot
     _textFieldFrame = textField.frame;
-    
     [UIView animateWithDuration:.33 animations:^{
         textField.center = CGPointMake(textField.center.x, 22);
     } completion:^(BOOL finished) {
@@ -150,13 +153,11 @@
 {
     [textField resignFirstResponder];
     
+    //unhide the textfields
     [_cardTitle setHidden:NO];
-    [_point1 setHidden:NO];
-    [_point2 setHidden:NO];
-    [_point3 setHidden:NO];
-    [_point4 setHidden:NO];
-    [_point5 setHidden:NO];
+    [self unhideTextFields];
     
+    //if there was a change refactor timeline
     if (![_oldTextFieldText isEqual:textField.text]) {
         [_currentCard setUserEdited:[NSNumber numberWithInt:1]];
         [self animateTimeLineRefactor];
@@ -167,11 +168,15 @@
         UITextField *currentField = (UITextField *)[self.view viewWithTag:[point.sequence intValue] + 1];
         [point setWords:currentField.text];
     }
+    
+    //set the title for the card
     _currentCard.title     = _cardTitle.text;
     
+    //reset the frame of the text field
     textField.frame = _textFieldFrame;
-    [self showActiveTextFields];
     
+    //only show needed text fields and reload data
+    [self showActiveTextFields];
     [_cardCollectionView reloadData];
     
     return YES;
@@ -179,15 +184,18 @@
 
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    //copy the frame and text from the current text view
     _textViewFrame = textView.frame;
     _oldTextViewText = textView.text;
     
+    //move the text view to desired spot
     [UIView animateWithDuration:.33 animations:^{
         textView.frame = CGRectMake(textView.frame.origin.x, 0, textView.frame.size.width, textView.frame.size.height);
     } completion:^(BOOL finished) {
         
     }];
     
+    //hide the card title
     [_cardTitle setHidden:YES];
     
     return YES;
@@ -195,17 +203,20 @@
 
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
+    //if changes were made refactor time line
     if (![_oldTextViewText isEqual:textView.text]) {
         [_currentCard setUserEdited:[NSNumber numberWithBool:YES]];
         [self animateTimeLineRefactor];
     }
     
+    //set the values for the correspoding text
     switch ([_currentCard.type intValue]) {
         case conclusionCard:    _currentCard.conclusion = _textView.text; break;
         case prefaceCard:       _currentCard.preface    = _textView.text; break;
         default: break;
     }
     
+    //replace text view to original spot
     _textView.frame = _textViewFrame;
     [_cardTitle setHidden:NO];
     _currentCard.preface   = _textView.text;
@@ -401,10 +412,23 @@
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath didMoveToIndexPath:(NSIndexPath *)toIndexPath
 {
+    NSLog(@"hi");
+    
 #warning Will need to modify this to update sequence values on cards card.sequence
-    // Card *card = self.currentSpeech.cards[fromIndexPath.row];
-    //[self.currentSpeech.cards removeObjectAtIndex:fromIndexPath.row];
-    //[self.currentSpeech.cards insertObject:card atIndex:toIndexPath.row];
+    Card *cardToMove;
+    
+    for (Card *card in _currentSpeech.cards) {
+        if ([card.sequence intValue] == fromIndexPath.row) {
+            cardToMove = card;
+        }
+    }
+    
+    [[DataController dataStore] removeBodyCard:_currentSpeech andCard:cardToMove];
+    [[DataController dataStore] createBodyCard:_currentSpeech andSequence:(int)toIndexPath.row];
+    
+//    Card *card = self.currentSpeech.cards[fromIndexPath.row];
+//    [self.currentSpeech.cards removeObjectAtIndex:fromIndexPath.row];
+//    [self.currentSpeech.cards insertObject:card atIndex:toIndexPath.row];
 }
 
 -(int)numberOfPointsInCurrentCard
@@ -467,8 +491,6 @@
 
 -(void)animateTimeLineRefactor
 {
-//    CGRect  originalTimeLineFrame = _timeLine.view.frame;
-    
     [UIView animateWithDuration:.25 animations:^{
         _timeLine.view.alpha = 0;
         

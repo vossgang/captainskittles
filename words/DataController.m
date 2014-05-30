@@ -323,12 +323,6 @@ typedef enum : int {
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
             allCardItems = [[NSMutableArray alloc] initWithArray:result];
-            
-            for (Card *cardTest in allCardItems) {
-                NSLog(@"Title: %@",cardTest.title);
-            }
-        
-        
         }
     }];
     

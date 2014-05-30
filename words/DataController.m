@@ -169,6 +169,13 @@ typedef enum : int {
 
 - (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence
 {
+    // Update the sequence on all cards ahead of this one
+    for (Card *cardSort in withSpeech.cards) {
+        if ([cardSort.sequence intValue] >= withSequence) {
+            int newSequence = [cardSort.sequence intValue] + 1;
+            cardSort.sequence = [NSNumber numberWithInt:newSequence];
+        }
+    }
     Card *card;
     // Create new object and insert it into context
     card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"
@@ -177,15 +184,8 @@ typedef enum : int {
     // Default values for cards
     [card setUserEdited:NO];
     [card setSpeech:withSpeech];
-    [card setType:[NSNumber numberWithInt:withSequence]];
+    [card setType:[NSNumber numberWithInt:bodyCard]];
     [card setSequence:[NSNumber numberWithInt:withSequence]];
-    // Update the sequence on all cards ahead of this one
-    for (Card *cardSort in withSpeech.cards) {
-        if ([cardSort.sequence intValue] >= withSequence) {
-            int newSequence = [cardSort.sequence intValue] + 1;
-            card.sequence = [NSNumber numberWithInt:newSequence];
-        }
-    }
     
     NSError *error;
     // Save the object to context

@@ -124,7 +124,7 @@
 
 -(void)setupCursor {
     //setup timeLine cursor
-    self.cursor = [[Cursor alloc] initWithFrame:CGRectMake(0, 0, 16, self.view.frame.size.height)];
+    self.cursor = [[Cursor alloc] initWithFrame:CGRectMake(-6, 0, 16, self.view.frame.size.height)];
     
     [self.view addSubview:self.cursor];
 }
@@ -172,9 +172,11 @@
     if ([_startTime timeIntervalSinceNow] > _speechRunTime) return;
 
     TimeBlock *currentBlock = [self getPointerToPresentingBlock];
-    
+
     CFTimeInterval timeSinceStartOfBlock = [[NSDate date] timeIntervalSinceDate:_startOfCurrentBlock];
     CFTimeInterval timeRemainingForCurrentBlock = currentBlock.duration - timeSinceStartOfBlock;
+    currentBlock.color = [Colorizer colorFromTimeRemaining:(currentBlock.originalDuration - timeSinceStartOfBlock) withTotalTime:currentBlock.originalDuration usingColors:_lifeCycleColors];
+    [currentBlock setNeedsDisplay];
     
 
     if (timeRemainingForCurrentBlock < 0) {

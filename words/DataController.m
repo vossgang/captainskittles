@@ -7,6 +7,14 @@
 //
 
 #import "DataController.h"
+#import "Card.h"
+
+typedef enum : int {
+    titleCard,
+    prefaceCard,
+    bodyCard,
+    conclusionCard,
+} CardType;
 
 @implementation DataController
 
@@ -74,12 +82,17 @@
 
 #pragma mark - Speech item
 
-- (DSSpeech *)createSpeechItem {
-    DSSpeech *speech;
+- (Speech *)createSpeechItem {
+    Speech *speech;
     // Create new object and insert it into context
-    speech = [NSEntityDescription insertNewObjectForEntityForName:@"DSSpeech"
+    speech = [NSEntityDescription insertNewObjectForEntityForName:@"Speech"
                                            inManagedObjectContext:context];
     NSError *error;
+    // Create the associated cards for the speed
+    [self createCardItem:speech andType:titleCard];
+    [self createCardItem:speech andType:prefaceCard];
+    [self createCardItem:speech andType:bodyCard];
+    [self createCardItem:speech andType:conclusionCard];
     // Save the object to context
     [speech.managedObjectContext save:&error];
     
@@ -98,11 +111,49 @@
 
 #pragma mark - Card item
 
-- (DSCard *)createCardItem {
-    DSCard *card;
+- (Card *)createCardItem:(Speech *)withSpeech andType:(int)withcardType {
+    Card *card;
     // Create new object and insert it into context
-    card = [NSEntityDescription insertNewObjectForEntityForName:@"DSCard"
+    card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"
                                          inManagedObjectContext:context];
+    
+    // Default values for cards
+    [card setUserEdited:NO];
+    [card setSpeech:withSpeech];
+    [card setType:[NSNumber numberWithInt:withcardType]];
+    switch (withcardType) {
+        case titleCard:
+            [card setTitle:@"New Speech"];
+            [card setRunTime:[NSNumber numberWithDouble:30.0]];
+             [card setSequence:[NSNumber numberWithInt:0]];
+            break;
+        case prefaceCard:
+            [card setTitle:@"Preface"];
+            [card setRunTime:[NSNumber numberWithDouble:60.0]];
+            [card setSequence:[NSNumber numberWithInt:1]];
+            [card setPreface:@"A description of the scope of your speech goes here"];
+            break;
+        case bodyCard:
+            [card setTitle:@"Main Point"];
+            [card setRunTime:[NSNumber numberWithDouble:120.0]];
+            [card setSequence:[NSNumber numberWithInt:2]];
+            for (int i = 0; i < 5; i++) {
+                NSString *words = @"";
+                [self createPointItem:card andSequence:i andWords:words];
+            }
+            break;
+        case conclusionCard:
+            [card setTitle:@"Conclusion"];
+            [card setRunTime:[NSNumber numberWithDouble:30.0]];
+            [card setSequence:[NSNumber numberWithInt:3]];
+            [card setConclusion:@"A conclusion statement for your speech goes here"];
+            break;
+        default:
+            [card setTitle:@"Blank Entry"];
+            [card setRunTime:[NSNumber numberWithDouble:0.0]];
+            [card setSequence:[NSNumber numberWithInt:9999]];
+            break;
+    }
     NSError *error;
     // Save the object to context
     [card.managedObjectContext save:&error];
@@ -116,17 +167,72 @@
     return card;
 }
 
-- (NSArray *)allCardItems {
+- (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence {
+    Card *card;
+    // Create new object and insert it into context
+    card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"
+                                         inManagedObjectContext:context];
+    
+    // Default values for cards
+    [card setUserEdited:NO];
+    [card setSpeech:withSpeech];
+    [card setType:[NSNumber numberWithInt:2]];
+    [card setSequence:[NSNumber numberWithInt:withSequence]];
+    // Update the sequence on all cards ahead of this one
+    for (Card *cardSort in withSpeech.cards) {
+        if ([cardSort.sequence intValue] >= withSequence) {
+            int newSequence = [cardSort.sequence intValue] + 1;
+            card.sequence = [NSNumber numberWithInt:newSequence];
+        }
+    }
+    
+    NSError *error;
+    // Save the object to context
+    [card.managedObjectContext save:&error];
+    
+    if (error) {
+        NSLog(@"%@",[error localizedDescription]);
+    } else {
+        // Reload the card array to reorder sequence values
+        allCardItems = nil;
+        [self loadAllItems];
+    }
+    
+    return card;
+}
+
+- (NSArray *)allCardItems:(Speech *)withSpeech {
+    allCardItems = nil;
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    request.predicate = [NSPredicate predicateWithFormat:@"speech = %@", withSpeech];
+    NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Card"];
+    [request setEntity:e];
+    
+    NSSortDescriptor *sd = [NSSortDescriptor
+                            sortDescriptorWithKey:@"sequence"
+                            ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObject:sd]];
+    
+    NSError *error;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if (!request) {
+        [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
+    }
+    allCardItems = [[NSMutableArray alloc] initWithArray:result];
+    
     return allCardItems;
 }
 
 #pragma mark - Point item
 
-- (DSPoint *)createPointItem {
-    DSPoint *point;
+- (BodyPoint *)createPointItem:(Card *)withCard andSequence:(int)withSequence andWords:(NSString *)withWords {
+    BodyPoint *point;
     // Create new object and insert it into context
-    point = [NSEntityDescription insertNewObjectForEntityForName:@"DSPoint"
+    point = [NSEntityDescription insertNewObjectForEntityForName:@"BodyPoint"
                                           inManagedObjectContext:context];
+    [point setCards:withCard];
+    [point setSequence:[NSNumber numberWithInt:withSequence]];
+    [point setWords:withWords];
     NSError *error;
     // Save the object to context
     [point.managedObjectContext save:&error];
@@ -146,21 +252,29 @@
 
 #pragma mark - Core data interaction
 
-- (void)removeManagedObject:(NSManagedObject *)objectToRemove {
+- (void)removeSpeechCard:(Speech *)withSpeech {
     NSError *error;
     // Remove the object from the context
-    [context deleteObject:objectToRemove];
-    [objectToRemove.managedObjectContext save:&error];
-    // Check for what kind of object it is and then remove from local array
-    if ([objectToRemove isKindOfClass:[DSSpeech class]]) {
-        [allSpeechItems removeObject:objectToRemove];
-    };
-    if ([objectToRemove isKindOfClass:[DSCard class]]) {
-        [allCardItems removeObject:objectToRemove];
-    };
-    if ([objectToRemove isKindOfClass:[DSPoint class]]) {
-        [allPointItems removeObject:objectToRemove];
-    };
+    [context deleteObject:withSpeech];
+    [withSpeech.managedObjectContext save:&error];
+    allSpeechItems = nil;
+    [self loadAllItems];
+}
+
+- (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard {
+    // Update the sequence on all cards ahead of this one
+    for (Card *cardSort in withSpeech.cards) {
+        if ([cardSort.sequence intValue] > [withCard.sequence intValue]) {
+            int newSequence = [cardSort.sequence intValue] - 1;
+            withCard.sequence = [NSNumber numberWithInt:newSequence];
+        }
+    }
+    NSError *error;
+    // Remove the object from the context
+    [context deleteObject:withCard];
+    [withCard.managedObjectContext save:&error];
+    allCardItems = nil;
+    [self allCardItems:withSpeech];
 }
 
 - (void)reloadAllItems {
@@ -178,7 +292,7 @@
         // Speech items
         if (!allSpeechItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSSpeech"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Speech"];
             [request setEntity:e];
             
             NSError *error;
@@ -195,11 +309,11 @@
         if (!allCardItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toSpeech = %@", ];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSCard"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Card"];
             [request setEntity:e];
             
             NSSortDescriptor *sd = [NSSortDescriptor
-                                    sortDescriptorWithKey:@"cardSequence"
+                                    sortDescriptorWithKey:@"sequence"
                                     ascending:YES];
             [request setSortDescriptors:[NSArray arrayWithObject:sd]];
             
@@ -208,7 +322,14 @@
             if (!request) {
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
-            allCardItems = [[NSMutableArray alloc] initWithArray:result];        }
+            allCardItems = [[NSMutableArray alloc] initWithArray:result];
+            
+            for (Card *cardTest in allCardItems) {
+                NSLog(@"Title: %@",cardTest.title);
+            }
+        
+        
+        }
     }];
     
     NSBlockOperation *operationPoint = [NSBlockOperation blockOperationWithBlock:^{
@@ -216,11 +337,11 @@
         if (!allPointItems) {
             NSFetchRequest *request = [[NSFetchRequest alloc] init];
             //request.predicate = [NSPredicate predicateWithFormat:@"toCard = %@", ];
-            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"DSPoint"];
+            NSEntityDescription *e = [[model entitiesByName] objectForKey:@"BodyPoint"];
             [request setEntity:e];
             
             NSSortDescriptor *sd = [NSSortDescriptor
-                                    sortDescriptorWithKey:@"pointSequence"
+                                    sortDescriptorWithKey:@"sequence"
                                     ascending:YES];
             [request setSortDescriptors:[NSArray arrayWithObject:sd]];
             

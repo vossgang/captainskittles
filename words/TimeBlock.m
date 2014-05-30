@@ -16,7 +16,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor    = [UIColor clearColor];
-        self.color              = [UIColor greenColor];
+        self.color              = [UIColor colorWithRed:0.36 green:0.71 blue:0.26 alpha:1];
     }
     return self;
 }
@@ -25,8 +25,8 @@
     TimeBlock *newBlock = [TimeBlock new];
     
     //calulate the new block's percentage of timeline
-    newBlock.percentageOfTimeLine = card.runTime / speechRunTime;
-    newBlock.duration             = card.runTime;
+    newBlock.percentageOfTimeLine = [card.runTime doubleValue]/ speechRunTime;
+    newBlock.duration             = [card.runTime doubleValue];
     newBlock.timeRemaining        = newBlock.duration;
     
     //set the new card's state

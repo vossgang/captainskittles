@@ -9,7 +9,7 @@
 //
 
 #import "CardStyleKit.h"
-
+#define SMALL_FONT 20
 
 @implementation CardStyleKit
 
@@ -32,33 +32,24 @@
     CGFloat gradientLocations[] = {0, 1};
     CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)@[(id)UIColor.whiteColor.CGColor, (id)UIColor.blackColor.CGColor], gradientLocations);
     
-    //// Shadow Declarations
-    UIColor* shadow = [UIColor.blackColor colorWithAlphaComponent: 0.49];
-    CGSize shadowOffset = CGSizeMake(4.1, 4.1);
-    CGFloat shadowBlurRadius = 4.5;
-    
     //// Rectangle Drawing
     CGRect rectangleRect = CGRectMake(CGRectGetMinX(frame) + floor(CGRectGetWidth(frame) * 0.02917 + 0.5), CGRectGetMinY(frame) + 6, floor(CGRectGetWidth(frame) * 0.97292) - floor(CGRectGetWidth(frame) * 0.02917 + 0.5) + 0.5, floor((CGRectGetHeight(frame) - 6) * 0.95000 + 0.5));
     UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRoundedRect: rectangleRect cornerRadius: 4];
     CGContextSaveGState(context);
-    CGContextSetShadowWithColor(context, shadowOffset, shadowBlurRadius, [shadow CGColor]);
-    CGContextBeginTransparencyLayer(context, NULL);
     [rectanglePath addClip];
     CGFloat rectangleResizeRatio = MIN(CGRectGetWidth(rectangleRect) / 226.5, CGRectGetHeight(rectangleRect) / 123.5);
     CGContextDrawRadialGradient(context, gradient,
                                 CGPointMake(CGRectGetMidX(rectangleRect) + 0 * rectangleResizeRatio, CGRectGetMidY(rectangleRect) + 0 * rectangleResizeRatio), 0.85 * rectangleResizeRatio,
                                 CGPointMake(CGRectGetMidX(rectangleRect) + 0 * rectangleResizeRatio, CGRectGetMidY(rectangleRect) + 0 * rectangleResizeRatio), 435.63 * rectangleResizeRatio,
                                 kCGGradientDrawsBeforeStartLocation | kCGGradientDrawsAfterEndLocation);
-    CGContextEndTransparencyLayer(context);
     CGContextRestoreGState(context);
-    
     [UIColor.darkGrayColor setStroke];
     rectanglePath.lineWidth = 1;
     [rectanglePath stroke];
     
     
     //// Text Drawing
-    CGRect textRect = CGRectMake(CGRectGetMinX(frame) + 7, CGRectGetMinY(frame) + 6, 227, 77);
+    CGRect textRect = CGRectMake(CGRectGetMinX(frame) + floor(CGRectGetWidth(frame) * 0.02917 + 0.5), CGRectGetMinY(frame) + 6, floor(CGRectGetWidth(frame) * 0.97500 + 0.5) - floor(CGRectGetWidth(frame) * 0.02917 + 0.5), floor((CGRectGetHeight(frame) - 6) * 0.59231 + 0.5));
     {
         NSString* textContent = title;
         NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
@@ -71,7 +62,7 @@
     
     
     //// Text 3 Drawing
-    CGRect text3Rect = CGRectMake(CGRectGetMinX(frame) + 123, CGRectGetMinY(frame) + 83, 101, 38.5);
+    CGRect text3Rect = CGRectMake(CGRectGetMinX(frame) + CGRectGetWidth(frame) - 117, CGRectGetMinY(frame) + CGRectGetHeight(frame) - 53, 101, 38.5);
     {
         NSString* textContent = timeRemaining;
         NSMutableParagraphStyle* text3Style = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
@@ -84,7 +75,7 @@
     
     
     //// Text 2 Drawing
-    CGRect text2Rect = CGRectMake(CGRectGetMinX(frame) + 17, CGRectGetMinY(frame) + 83, 101, 38.5);
+    CGRect text2Rect = CGRectMake(CGRectGetMinX(frame) + 17, CGRectGetMinY(frame) + CGRectGetHeight(frame) - 53, 101, 38.5);
     {
         NSString* textContent = points;
         NSMutableParagraphStyle* text2Style = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;

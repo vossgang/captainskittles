@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xbc-xG-fT9">
-                                <rect key="frame" x="0.0" y="44" width="448" height="276"/>
+                                <rect key="frame" x="0.0" y="44" width="568" height="276"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="nxD-wl-Dap">
@@ -27,7 +27,7 @@
                                     <inset key="sectionInset" minX="10" minY="5" maxX="10" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <view key="backgroundView" contentMode="scaleToFill" fixedFrame="YES" id="VLT-DM-25N">
-                                    <rect key="frame" x="0.0" y="0.0" width="448" height="276"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="568" height="276"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -76,10 +76,13 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pM9-Pa-rYj">
-                                <rect key="frame" x="0.0" y="0.0" width="448" height="44"/>
+                            <searchBar contentMode="redraw" fixedFrame="YES" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pM9-Pa-rYj">
+                                <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="vUx-tv-3hJ"/>
+                                </connections>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -283,12 +286,12 @@
                         <outlet property="cardCollectionView" destination="e9u-KI-lTO" id="diV-Oh-CH5"/>
                         <outlet property="cardEditor" destination="kfg-le-si1" id="0PA-hj-EU4"/>
                         <outlet property="cardNumberLabel" destination="Hsa-jL-hBO" id="Cop-bZ-ZGY"/>
-                        <outlet property="cardPointOne" destination="TkF-q3-BCy" id="2mP-zf-RSm"/>
-                        <outlet property="cardPointThree" destination="pzO-dq-zkA" id="i8G-WK-KKR"/>
-                        <outlet property="cardPointTwo" destination="c73-1V-r4O" id="2Hk-5v-bKh"/>
                         <outlet property="cardTitle" destination="eX6-U7-R6c" id="4PD-O8-adG"/>
-                        <outlet property="pointFive" destination="Vyw-xz-EMy" id="92S-09-ou4"/>
-                        <outlet property="pointFour" destination="XVO-6n-07z" id="ulr-It-3dy"/>
+                        <outlet property="point1" destination="TkF-q3-BCy" id="sm0-2S-M6w"/>
+                        <outlet property="point2" destination="c73-1V-r4O" id="RVX-ab-Xxz"/>
+                        <outlet property="point3" destination="pzO-dq-zkA" id="l1I-vS-iNq"/>
+                        <outlet property="point4" destination="XVO-6n-07z" id="e8g-Yn-f2H"/>
+                        <outlet property="point5" destination="Vyw-xz-EMy" id="ruM-Yc-e1p"/>
                         <outlet property="textView" destination="6Gh-WK-WPY" id="WcP-In-cTz"/>
                         <outlet property="timeLabel" destination="iFQ-tD-hNo" id="AZl-wO-gq0"/>
                         <outlet property="timeStepper" destination="JnI-n4-Gbo" id="BXI-90-i0y"/>

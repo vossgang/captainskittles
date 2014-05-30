@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
+
+
 #import "TimeLine.h"
 #import "Speech.h"
 #import "Card.h"
@@ -19,21 +21,27 @@
 
 @interface TimeLine()
 
+//copy of speech
+@property (nonatomic, strong) Speech *speech;
+
 @property (nonatomic, strong) NSMutableArray *timeBlockViews;
 @property (nonatomic, strong) Cursor *cursor;
 @property (nonatomic, strong) NSTimer *iterationTimer, *refreshTimer;
-@property (nonatomic) CGFloat pixelsPerSecond;
 @property (nonatomic) CGFloat speechTimeRemaining, speechRunTime;
 @property (nonatomic, strong) NSArray *lifeCycleColors;
+@property (nonatomic) CGFloat cursorTravel;
 
 //start/stop
-@property (nonatomic, weak) Speech *speech;
 @property (nonatomic, weak) UIView *superView;
 @property (nonatomic) CGRect timeLineFrame;
+@property (nonatomic, strong) NSDate *startTime;
 
 //Block Management
-@property (nonatomic) NSInteger indexOfCurrentBlock;
+@property (nonatomic) NSInteger indexOfCurrentBlock, indexOfPreviousBlock;
 @property (nonatomic, strong) NSMutableArray *blocks;
+@property (nonatomic) CGFloat timeLineWidth;
+@property (nonatomic, strong) NSDate *startOfCurrentBlock;
+
 
 @end
 
@@ -43,31 +51,30 @@
 
 +(TimeLine *)newTimeLineFromSpeech:(Speech *)speech isSubviewOf:(UIView *)view withFrame:(CGRect)frame
 {
-    NSLog(@"%d", (int)speech.cards.count);
-
-    TimeLine *timeLine                 = [TimeLine new];
-    NSTimeInterval timeInterval     = [SpeechController calculateTotalTime:speech];
+    TimeLine *timeLine              = [TimeLine new];
     
+    //setup timelineSpeechCopy
+    timeLine.speech                 = speech;
+    
+    timeLine.timeLineWidth          = frame.size.width;
     timeLine.timeBlockViews         = [NSMutableArray new];
-    timeLine.speechTimeRemaining    = timeInterval;
-    timeLine.speechRunTime          = timeInterval;
-    timeLine.pixelsPerSecond        = (frame.size.width / timeInterval);
-    timeLine.blocks              = [NSMutableArray new];
+    timeLine.speechTimeRemaining    = [SpeechController calculateTotalTime:speech];
+    timeLine.speechRunTime          = [SpeechController calculateTotalTime:speech];
+    timeLine.blocks                 = [NSMutableArray new];
     timeLine.indexOfCurrentBlock    = 0;
+    timeLine.indexOfPreviousBlock   = 0;
     timeLine.lifeCycleColors        = @[[UIColor colorWithRed:0.36 green:0.71 blue:0.26 alpha:1],
                                         [UIColor colorWithRed:0.84 green:0.58 blue:0 alpha:1],
                                         [UIColor colorWithRed:1 green:.2 blue:.2 alpha:1] ];
-
+    
     //setup timeline view in proportion with reference view
     timeLine.view = [[UIView alloc] initWithFrame:frame];
     [view addSubview:timeLine.view];
     
     timeLine.view.backgroundColor = [UIColor clearColor]; //temporary assignment
-    
-    [timeLine setupTimeBlocksForSpeech:speech];
-
+    [timeLine drawTimeLineForSpeech:speech];
     [timeLine setupCursor];
-
+    
     //make the timeline retain a weak pointer to the speech
     timeLine.speech         = speech;
     timeLine.superView      = view;
@@ -80,12 +87,14 @@
     return _blocks.count;
 }
 
-#pragma mark - initial setup methods
+#pragma mark - Setup Methods
 
--(void)setupTimeBlocksForSpeech:(Speech *)speech {
+-(void)drawTimeLineForSpeech:(Speech *)speech {
     
     CGFloat positionInTimeline  = 0; //x coordinate in timeline
     CGFloat width               = 0;
+    
+    int index = 0;
     
     for (Card *card in speech.cards) {
         if (card.userEdited) {
@@ -94,10 +103,11 @@
             TimeBlock *newBlock = [TimeBlock newTimeBlockFromCard:card andSpeechRunTime:_speechRunTime];
             
             //calculate the new block's width
-            width = (newBlock.percentageOfTimeLine * self.view.frame.size.width);
+            width = (newBlock.percentageOfTimeLine * _timeLineWidth);
             
             //set the new blocks frame
-            newBlock.frame = CGRectMake(positionInTimeline, 0, width, self.view.frame.size.height);
+            newBlock.frame                  = CGRectMake(positionInTimeline, 0, width, self.view.frame.size.height);
+            newBlock.associatedCardIndex    = index;
             
             //add block to subview & mutableArray
             [self.view addSubview:newBlock];
@@ -106,173 +116,241 @@
             //advance x coordinate in timeline
             positionInTimeline += width;
         }
+        
+        index++;
     }
     
 }
 
 -(void)setupCursor {
     //setup timeLine cursor
-    self.cursor = [[Cursor alloc] initWithFrame:CGRectMake(-8, 0, 16, self.view.frame.size.height)];
-
+    self.cursor = [[Cursor alloc] initWithFrame:CGRectMake(0, 0, 16, self.view.frame.size.height)];
+    
     [self.view addSubview:self.cursor];
-    
-    
 }
 
 #pragma mark - Cursor
 
 - (void)redrawTimeLine {
+    
     //redraw timeline
     CGFloat positionInTimeline  = 0; //x coordinate in timeline
     CGFloat width               = 0;
     
     for (TimeBlock *block in _blocks) {
         
-        //calulate the new block's percentage of timeline
-        block.percentageOfTimeLine = block.duration / _speechRunTime;
-        
         //calculate the new block's width
-        width = (block.percentageOfTimeLine * self.view.frame.size.width);
+        width = ((block.duration / _speechRunTime) * _timeLineWidth);
         
         block.frame = CGRectMake(positionInTimeline, 0, width, self.view.frame.size.height);
         [block setNeedsDisplay];
-   
+        
         //advance x coordinate in timeline
         positionInTimeline += width;
-        
     }
 }
 
--(void)advanceCursor {
-
-    TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
-    currentBlock.timeRemaining -= 1.0f; //decrement the time remaning
-    currentBlock.color = [Colorizer colorFromTimeRemaining:currentBlock.timeRemaining withTotalTime:currentBlock.duration usingColors:_lifeCycleColors];
-    
-    NSLog(@"%f", currentBlock.timeRemaining);
-            
-    
-    if ((currentBlock.frame.origin.x + currentBlock.frame.size.width) < (_cursor.frame.origin.x + (_pixelsPerSecond * 4))) {
-        
-        //add one second to the current blocks duration
-        currentBlock.duration = currentBlock.duration + 1.0;
-        
-        //subtract the 1 second overage from the time duration of the remaining blocks
-        for (TimeBlock *block in _blocks) {
-            if (block.state == pending) block.duration = block.duration - (block.duration / _speechTimeRemaining);
-        }
-        
-    }
-    
-    CGFloat newX = self.cursor.frame.origin.x + _pixelsPerSecond;
-    
-    [UIView animateWithDuration:.25 animations:^{
-        _cursor.alpha += .1;
-        
-        self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
-        [self redrawTimeLine];
-    } completion:^(BOOL finished) {
-        
+-(void)animateCursorTraversal
+{
+    [[NSOperationQueue new] addOperationWithBlock:^{
+        usleep(1000000/24);
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.cursor.center = CGPointMake(_cursor.center.x + _cursorTravel, self.cursor.center.y);
+            [self animateCursorTraversal];
+        }];
     }];
     
-    if(--_speechTimeRemaining == 3) [_iterationTimer invalidate];
+}
+
+/***************************************************
+ This method is called recursivly 24 times a second;
+ It recomposes the timeline only when needed.
+ ***************************************************/
+-(void)timeLineRenderLoop {
     
+    //if the entire speech run time has elapsed, end recursion cycle and return
+    if ([_startTime timeIntervalSinceNow] > _speechRunTime) return;
+
+    TimeBlock *currentBlock = [self getPointerToPresentingBlock];
+    
+    CFTimeInterval timeSinceStartOfBlock = [[NSDate date] timeIntervalSinceDate:_startOfCurrentBlock];
+    CFTimeInterval timeRemainingForCurrentBlock = currentBlock.duration - timeSinceStartOfBlock;
+    
+
+    if (timeRemainingForCurrentBlock < 0) {
+        [self reCalcPendingPercentofDuration];
+        currentBlock.duration = timeSinceStartOfBlock;
+        for (TimeBlock *block in _blocks) {
+            if (block.state == pending) {
+                block.duration += (timeRemainingForCurrentBlock * block.percentageOfTimeRemaining);
+            }
+        }
+        [self redrawTimeLine];
+    }
+    
+    
+    
+    [[NSOperationQueue new] addOperationWithBlock:^{
+        usleep(1000000 / 24);
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{ [self timeLineRenderLoop]; }];
+    }];
+}
+
+
+-(void)reCalcPendingPercentofDuration
+{
+    NSTimeInterval remainingTime = 0;
+    for (TimeBlock *block in _blocks) {
+        if (block.state == pending) {
+            remainingTime += block.duration;
+        }
+    }
+    
+    for (TimeBlock *block in _blocks) {
+        if (block.state == pending) {
+            block.percentageOfTimeRemaining = block.duration / remainingTime;
+        }
+    }
+
+}
+
+
+-(void)initializeBlockStates {
+    
+    //set all block states to 'pending'
+    for (TimeBlock *block in _blocks) block.state = pending;
+    
+    //set first block state to 'presenting'
+    TimeBlock *currentBlock = [_blocks firstObject];
+    currentBlock.state      = presenting;
+}
+
+-(void)setStartTime {
+    _startTime = [NSDate date];
 }
 
 #pragma mark - TimeLine API
 
 -(void)start {
-    
-    TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
-    currentBlock.state = presenting;
-    
-    _iterationTimer = [NSTimer scheduledTimerWithTimeInterval:1
-                                              target:self
-                                            selector:@selector(advanceCursor)
-                                            userInfo:nil
-                                             repeats:YES];
-    
-    _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:1/15
-                                                     target:self
-                                                   selector:@selector(refreshAllViews)
-                                                   userInfo:nil
-                                                    repeats:YES];
+    _cursor.alpha           = 1;
+    _cursorTravel           = _timeLineWidth / (_speechRunTime * 24);
+    _startOfCurrentBlock    = [NSDate date];
+
+    [self animateCursorTraversal];
+    [self setStartTime];
+    [self initializeBlockStates];
+    [self timeLineRenderLoop];
 }
 
 -(void)stop {
-    [self setupTimeBlocksForSpeech:_speech];
+    [self drawTimeLineForSpeech:_speech];
     [self setupCursor];
 }
 
+
 -(void)advanceToNextBlock {
-    if (_blocks[_indexOfCurrentBlock+1]) {
-        TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
-        currentBlock.state      = presented;
-        
-        //add one second to the current blocks duration
-        NSLog(@"%f", currentBlock.timeRemaining);
-        CGFloat timeRemainingForCurrentBlock = currentBlock.timeRemaining;
-        currentBlock.duration       = currentBlock.duration - timeRemainingForCurrentBlock;
-        currentBlock.timeRemaining  = 0;
-        NSLog(@"%f", currentBlock.duration);
+    
+    TimeBlock *currentBlock = [self getPointerToPresentingBlock];
+    
+    CFTimeInterval timeSinceStartOfBlock = [[NSDate date] timeIntervalSinceDate:_startOfCurrentBlock];
+    CFTimeInterval timeRemainingForCurrentBlock = currentBlock.duration - timeSinceStartOfBlock;
+    
 
-        
-        //add the overage from the time duration to the remaining blocks
+    if (timeRemainingForCurrentBlock > 0) {
+        [self reCalcPendingPercentofDuration];
+        currentBlock.duration = timeSinceStartOfBlock;
         for (TimeBlock *block in _blocks) {
-            if (block.state == pending) block.duration = block.duration + (timeRemainingForCurrentBlock * (block.duration / _speechTimeRemaining));
+            if (block.state == pending) {
+                block.duration += (timeRemainingForCurrentBlock * block.percentageOfTimeRemaining);
+            }
         }
-        
-        //increment index of currentblock
-        currentBlock            = _blocks[++_indexOfCurrentBlock];
-        currentBlock.state      = presenting;
-        
-        [UIView animateWithDuration:1 animations:^{
-            [self redrawTimeLine];
-        }];
-    }
-}
-
--(void)advanceToBlockAtIndex:(NSInteger)index {
-    
-    //if the index recieved by the method does not correspond to a valid index, return
-    if (index > _blocks.count) return;
-    
-    //the previous block is no longer presenting; set to the 'presented' state
-    TimeBlock *currentBlock = _blocks[_indexOfCurrentBlock];
-    currentBlock.state      = presented;
-    //store the remaining time of the current block
-//    NSTimeInterval *surpluss = currentBlock.
-    //deduct remaining time from the duration of the current block
-
-    
-    
-    //the set the new block to the 'presenting' state
-    TimeBlock *nextBlock    = _blocks[index];
-    nextBlock.state         = presenting;
-    
-    
-    
-    
-    //animate the cursor's transition to the new block
-    CGFloat newX = currentBlock.frame.origin.x;
-    [UIView animateWithDuration:1 animations:^{
-        self.cursor.frame = CGRectMake(newX, self.cursor.frame.origin.y, self.cursor.frame.size.width, self.cursor.frame.size.height);
-    } completion:^(BOOL finished) {
-        
-        //redraw timeline
         [self redrawTimeLine];
+    }
+    
+    
+    TimeBlock *block;
+
+    _startOfCurrentBlock = [NSDate date];
+    
+    //iterate through the 'blocks' array, stoping at the second to last object in the index
+    for (int i = 0; i < _blocks.count-1; i++) {
+        
+        block = [_blocks objectAtIndex:i];
+        
+        //if the block's state is 'presenting', change current state to 'presented'
+        if (block.state == presenting) {
             
-        //animate the cursor back to it's tracking position at start of _current block if needed
-    }];
+            block.state = presented;
+            
+            //point to the next block in the array and change it's state to 'presenting'
+            block       = [_blocks objectAtIndex:i+1];
+            block.state = presenting;
+            
+            return; //all done here
+        }
+    }
+
 }
+
 
 #pragma mark - helper methods
 
--(void)refreshAllViews {
+-(void)refactorTimeline {
     for (UIView *view in self.view.subviews) {
         [view setNeedsDisplay];
     }
 }
 
+-(void)calculatePercentageOfRemainingForAllPendingBlocks{
+    for (TimeBlock *block in _blocks) {
+        if (block.state == pending) {
+            block.percentageOfTimeRemaining = block.duration / [self durationSumOfPendingBlocks];
+        }
+    }
+}
+
+-(TimeBlock *)getPointerToPresentingBlock {
+    
+    for (TimeBlock *block in _blocks) if (block.state == presenting) return block;
+    
+    return [TimeBlock new];
+}
+
+/****************************************
+ This method returns the distance between
+ the cursor center point and the end of
+ the presenting block.
+ ****************************************/
+-(CGFloat)cursorDistanceFromPresentingBlock {
+    TimeBlock *presentingBlock = [self getPointerToPresentingBlock];
+    return (_cursor.center.x - (presentingBlock.frame.origin.x + presentingBlock.frame.size.width));
+}
+
+-(CGFloat)durationSumOfPendingAndPresentingBlocks
+{
+    [self recalculateDurationsForAllBlocks];
+    CGFloat pendingBlockDurationSum;
+    
+    for (TimeBlock *block in _blocks) {
+        if (block.state == pending || block.state == presenting) pendingBlockDurationSum += block.duration;
+    }
+    return pendingBlockDurationSum;
+}
+
+-(CGFloat)durationSumOfPendingBlocks
+{
+    [self recalculateDurationsForAllBlocks];
+    CGFloat pendingBlockDurationSum;
+    
+    for (TimeBlock *block in _blocks) {
+        if (block.state == pending) pendingBlockDurationSum += block.duration;
+    }
+    return pendingBlockDurationSum;
+}
+
+-(void)recalculateDurationsForAllBlocks
+{
+    for (TimeBlock *block in _blocks) block.duration = block.percentageOfTimeLine * _speechRunTime;
+}
 
 @end

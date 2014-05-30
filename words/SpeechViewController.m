@@ -418,7 +418,8 @@
     Card *cardToMove;
     
     for (Card *card in _currentSpeech.cards) {
-        if ([card.sequence intValue] == fromIndexPath.row) {
+        NSLog(@"%d", [card.sequence intValue]);
+        if ([card.sequence intValue] == fromIndexPath.row + 1) {
             cardToMove = card;
         }
     }

@@ -417,9 +417,12 @@
 #warning Will need to modify this to update sequence values on cards card.sequence
     Card *cardToMove;
     
+    NSLog(@"to index % d", (int)toIndexPath.row);
+    NSLog(@"from index % d", (int)fromIndexPath.row);
+    
     for (Card *card in _currentSpeech.cards) {
-        NSLog(@"%d", [card.sequence intValue]);
-        if ([card.sequence intValue] == fromIndexPath.row + 1) {
+        NSLog(@"card # %d", [card.sequence intValue]);
+        if ([card.sequence intValue] == fromIndexPath.row) {
             cardToMove = card;
         }
     }

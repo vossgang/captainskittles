@@ -152,6 +152,11 @@ typedef enum : NSUInteger {
         NSMutableArray *resultArray = [NSMutableArray new];
         [arraySearchObjects addObject:resultArray];
         // Iterate through all objects (speeches) to search
+        for (NSArray *arrayToScan in arrayOfSpeechKeywords) {
+            // 
+        }
+        
+        
         for (Speech *speech in arrayOfSpeechKeywords) {
             // Check to see if there is an existing array on the search terms
             NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];

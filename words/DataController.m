@@ -161,7 +161,7 @@ typedef enum : int {
     if (error) {
         NSLog(@"%@",[error localizedDescription]);
     } else {
-        [allCardItems addObject:card];;
+        [allCardItems addObject:card];
     }
     
     return card;
@@ -177,7 +177,7 @@ typedef enum : int {
     // Default values for cards
     [card setUserEdited:NO];
     [card setSpeech:withSpeech];
-    [card setType:[NSNumber numberWithInt:2]];
+    [card setType:[NSNumber numberWithInt:withSequence]];
     [card setSequence:[NSNumber numberWithInt:withSequence]];
     // Update the sequence on all cards ahead of this one
     for (Card *cardSort in withSpeech.cards) {
@@ -324,12 +324,6 @@ typedef enum : int {
                 [NSException raise:@"Fetch failed" format:@"Reason : %@", [error localizedDescription]];
             }
             allCardItems = [[NSMutableArray alloc] initWithArray:result];
-            
-            for (Card *cardTest in allCardItems) {
-                NSLog(@"Title: %@",cardTest.title);
-            }
-        
-        
         }
     }];
     

@@ -6,6 +6,27 @@
 //  Copyright (c) 2014 Christopher Cohen. All rights reserved.
 //
 
+
+
+
+#import <UIKit/UIKit.h>
+#import "Card.h"
+#import "Constant.h"
+
+@interface TimeBlock : UIView
+
+@property (nonatomic, readwrite) CGFloat duration, originalDuration,timeRemaining;
+@property (nonatomic) CGFloat percentageOfTimeLine, percentageOfTimeRemaining, percentageOfTimeLineRemaining;
+@property (nonatomic) BlockState state;
+@property (nonatomic) UIColor *color;
+@property (nonatomic) NSInteger associatedCardIndex;
+
++(TimeBlock *)newTimeBlockFromCard:(Card *)card andSpeechRunTime:(NSTimeInterval)speechRunTime;
+
+@end
+
+//original code
+/*
 #import <UIKit/UIKit.h>
 #import "Card.h"
 #import "Constant.h"
@@ -21,3 +42,4 @@
 +(TimeBlock *)newTimeBlockFromCard:(Card *)card andSpeechRunTime:(NSTimeInterval)speechRunTime;
 
 @end
+*/

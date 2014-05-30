@@ -38,8 +38,10 @@
 		1B4516851930003C00B79C33 /* SpeechDeliveryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4516841930003C00B79C33 /* SpeechDeliveryController.m */; };
 		1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE2866219358B8A007DB1C2 /* StyleKit.m */; };
 		1BE286681936310A007DB1C2 /* Cursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE286671936310A007DB1C2 /* Cursor.m */; };
+		7A4CAC911938E43B009F7620 /* RIVCustomAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A4CAC901938E43B009F7620 /* RIVCustomAlertViewController.m */; };
 		C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */; };
 		C99BE6F51933CE7900F1BB8B /* SpeechCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C99BE6F41933CE7900F1BB8B /* SpeechCell.m */; };
+		C9EC3A43193901AF00C66682 /* LXReorderableCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1C294119369A0900104415 /* LXReorderableCollectionViewFlowLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +110,8 @@
 		1BE2866319358B8A007DB1C2 /* StyleKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyleKit.h; sourceTree = "<group>"; };
 		1BE286661936310A007DB1C2 /* Cursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
 		1BE286671936310A007DB1C2 /* Cursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cursor.m; sourceTree = "<group>"; };
+		7A4CAC8F1938E43B009F7620 /* RIVCustomAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RIVCustomAlertViewController.h; sourceTree = "<group>"; };
+		7A4CAC901938E43B009F7620 /* RIVCustomAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RIVCustomAlertViewController.m; sourceTree = "<group>"; };
 		C99BE6ED1933BBD900F1BB8B /* SpeechViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechViewController.h; sourceTree = "<group>"; };
 		C99BE6EE1933BBD900F1BB8B /* SpeechViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeechViewController.m; sourceTree = "<group>"; };
 		C99BE6F31933CE7900F1BB8B /* SpeechCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeechCell.h; sourceTree = "<group>"; };
@@ -230,7 +234,6 @@
 				1B451653192FDDDA00B79C33 /* AppDelegate.m */,
 				1B451682192FDE8500B79C33 /* View */,
 				1B4516861930004200B79C33 /* Controllers */,
-				1B45167B192FDE0700B79C33 /* Models */,
 				1B45164A192FDDDA00B79C33 /* Supporting Files */,
 			);
 			path = words;
@@ -278,9 +281,9 @@
 		1B451682192FDE8500B79C33 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				1B1C29391936874F00104415 /* Subclasses */,
 				1B451655192FDDDA00B79C33 /* Main.storyboard */,
 				1B1C293219366FA800104415 /* Cards StyleKit */,
-				1B1C29391936874F00104415 /* Subclasses */,
 				1BE28661193530EB007DB1C2 /* ViewControllers */,
 			);
 			name = View;
@@ -291,6 +294,8 @@
 			children = (
 				1B4516831930003C00B79C33 /* SpeechDeliveryController.h */,
 				1B4516841930003C00B79C33 /* SpeechDeliveryController.m */,
+				7A4CAC8F1938E43B009F7620 /* RIVCustomAlertViewController.h */,
+				7A4CAC901938E43B009F7620 /* RIVCustomAlertViewController.m */,
 				7A105FB919368EE6001CA31C /* CollectionView Manager */,
 			);
 			name = Controllers;
@@ -327,6 +332,7 @@
 			children = (
 				1B1C294019369A0900104415 /* LXReorderableCollectionViewFlowLayout.h */,
 				1B1C294119369A0900104415 /* LXReorderableCollectionViewFlowLayout.m */,
+				1B45167B192FDE0700B79C33 /* Models */,
 			);
 			name = "CollectionView Manager";
 			sourceTree = "<group>";
@@ -428,8 +434,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EC3A43193901AF00C66682 /* LXReorderableCollectionViewFlowLayout.m in Sources */,
 				146A8C991937AD0E00F4AD99 /* BodyPoint.m in Sources */,
 				1BE2866419358B8A007DB1C2 /* StyleKit.m in Sources */,
+				7A4CAC911938E43B009F7620 /* RIVCustomAlertViewController.m in Sources */,
 				C99BE6EF1933BBD900F1BB8B /* SpeechViewController.m in Sources */,
 				1B1C292E19364E9500104415 /* Colorizer.m in Sources */,
 				1B1C293119366F9F00104415 /* CardStyleKit.m in Sources */,

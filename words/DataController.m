@@ -167,7 +167,8 @@ typedef enum : int {
     return card;
 }
 
-- (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence {
+- (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence
+{
     Card *card;
     // Create new object and insert it into context
     card = [NSEntityDescription insertNewObjectForEntityForName:@"Card"

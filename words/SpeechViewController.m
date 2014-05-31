@@ -412,27 +412,16 @@
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath didMoveToIndexPath:(NSIndexPath *)toIndexPath
 {
-    NSLog(@"hi");
-    
-#warning Will need to modify this to update sequence values on cards card.sequence
     Card *cardToMove;
     
-    NSLog(@"to index % d", (int)toIndexPath.row);
-    NSLog(@"from index % d", (int)fromIndexPath.row);
-    
     for (Card *card in _currentSpeech.cards) {
-        NSLog(@"card # %d", [card.sequence intValue]);
         if ([card.sequence intValue] == fromIndexPath.row) {
             cardToMove = card;
         }
     }
-    
+
     [[DataController dataStore] removeBodyCard:_currentSpeech andCard:cardToMove];
     [[DataController dataStore] createBodyCard:_currentSpeech andSequence:(int)toIndexPath.row];
-    
-//    Card *card = self.currentSpeech.cards[fromIndexPath.row];
-//    [self.currentSpeech.cards removeObjectAtIndex:fromIndexPath.row];
-//    [self.currentSpeech.cards insertObject:card atIndex:toIndexPath.row];
 }
 
 -(int)numberOfPointsInCurrentCard
@@ -517,9 +506,18 @@
 
 - (IBAction)newCard:(id)sender
 {
+    
     NSIndexPath *index = [[_cardCollectionView indexPathsForSelectedItems] firstObject];
-    //[self.currentSpeech.cards insertObject:[Card newBodyCardForSpeech:self.currentSpeech] atIndex:(index.row + 1)];
-    [[DataController dataStore] createBodyCard:self.currentSpeech andSequence:((int)index.row + 1)];
+
+    //insert the new card between the preface and conclusion
+    int i = (int)index.row;
+    if (i < 2) {
+        i = 2;
+    } else if (i > (_currentSpeech.cards.count - 2)) {
+        i = (int)_currentSpeech.cards.count - 2;
+    }
+    
+    [[DataController dataStore] createBodyCard:self.currentSpeech andSequence:i];
     
     [_cardCollectionView reloadData];
 }

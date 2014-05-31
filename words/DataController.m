@@ -187,6 +187,14 @@ typedef enum : int {
     [card setType:[NSNumber numberWithInt:bodyCard]];
     [card setSequence:[NSNumber numberWithInt:withSequence]];
     
+    NSLog(@"create body card with %d sequence", withSequence);
+    
+    [card setTitle:@"Main Point"];
+    for (int i = 0; i < 5; i++) {
+        NSString *words = @"";
+        [self createPointItem:card andSequence:i andWords:words];
+    }
+    
     NSError *error;
     // Save the object to context
     [card.managedObjectContext save:&error];
@@ -263,11 +271,12 @@ typedef enum : int {
 }
 
 - (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard {
+    
     // Update the sequence on all cards ahead of this one
     for (Card *cardSort in withSpeech.cards) {
         if ([cardSort.sequence intValue] > [withCard.sequence intValue]) {
             int newSequence = [cardSort.sequence intValue] - 1;
-            withCard.sequence = [NSNumber numberWithInt:newSequence];
+            cardSort.sequence = [NSNumber numberWithInt:newSequence];
         }
     }
     NSError *error;

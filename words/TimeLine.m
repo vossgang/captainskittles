@@ -331,7 +331,7 @@
 -(CGFloat)durationSumOfPendingAndPresentingBlocks
 {
     [self recalculateDurationsForAllBlocks];
-    CGFloat pendingBlockDurationSum;
+    CGFloat pendingBlockDurationSum = 0;
     
     for (TimeBlock *block in _blocks) {
         if (block.state == pending || block.state == presenting) pendingBlockDurationSum += block.duration;
@@ -342,7 +342,7 @@
 -(CGFloat)durationSumOfPendingBlocks
 {
     [self recalculateDurationsForAllBlocks];
-    CGFloat pendingBlockDurationSum;
+    CGFloat pendingBlockDurationSum = 0;
     
     for (TimeBlock *block in _blocks) {
         if (block.state == pending) pendingBlockDurationSum += block.duration;

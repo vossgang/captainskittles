@@ -48,17 +48,19 @@
         NSInteger row = [_searchCollectionView indexPathForCell:sender].row;
         Speech *speech = [[[DataController dataStore] allSpeechItems] objectAtIndex:row];
         
-        // Obtain the title card by searching the cards set for one with the sequence value of 1
-        Card *firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
-        
-        if ([firstCard.title isEqual:@"New Speech"]) {
-#warning What should happen here?
-            // Obtain the title card by searching the cards set for one with the sequence value of 1
-            //NSPredicate *findTitleCard = [NSPredicate predicateWithFormat:@"sequence == %i", 1];
-            firstCard = [[[DataController dataStore] allCardItems:speech] firstObject];
-
-            firstCard.title = @"Speech Title";
+        for (Card *card in speech.cards) {
+            if ([card.title isEqualToString:@"New Speech"]) {
+                speech = [[DataController dataStore] createSpeechItem];
+                break;
+            }
         }
+        
+        for (Card *card in speech.cards) {
+            if ([card.title isEqualToString:@"New Speech"]) {
+                card.title = @"Speech Title";
+            }
+        }
+
         
         SpeechViewController *speechVC = segue.destinationViewController;
         speechVC.currentSpeech = speech;

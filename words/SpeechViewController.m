@@ -95,6 +95,7 @@
     [self.view insertSubview:_presentationCard belowSubview:_cardEditor];
     
     [_textView setHidden:YES];
+    [_textView resignFirstResponder];
     
     //present first card in speech
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -262,12 +263,21 @@
 {
     CardCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CardCell" forIndexPath:indexPath];
     
-    // Obtain the specified card by searching the cards set for one with the provided sequence number
-    Card *card = [[[DataController dataStore] allCardItems:_currentSpeech] objectAtIndex:indexPath.row];
+    Card *card;
+    
+    for (Card *speechCard in _currentSpeech.cards) {
+        if ([speechCard.sequence intValue] == indexPath.row) {
+            card = speechCard;
+        }
+    }
     
     cell.backgroundColor = [UIColor clearColor];
     
-    cell.titleLabel.text    = card.title;
+    cell.titleLabel.text = card.title;
+    
+    NSLog(@"%@", card.title);
+    
+    
     int min = [card.runTime doubleValue] / 60;
     int sec = (int)[card.runTime doubleValue] % 60;
     NSString *partialMin = @"";
@@ -283,15 +293,8 @@
     } else {
         cell.timeLabel.text = [NSString stringWithFormat:@"%@ min", partialMin];
     }
-    int stringCounter = 0;
-    for (BodyPoint *points in card.points) {
-        if (points.words.length != 0) {
-            stringCounter++;
-        }
-    }
-    
-    cell.titleLabel.text = card.title;
-    cell.pointLabel.text = [NSString stringWithFormat:@"%d points", stringCounter];
+ 
+    cell.pointLabel.text = [NSString stringWithFormat:@"%d points", [self numberOfPointsInCurrentCard]];
     
     
     return cell;
@@ -307,6 +310,7 @@
     if ([_textView isFirstResponder] && (!_speechIsRunning)) {
         [self textViewShouldEndEditing:_textView];
     }
+    
     
     _currentCard = [[[DataController dataStore] allCardItems:_currentSpeech] objectAtIndex:indexPath.row];
     _timeStepper.value      = [_currentCard.runTime intValue] / 15;
@@ -517,7 +521,7 @@
         i = (int)_currentSpeech.cards.count - 2;
     }
     
-    [[DataController dataStore] createBodyCard:self.currentSpeech andSequence:i];
+    [[DataController dataStore] createBodyCard:_currentSpeech andSequence:i];
     
     [_cardCollectionView reloadData];
 }

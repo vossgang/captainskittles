@@ -125,18 +125,18 @@ typedef enum : int {
         case titleCard:
             [card setTitle:@"New Speech"];
             [card setRunTime:[NSNumber numberWithDouble:30.0]];
-             [card setSequence:[NSNumber numberWithInt:0]];
+             [card setSequence:[NSNumber numberWithInt:titleCard]];
             break;
         case prefaceCard:
             [card setTitle:@"Preface"];
             [card setRunTime:[NSNumber numberWithDouble:60.0]];
-            [card setSequence:[NSNumber numberWithInt:1]];
+            [card setSequence:[NSNumber numberWithInt:prefaceCard]];
             [card setPreface:@"A description of the scope of your speech goes here"];
             break;
         case bodyCard:
             [card setTitle:@"Main Point"];
             [card setRunTime:[NSNumber numberWithDouble:120.0]];
-            [card setSequence:[NSNumber numberWithInt:2]];
+            [card setSequence:[NSNumber numberWithInt:bodyCard]];
             for (int i = 0; i < 5; i++) {
                 NSString *words = @"";
                 [self createPointItem:card andSequence:i andWords:words];
@@ -145,7 +145,7 @@ typedef enum : int {
         case conclusionCard:
             [card setTitle:@"Conclusion"];
             [card setRunTime:[NSNumber numberWithDouble:30.0]];
-            [card setSequence:[NSNumber numberWithInt:3]];
+            [card setSequence:[NSNumber numberWithInt:conclusionCard]];
             [card setConclusion:@"A conclusion statement for your speech goes here"];
             break;
         default:
@@ -186,8 +186,6 @@ typedef enum : int {
     [card setSpeech:withSpeech];
     [card setType:[NSNumber numberWithInt:bodyCard]];
     [card setSequence:[NSNumber numberWithInt:withSequence]];
-    
-    NSLog(@"create body card with %d sequence", withSequence);
     
     [card setTitle:@"Main Point"];
     for (int i = 0; i < 5; i++) {

@@ -281,8 +281,8 @@
 		1B451682192FDE8500B79C33 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1B1C29391936874F00104415 /* Subclasses */,
 				1B451655192FDDDA00B79C33 /* Main.storyboard */,
+				1B1C29391936874F00104415 /* Subclasses */,
 				1B1C293219366FA800104415 /* Cards StyleKit */,
 				1BE28661193530EB007DB1C2 /* ViewControllers */,
 			);

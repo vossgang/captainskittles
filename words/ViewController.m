@@ -58,9 +58,13 @@
         for (Card *card in speech.cards) {
             if ([card.title isEqualToString:@"New Speech"]) {
                 card.title = @"Speech Title";
+                NSError *error;
+                [card.managedObjectContext save:&error];
+                break;
             }
         }
 
+        
         
         SpeechViewController *speechVC = segue.destinationViewController;
         speechVC.currentSpeech = speech;

@@ -8,6 +8,8 @@
 
 #import "SearchController.h"
 
+#define kMaximumKeywordsValue 3
+
 typedef enum : NSUInteger {
     titleCard,
     prefaceCard,
@@ -137,38 +139,40 @@ typedef enum : NSUInteger {
     return final;
 }
 
-- (NSArray *)searchSpeechByKeyword:(NSString *)searchTerm {
-    NSMutableArray *arrayOfSpeechKeywords = [NSMutableArray new];
-    for (Speech *speech in [[DataController dataStore] allSpeechItems]) {
-        [arrayOfSpeechKeywords addObject:[self calculateKeyWords:speech]];
-    }
-    
+- (NSArray *)searchSpeechByKeywords:(NSString *)searchTerm {
+    // Create output array, will be synced to the number of speeches
+    NSMutableArray *arrayForResults = [NSMutableArray new];
+    // Create an array for each keyword the user is searching for
+    // This will be used by the method to store the results in a sub-array of each speech that contains the specific word
     NSArray *searchTerms = [searchTerm componentsSeparatedByString:@" "];
-    NSMutableArray *arraySearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
-    
-    NSMutableArray *arraySearchObjects = [NSMutableArray new];
-    for (NSString *search in arraySearchTerms) {
-        // Create the new array for storing results
-        NSMutableArray *resultArray = [NSMutableArray new];
-        [arraySearchObjects addObject:resultArray];
-        // Iterate through all objects (speeches) to search
-        for (NSArray *arrayToScan in arrayOfSpeechKeywords) {
-            // 
-        }
-        
-        
-        for (Speech *speech in arrayOfSpeechKeywords) {
-            // Check to see if there is an existing array on the search terms
-            NSRange rangeTitleSearch = [[self getSpeechTitle:speech] rangeOfString:search options:NSCaseInsensitiveSearch];
-            
-            if(rangeTitleSearch.location != NSNotFound)
-            {
-                [resultArray addObject:speech];
+    NSMutableArray *arrayOfSearchTerms = [[NSMutableArray alloc] initWithArray:searchTerms];
+    // Iterate for each search term to see if there is a match against a keyword
+    for (NSString *stringSearchTerm in arrayOfSearchTerms) {
+        // Create a results array to store all speeches that contain the specific key word
+        NSMutableArray *arrayOfTermResults = [NSMutableArray new];
+        // Add this array to the output array
+        [arrayForResults addObject:arrayOfTermResults];
+        // Iterate through all speeches
+        for (Speech *speech in [[DataController dataStore] allSpeechItems]) {
+            // Now iterate through all the keywords for the specific speech
+            for (NSString *stringKeyword in [self calculateKeyWords:speech]) {
+                // Look for matches against keywords
+                NSRange rangeKeywordSearch = [stringKeyword rangeOfString:stringSearchTerm options:NSCaseInsensitiveSearch];
+                // If a match is received, then add it to the output array
+                if(rangeKeywordSearch.location != NSNotFound)
+                {
+                    // Add to output array here
+                    [arrayOfTermResults addObject:speech];
+                }
             }
         }
     }
     
-    return nil;
+    // Break down results array to sort based on number of unique hits
+    
+    // This section will sum up the amount of times each speech was found, and then sort it accordingly
+    
+    return arrayForResults;
 }
 
 - (NSArray *)calculateKeyWords:(Speech *)withSpeech {
@@ -236,7 +240,7 @@ typedef enum : NSUInteger {
         int previousTotal = 0;
         for(id key in arrayFromCount) {
             NSNumber *currentTotal = [NSNumber numberWithInt:[[key objectForKey:@"count"] intValue]];
-            if (count < 3 || previousTotal == [currentTotal intValue]) {
+            if (count < kMaximumKeywordsValue || previousTotal == [currentTotal intValue]) {
                 previousTotal = [currentTotal intValue];
                 [arrayToReturn addObject:@{@"speech": withSpeech, @"keyword": key}];
                 count++;

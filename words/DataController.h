@@ -32,6 +32,9 @@
 - (Card *)createBodyCard:(Speech *)withSpeech andSequence:(int)withSequence;
 - (NSArray *)allCardItems:(Speech *)withSpeech;
 
+- (Card *)moveCard:(Card *)oldCard forSpeech:(Speech *)withSpeech toSequence:(int)newSequence;
+
+
 - (void)removeSpeechCard:(Speech *)withSpeech;
 - (void)removeBodyCard:(Speech *)withSpeech andCard:(Card *)withCard;
 - (void)reloadAllItems;

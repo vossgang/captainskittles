@@ -418,14 +418,23 @@
 {
     Card *cardToMove;
     
+    int oldIndex = (int)fromIndexPath.row;
+    int newIndex = (int)toIndexPath.row;
+
     for (Card *card in _currentSpeech.cards) {
-        if ([card.sequence intValue] == fromIndexPath.row) {
+        if ([card.sequence intValue] == oldIndex) {
             cardToMove = card;
         }
     }
+    
+    [[DataController dataStore] moveCard:cardToMove forSpeech:_currentSpeech toSequence:newIndex];
+    
+//    [[DataController dataStore] removeBodyCard:_currentSpeech andCard:cardToMove];
+//    [[DataController dataStore] copyCard:cardToMove forSpeech:_currentSpeech andSequence:newIndex];
+//    [[DataController dataStore] createBodyCard:_currentSpeech andSequence:newIndex];
+    
+    [_cardCollectionView reloadData];
 
-    [[DataController dataStore] removeBodyCard:_currentSpeech andCard:cardToMove];
-    [[DataController dataStore] createBodyCard:_currentSpeech andSequence:(int)toIndexPath.row];
 }
 
 -(int)numberOfPointsInCurrentCard

@@ -97,7 +97,7 @@
     int index = 0;
     
     for (Card *card in speech.cards) {
-        if (card.userEdited) {
+        if ([card.userEdited boolValue]) {
             
             //allocate and initialize new block
             TimeBlock *newBlock = [TimeBlock newTimeBlockFromCard:card andSpeechRunTime:_speechRunTime];

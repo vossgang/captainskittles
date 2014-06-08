@@ -13,12 +13,15 @@
 #import "Constant.h"
 #import "DataController.h"
 #import "SpeechController.h"
+#import "SearchController.h"
 
 @interface ViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *searchCollectionView;
 @property (nonatomic, weak) AppDelegate *appDelegate;
 @property (weak, nonatomic) IBOutlet UITextView *stuff;
+
+@property (nonatomic, strong) NSArray *speeches;
 
 
 @end
@@ -29,10 +32,14 @@
 {
     [super viewDidLoad];
     
+    
     self.appDelegate = [UIApplication sharedApplication].delegate;
 
     _searchCollectionView.dataSource    = self;
     _searchCollectionView.delegate      = self;
+    
+    _speeches = [NSArray new];
+    _speeches = [[DataController dataStore] allSpeechItems];
     
 }
 
@@ -80,7 +87,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {    
-    return [[[DataController dataStore] allSpeechItems] count];
+    return _speeches.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -114,17 +121,26 @@
 
 #pragma mark - UISearchBarDelegate
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
     [searchBar setText:@""];
     [searchBar resignFirstResponder];
+    _speeches = [[DataController dataStore] allSpeechItems];
+    [_searchCollectionView reloadData];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
+    _speeches = [[SearchController searchStore] searchSpeechByTitle:searchBar.text];
+    [_searchCollectionView reloadData];
+
     // Call search controller
 }
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    _speeches = [[SearchController searchStore] searchSpeechByTitle:searchText];
+    [_searchCollectionView reloadData];
     // Call search controller
 }
 

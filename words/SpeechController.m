@@ -18,7 +18,7 @@
 + (NSTimeInterval)calculateTotalTime:(Speech *)speech {
     double _runTime = 0;
     for (Card *card in speech.cards) {
-        if (card.userEdited) {
+        if ([card.userEdited boolValue]) {
             _runTime += [card.runTime doubleValue];
         }
     }

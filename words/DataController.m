@@ -118,7 +118,7 @@ typedef enum : int {
                                          inManagedObjectContext:context];
     
     // Default values for cards
-    [card setUserEdited:NO];
+    [card setUserEdited:[NSNumber numberWithBool:NO]];
     [card setSpeech:withSpeech];
     [card setType:[NSNumber numberWithInt:withcardType]];
     switch (withcardType) {
@@ -182,7 +182,7 @@ typedef enum : int {
                                          inManagedObjectContext:context];
     
     // Default values for cards
-    [card setUserEdited:NO];
+    [card setUserEdited:[NSNumber numberWithBool:NO]];
     [card setSpeech:withSpeech];
     [card setType:[NSNumber numberWithInt:bodyCard]];
     [card setSequence:[NSNumber numberWithInt:withSequence]];
@@ -206,6 +206,43 @@ typedef enum : int {
     }
     
     return card;
+}
+
+
+- (Card *)moveCard:(Card *)oldCard forSpeech:(Speech *)withSpeech toSequence:(int)newSequence
+{
+    
+    if ([oldCard.sequence intValue] > newSequence) {
+        for (Card *cardSort in withSpeech.cards) {
+            if (([cardSort.sequence intValue] < [oldCard.sequence intValue]) && ([cardSort.sequence intValue] >= newSequence)) {
+                int newSequence = [cardSort.sequence intValue] + 1;
+                cardSort.sequence = [NSNumber numberWithInt:newSequence];
+            }
+        }
+    } else {
+        for (Card *cardSort in withSpeech.cards) {
+            if (([cardSort.sequence intValue] > [oldCard.sequence intValue]) && ([cardSort.sequence intValue] <= newSequence)) {
+                int newSequence = [cardSort.sequence intValue] - 1;
+                cardSort.sequence = [NSNumber numberWithInt:newSequence];
+            }
+        }
+    }
+
+    oldCard.sequence = [NSNumber numberWithInt:newSequence];
+    
+    NSError *error;
+    
+    [oldCard.managedObjectContext save:&error];
+    
+    if (error) {
+        NSLog(@"%@",[error localizedDescription]);
+    } else {
+        // Reload the card array to reorder sequence values
+        allCardItems = nil;
+        [self loadAllItems];
+    }
+    
+    return oldCard;
 }
 
 - (NSArray *)allCardItems:(Speech *)withSpeech {

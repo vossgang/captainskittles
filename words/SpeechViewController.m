@@ -105,6 +105,14 @@
     
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    NSError *error;
+    [_currentSpeech.managedObjectContext save:&error];
+
+}
+
 - (IBAction)incramentTime:(id)sender
 {
     UIStepper *step = sender;
@@ -127,7 +135,10 @@
     [_cardCollectionView reloadData];
     [self animateTimeLineRefactor];
     
+    NSError *error;
+    [_currentSpeech.managedObjectContext save:&error];
 }
+
 
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
@@ -180,6 +191,10 @@
     [self showActiveTextFields];
     [_cardCollectionView reloadData];
     
+    NSError *error;
+    [_currentSpeech.managedObjectContext save:&error];
+
+    
     return YES;
 }
 
@@ -224,6 +239,9 @@
     
     [textView resignFirstResponder];
     
+    NSError *error;
+    [_currentSpeech.managedObjectContext save:&error];
+
     
     return YES;
 }
@@ -394,6 +412,10 @@
         //do editing stuff
         //show the corresponding views
     }
+    
+    NSError *error;
+    [_currentSpeech.managedObjectContext save:&error];
+    
 }
 
 -(void)hideTextFields
